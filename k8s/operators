@@ -1,0 +1,20 @@
+---
+title: "Operators"
+date: 2020-09-24T23:20:03-07:00
+draft: true
+---
+Doing init of the operator project.
+
+```
+kubebuilder init --domain adityabhatia.com
+```
+
+Creating CRD and operator for the calculator
+
+```
+kubebuilder create api --group webapp --version v1alpha1 --kind Calculator
+Create Resource [y/n]
+y
+Create Controller [y/n]
+y
+```

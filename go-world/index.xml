@@ -7,17 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2020</copyright>
+    <lastBuildDate>Tue, 29 Sep 2020 10:02:55 -0700</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/go-world/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title></title>
-      <link>http://adityabhatia.com/go-world/readwritefile/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>Reference in for range</title>
+      <link>http://adityabhatia.com/go-world/reference_in_for_range/</link>
+      <pubDate>Tue, 29 Sep 2020 10:02:55 -0700</pubDate>
       
-      <guid>http://adityabhatia.com/go-world/readwritefile/</guid>
-      <description></description>
+      <guid>http://adityabhatia.com/go-world/reference_in_for_range/</guid>
+      <description>Got pinched by a bug in the for range loop in my code. Let me describe it, so others can avoid it.
+Principle: Avoid taking a reference of the local variable in the for range, and store it.
+Inside the for range it is to keep in mind that if you are taking the reference of the assigned variable and storing it in another structure. It can give unexpected results.</description>
     </item>
     
   </channel>
