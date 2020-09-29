@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>Reference in for range</title>
+      <title>Usage of reference in &#34;for range loops&#34; leads to a bug</title>
       <link>http://adityabhatia.com/go-world/reference_in_for_range/</link>
       <pubDate>Tue, 29 Sep 2020 10:02:55 -0700</pubDate>
       
