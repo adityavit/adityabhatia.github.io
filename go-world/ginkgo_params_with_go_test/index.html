@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>Ginkgo_params_with_go_test | Aditya Bhatia Blog!</title>
+  <title>Usage of ginkgo arguments using go test | Aditya Bhatia Blog!</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -15,7 +15,7 @@
   
   
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Ginkgo_params_with_go_test" />
+  <meta name="twitter:title" content="Usage of ginkgo arguments using go test" />
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="https://twitter.com/tuubow" />
   <meta name="twitter:creator" content="https://twitter.com/tuubow" />
@@ -50,7 +50,7 @@
       "@context": "http://schema.org", 
       "@type": "WebSite", 
       "url": "http:\/\/adityabhatia.com\/go-world\/ginkgo_params_with_go_test\/",
-      "name": "Ginkgo_params_with_go_test",
+      "name": "Usage of ginkgo arguments using go test",
       "author": {
         "@type": "Person",
         "name": ""
@@ -107,14 +107,14 @@ if (!doNotTrack) {
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">Ginkgo_params_with_go_test</h1>
+            <h1 id="post__title">Usage of ginkgo arguments using go test</h1>
             <time datetime="2021-11-19 13:00:05 -0800 PST" class="post__date">Nov 19 2021</time> 
           </header>
           <article class="post__content">
               
 <p>Running ginkgo tests using <code>go test</code> is a neat way on integrating behavioural testing with go tests.</p>
 <p>When using pass-through arguments or user defined arguments in ginkgo, they can passed in following way.</p>
-<pre><code class="language-golang">var life int
+<pre><code class="language-go">var life int
 
 func init() {
 	flag.IntVar(&amp;life, &quot;life&quot;, -1, &quot;Meaning of Life!&quot;)
