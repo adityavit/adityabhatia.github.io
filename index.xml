@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2020</copyright>
-    <lastBuildDate>Tue, 29 Sep 2020 10:02:55 -0700</lastBuildDate>
+    <lastBuildDate>Fri, 19 Nov 2021 13:00:05 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ginkgo_params_with_go_test</title>
+      <link>http://adityabhatia.com/go-world/ginkgo_params_with_go_test/</link>
+      <pubDate>Fri, 19 Nov 2021 13:00:05 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/go-world/ginkgo_params_with_go_test/</guid>
+      <description>Running ginkgo tests using go test is a neat way on integrating behavioural testing with go tests.
+When using pass-through arguments or user defined arguments in ginkgo, they can passed in following way.
+var life int func init() { flag.IntVar(&amp;amp;life, &amp;quot;life&amp;quot;, -1, &amp;quot;Meaning of Life!&amp;quot;) } func TestString(t *testing.T) { RegisterFailHandler(Fail) RunSpecs(t, &amp;quot;Run meaning of life suite&amp;quot;) } var _ = Describe(&amp;quot;Ultimate Question of Life, the Universe, and Everything&amp;quot;, func() { Context(&amp;quot;According to Deep Thought&amp;quot;, func() { When(&amp;quot;calculated over 7.</description>
+    </item>
     
     <item>
       <title>Usage of reference in &#34;for range loops&#34; leads to a bug</title>
