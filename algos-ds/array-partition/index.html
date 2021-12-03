@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>Usage of ginkgo arguments using go test | Aditya Bhatia Blog!</title>
+  <title>Partitioning an Array | Aditya Bhatia Blog!</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -15,7 +15,7 @@
   
   
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Usage of ginkgo arguments using go test" />
+  <meta name="twitter:title" content="Partitioning an Array" />
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="https://twitter.com/tuubow" />
   <meta name="twitter:creator" content="https://twitter.com/tuubow" />
@@ -49,8 +49,8 @@
     { 
       "@context": "http://schema.org", 
       "@type": "WebSite", 
-      "url": "http:\/\/adityabhatia.com\/go-world\/ginkgo_params_with_go_test\/",
-      "name": "Usage of ginkgo arguments using go test",
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/array-partition\/",
+      "name": "Partitioning an Array",
       "author": {
         "@type": "Person",
         "name": ""
@@ -91,12 +91,12 @@ if (!doNotTrack) {
       </li>
     
       <li>
-        <a  href="/algos-ds">Algos &amp; DS World!</a>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
       </li>
     
       <li>
-        <a  class="active"
-         href="/go-world">Go World!</a>
+        <a  href="/go-world">Go World!</a>
       </li>
     
   </ul>
@@ -111,44 +111,94 @@ if (!doNotTrack) {
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">Usage of ginkgo arguments using go test</h1>
-            <time datetime="2021-11-19 13:00:05 -0800 PST" class="post__date">Nov 19 2021</time> 
+            <h1 id="post__title">Partitioning an Array</h1>
+            <time datetime="2021-12-02 19:23:29 -0800 PST" class="post__date">Dec 2 2021</time> 
           </header>
           <article class="post__content">
               
-<p>Running ginkgo tests using <code>go test</code> is a neat way on integrating behavioural testing with go tests.</p>
-<p>When using pass-through arguments or user defined arguments in ginkgo, they can passed in following way.</p>
-<pre><code class="language-go">var life int
-
-func init() {
-	flag.IntVar(&amp;life, &quot;life&quot;, -1, &quot;Meaning of Life!&quot;)
-}
-
-func TestString(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, &quot;Run meaning of life suite&quot;)
-}
-
-var _ = Describe(&quot;Ultimate Question of Life, the Universe, and Everything&quot;, func() {
-	Context(&quot;According to Deep Thought&quot;, func() {
-		When(&quot;calculated over 7.5 million years&quot;, func() {
-			It(&quot;should be correct&quot;, func() {
-				fmt.Fprintln(GinkgoWriter, &quot;Verifying ultimate question!&quot;)
-				Expect(42).To(Equal(life), &quot;Meaning of life not determined!&quot;)
-			})
-		})
-	})
-})
+<p>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems partition function is different than the one in quick sort. Here adding a generic code template to solve such partition problems in O(n) time and O(1) space.</p>
+<p><strong>2 way partition problem</strong></p>
+<p>Example:</p>
+<ul>
+<li>Partition the array such that all the even numbers come before all the odd numbers.</li>
+<li>Partition the array all the smaller and equal numbers than the pivot come before all the larger numbers.</li>
+</ul>
+<p>In such problems the array needs to be divided by a boundry separating the first partition and second partition. Let the index of this boundry be <code>b1</code> all the indexes before this boundry belong to partition 1 and all the indexes after this boundry are either from partition 2 or unclassified.</p>
+<p>A template is such case will be.</p>
+<pre><code class="language-python">def two_way_partition(A: List[int]) -&gt; None:
+    b1, i = 0, 0 # b1 is index such that all elements with index &lt; b1 will belong to partition one.
+    while i &lt; len(A):
+        if belong_to_partition1(A[i]):
+            swap(A, b1, i)
+            b1 += 1
+        i += 1
+    return
 </code></pre>
-<p>Can pass <code>life</code> variable using command.</p>
-<pre><code class="language-sh">ginkgo -- -life=42
+<p>For even odd problem this will look like.</p>
+<pre><code class="language-python">def even_odd(A: List[int]) -&gt; None:
+    e, i = 0, 0
+    while i &lt; len(A):
+        if A[i] % 2 == 0: # even partition function
+            swap(A, e, i)
+            e += 1
+        i += 1
+    return
 </code></pre>
-<p>To pass the same using <code>go test</code></p>
-<pre><code class="language-sh">go test --args -life=42
+<p>For pivot partitioning it will look like.</p>
+<pre><code class="language-python">def partition_pivot(A: List[int], pivot: int) -&gt; None:
+    le, i = 0, 0
+    while i &lt; len(A):
+        if A[i] &lt;= pivot: # less than equal partition function
+            swap(A, le, i)
+            le += 1
+        i += 1
+    return
 </code></pre>
-<p>A ginkgo argument can be passed in go tests, example passing <code>-v</code> for verbose.</p>
-<pre><code class="language-sh">go test --args -life=42 -ginkgo.v
+<p><strong>3 way partition problem</strong></p>
+<p>Extending on the 2 way partition, there are problems where the array needs to be divided into three partitions.</p>
+<p>Example:</p>
+<ul>
+<li>Dutch National Flag Problem, partition with first color (0s) then second color (1s), and third color (2s).</li>
+<li>Partition the array with all the smaller then equal numbers and then the larger numbers compared to the pivot.</li>
+</ul>
+<p>In these problems there are two boundaries, b1 denoting the first partition then b2 denoting the second partion and then the rest. So all the indexes less than b1 contain parition 1 elments and all the indexes <code>&gt;= b1</code> and <code>&lt; b2</code> contains partition 2 and all the indexes <code>&gt;=b2</code> contains partition3 or unclassified elements.</p>
+<p>In such case the template will look like.</p>
+<pre><code class="language-python">def three_way_partition(A: List[int]) -&gt; None:
+    b1, b2, i = 0, 0, 0
+    while i &lt; len(A):
+        if belong_to_partition1(A[i]):
+            swap(A, b2, i) # swap element b2 with i
+            swap(A, b1, b2) # swap element b1 with b2 to move the element to partition 1
+            b1 += 1 # increment partition 1 boundry
+            b2 += 1 # increment partition 2 boundry
+        elif belong_to_partition2(A[i]):
+            swap(A, b2, i) # only swap in second partition
+            b2 += 1  # only increment partition 2 boundry
+        h += 1
+    return
 </code></pre>
+<p>Dutch National Flag on <a href="https://leetcode.com/problems/sort-colors">leetcode</a>:</p>
+<pre><code class="language-python">class Solution:
+    def sortColors(self, nums: List[int]) -&gt; None:
+        &quot;&quot;&quot;
+        Do not return anything, modify nums in-place instead.
+        &quot;&quot;&quot;
+        b1, b2, i = 0, 0, 0
+        while i &lt; len(nums):
+            if nums[i] == 0:
+                swap(nums, b2, i)
+                swap(nums, b1, b2)
+                b2 += 1
+                b1 += 1
+            elif nums[i] == 1:
+                swap(nums, b2, i)
+                b2 += 1
+            i += 1
+            
+def swap(A: List[int], i, j: int):
+    A[i], A[j] = A[j], A[i]
+</code></pre>
+<p>Now the same template can be applied to more partition problems like 4 way partition, only it would be more tedius to write.</p>
 
 
               
@@ -156,11 +206,6 @@ var _ = Describe(&quot;Ultimate Question of Life, the Universe, and Everything&q
           
 
  <div class="pagination">
-  
-    <a class="pagination__item" href="http://adityabhatia.com/go-world/reference_in_for_range/">
-        <span class="pagination__label">Previous Post</span>
-        <span class="pagination__title">Usage of reference in &#34;for range loops&#34; leads to a bug</span>
-    </a>
   
 
   

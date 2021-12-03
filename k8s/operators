@@ -3,6 +3,16 @@ title: "Operators"
 date: 2020-09-24T23:20:03-07:00
 draft: true
 ---
+Installed minikube
+```
+brew install minikube
+```
+Install kubebuilder
+```
+
+```
+
+
 Doing init of the operator project.
 
 ```
@@ -17,4 +27,33 @@ Create Resource [y/n]
 y
 Create Controller [y/n]
 y
+```
+
+//Created an image of the dummy code.
+
+//Published the image locally
+
+//Published the image on kind cluster.
+
+//Made sure that the cluster is running.
+Ran the operator using
+```make run```
+
+Made changes to the Calculator sample spec
+Add expression and Result to the spec
+
+Applied the Calculator sample spec to the cluster.
+Installed new spec using.
+```make install```
+
+Reconcilation took place for the cluster.
+Created a new calculator by applying sample spec to the cluster.
+```
+k apply -f config/samples/webapp_v1alpha1_calculator.yam
+```
+
+Changed the operator to save the spec expression to the state result of Calculator
+Restarted the controller.
+```
+make run
 ```

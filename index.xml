@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2020</copyright>
-    <lastBuildDate>Fri, 19 Nov 2021 13:00:05 -0800</lastBuildDate>
+    <lastBuildDate>Thu, 02 Dec 2021 19:23:29 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Partitioning an Array</title>
+      <link>http://adityabhatia.com/algos-ds/array-partition/</link>
+      <pubDate>Thu, 02 Dec 2021 19:23:29 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/array-partition/</guid>
+      <description>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems partition function is different than the one in quick sort. Here adding a generic code template to solve such partition problems in O(n) time and O(1) space.
+2 way partition problem
+Example:
+ Partition the array such that all the even numbers come before all the odd numbers.</description>
+    </item>
     
     <item>
       <title>Usage of ginkgo arguments using go test</title>
