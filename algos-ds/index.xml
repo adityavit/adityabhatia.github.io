@@ -18,9 +18,9 @@
       <pubDate>Thu, 02 Dec 2021 19:23:29 -0800</pubDate>
       
       <guid>http://adityabhatia.com/algos-ds/array-partition/</guid>
-      <description>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems partition function is different than the one in quick sort. Here adding a generic code template to solve such partition problems in O(n) time and O(1) space.
+      <description>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems partition function is different than the one in quick sort. Here adding a generic code template to solve such partition problems in O(n) time and O(1) space (or without using extra space).
 2 way partition problem
-Example:
+Examples:
  Partition the array such that all the even numbers come before all the odd numbers.</description>
     </item>
     

@@ -116,12 +116,13 @@ if (!doNotTrack) {
           </header>
           <article class="post__content">
               
-<p>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems partition function is different than the one in quick sort. Here adding a generic code template to solve such partition problems in O(n) time and O(1) space.</p>
+<p>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems partition function is different than the one in quick sort. Here adding a generic code template to solve such partition problems in O(n) time and O(1) space (or without using extra space).</p>
 <p><strong>2 way partition problem</strong></p>
-<p>Example:</p>
+<p>Examples:</p>
 <ul>
 <li>Partition the array such that all the even numbers come before all the odd numbers.</li>
 <li>Partition the array all the smaller and equal numbers than the pivot come before all the larger numbers.</li>
+<li>Partition the array such that 0&rsquo;s come before all the other numbers. (zero to the left of the array)</li>
 </ul>
 <p>In such problems the array needs to be divided by a boundry separating the first partition and second partition. Let the index of this boundry be <code>b1</code> all the indexes before this boundry belong to partition 1 and all the indexes after this boundry are either from partition 2 or unclassified.</p>
 <p>A template is such case will be.</p>
@@ -154,9 +155,19 @@ if (!doNotTrack) {
         i += 1
     return
 </code></pre>
+<p>For zero first partition will look like.</p>
+<pre><code class="language-python">def zero_first(A: List[int]) -&gt; None:
+    z, i = 0, 0
+    while i &lt; len(A):
+        if A[i] == 0: # zero partition function
+            swap(A, z, i)
+            z += 1
+        i += 1
+    return
+</code></pre>
 <p><strong>3 way partition problem</strong></p>
 <p>Extending on the 2 way partition, there are problems where the array needs to be divided into three partitions.</p>
-<p>Example:</p>
+<p>Examples:</p>
 <ul>
 <li>Dutch National Flag Problem, partition with first color (0s) then second color (1s), and third color (2s).</li>
 <li>Partition the array with all the smaller then equal numbers and then the larger numbers compared to the pivot.</li>
