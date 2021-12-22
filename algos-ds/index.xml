@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2020</copyright>
-    <lastBuildDate>Thu, 02 Dec 2021 19:23:29 -0800</lastBuildDate>
+    <lastBuildDate>Tue, 21 Dec 2021 19:21:55 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/algos-ds/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Stacks in go and python</title>
+      <link>http://adityabhatia.com/algos-ds/stacks/</link>
+      <pubDate>Tue, 21 Dec 2021 19:21:55 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/stacks/</guid>
+      <description>Using list as a stack Stacks come very handy in solving some of the problems. Often using just an array does the purpose rather than specific data structures.
+In python to use a list as a stack is straight forward with append and pop methods already available.
+if __name__ == &#39;__main__&#39;: st = [] for i in range(10): st.append(i) for i in range(10): top = st.pop() print(top)  In go to use slices as a stack, push and pop methods are missing.</description>
+    </item>
     
     <item>
       <title>Partitioning an Array</title>
