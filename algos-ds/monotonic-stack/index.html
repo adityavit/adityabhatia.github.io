@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>Stacks in go and python | Aditya Bhatia Blog!</title>
+  <title>Monotonic Stacks | Aditya Bhatia Blog!</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -15,7 +15,7 @@
   
   
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Stacks in go and python" />
+  <meta name="twitter:title" content="Monotonic Stacks" />
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="https://twitter.com/tuubow" />
   <meta name="twitter:creator" content="https://twitter.com/tuubow" />
@@ -49,8 +49,8 @@
     { 
       "@context": "http://schema.org", 
       "@type": "WebSite", 
-      "url": "http:\/\/adityabhatia.com\/algos-ds\/stacks\/",
-      "name": "Stacks in go and python",
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/monotonic-stack\/",
+      "name": "Monotonic Stacks",
       "author": {
         "@type": "Person",
         "name": ""
@@ -111,52 +111,50 @@ if (!doNotTrack) {
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">Stacks in go and python</h1>
-            <time datetime="2021-12-21 19:21:55 -0800 PST" class="post__date">Dec 21 2021</time> 
+            <h1 id="post__title">Monotonic Stacks</h1>
+            <time datetime="2021-12-23 10:53:20 -0800 PST" class="post__date">Dec 23 2021</time> 
           </header>
           <article class="post__content">
               
-<h4 id="using-list-as-a-stack-in-python">Using list as a stack in python</h4>
-<p>Stacks come very handy in solving some of the problems.
-Often using just an array does the purpose rather than specific data structures.</p>
-<p>In python to use a list as a stack is straight forward with <code>append</code> and <code>pop</code> methods already available.</p>
-<pre><code class="language-python">if __name__ == '__main__':
-    st = []
-    for i in range(10):
-        st.append(i)
-    
-    for i in range(10):
-        top = st.pop()
-        print(top)
+<p>Stacks are quite simple data structures with LIFO (Last In First Out) property. I added this <a href="https://adityabhatia.com/algos-ds/stacks/">post</a> with the implementation of a stack using list/slice in python and go.</p>
+<p>More constraint properties can be added to this simple stack structure, which can help solving multiple other problems.</p>
+<p>In this post I will be talking about stack with monotonic property.</p>
+<p>Monotone means same or unchanging. Defining stacks with monotonic increasing/decreasing properties means all elements in the stack are unchangingly increasing or decreasing in nature.</p>
+<p>Example of monotonic decreasing stack would be:</p>
+<pre><code class="language-python">st = [20, 15, 10, 5]
+# Next valid element should be &lt; 5 to keep the constraint.
 </code></pre>
-<h4 id="using-slices-as-a-stack-in-go">Using slices as a stack in go</h4>
-<p>In go to use slices as a stack, push and pop methods are missing.
-These methods can be added quickly in the problem. Below is an example.</p>
-<pre><code class="language-go">func push(arr *[]int, num int) {
-	*arr = append(*arr, num)
-}
-
-func pop(arr *[]int) (error, int) {
-	n := len(*arr)
-	if n == 0 {
-		return fmt.Errorf(&quot;stack is empty&quot;), 0
-	}
-	top := (*arr)[n-1]
-	*arr = (*arr)[:n-1]
-	return nil, top
-}
-
-func main() {
-	st := make([]int, 0)
-	for i := 0; i &lt; 10; i++ {
-		push(&amp;st, i)
-	}
-	for i := 0; i &lt; 10; i++ {
-		_, top := pop(&amp;st) // Check for the error, before using top.
-		fmt.Println(top)
-	}
-}
+<p>An interesting property about such stacks are that it gives the <code>next greater/smaller number/index or previous greater/smaller number/index</code> for array elements with single iteration over the array.</p>
+<p>Some example problems:</p>
+<ol>
+<li><a href="https://leetcode.com/problems/next-greater-element-i">Next greater element I</a></li>
+<li><a href="https://leetcode.com/problems/next-greater-element-ii/">Next greater element II</a></li>
+</ol>
+<p>In such problems monotonic increasing/decreasing stack can be made, by following three steps.</p>
+<ul>
+<li>Iterate over each element of the array.</li>
+<li>If the stack is not empty, pop() all the elements on top of the stack which will violate the monotonic invariant of the stack, once current element is inserted on top of the stack.</li>
+<li>Insert the current element on top of the stack.</li>
+</ul>
+<p>Code to do create a monotonic decreasing stack.</p>
+<pre><code class="language-python">st = []
+for i in nums:
+    while st and st[-1] &lt; i: # For monotonic increasing less than operator changes to greater than.
+        # pop all the elements smaller than i for the stack, to be still be monotonic decreasing once i is inserted.
+        elem = st.pop()
+        #TODO 1 work with elem and i
+    #TODO 2 work with i and st[-1] if len(st) &gt; 0
+    st.append(i)
 </code></pre>
+<p>In this basic construct the two <code>TODO's</code> in code can be used to find <code>next greater</code> and <code>previous greater</code> element of array elements.</p>
+<ul>
+<li><code>TODO 1</code>, gives the <code>next greater</code> value for <code>elem</code> as <code>i</code>. As if <code>i</code> was smaller than <code>elem</code>, <code>elem</code> would have not been popped. Value of <code>i</code> can be stored for <code>elem</code> in another array or map based on the question.</li>
+<li><code>TODO 2</code>, gives the <code>previous greater or equal</code>  for <code>i</code> as value on top of stack i.e. <code>st[-1]</code>. As if there was any value smaller than <code>i</code>, it would have been poped before reaching <code>TODO 2</code>.</li>
+</ul>
+<p>Based on the question <code>next greater</code> or <code>previous greater</code> index can also be calculated with a trivial change.</p>
+<p>Similarly using increasing monotonic stack <code>next smaller</code> and <code>previous smaller</code> value can be calculated from <code>TODO 1</code> and <code>TODO 2</code>.</p>
+<p>Using a stack here, reduced the time complexity of such problems from O(N^2) to O(N) using extra O(N) space. It is a really good example of optimizing runtime complexity using extra space in such problems.</p>
+<p>A good excercise, is to iterate from the end of array, and see what value these stack gives at two <code>TODO's</code> line.</p>
 
 
               
@@ -165,17 +163,12 @@ func main() {
 
  <div class="pagination">
   
-    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/array-partition/">
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/stacks/">
         <span class="pagination__label">Previous Post</span>
-        <span class="pagination__title">Partitioning an Array</span>
+        <span class="pagination__title">Stacks in go and python</span>
     </a>
   
 
-  
-    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/monotonic-stack/">
-      <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >Monotonic Stacks</a>
-    </a>
   
 </div>
 

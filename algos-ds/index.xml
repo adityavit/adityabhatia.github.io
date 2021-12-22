@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2020</copyright>
-    <lastBuildDate>Tue, 21 Dec 2021 19:21:55 -0800</lastBuildDate>
+    <lastBuildDate>Thu, 23 Dec 2021 10:53:20 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/algos-ds/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Monotonic Stacks</title>
+      <link>http://adityabhatia.com/algos-ds/monotonic-stack/</link>
+      <pubDate>Thu, 23 Dec 2021 10:53:20 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/monotonic-stack/</guid>
+      <description>Stacks are quite simple data structures with LIFO (Last In First Out) property. I added this post with the implementation of a stack using list/slice in python and go.
+More constraint properties can be added to this simple stack structure, which can help solving multiple other problems.
+In this post I will be talking about stack with monotonic property.
+Monotone means same or unchanging. Defining stacks with monotonic increasing/decreasing properties means all elements in the stack are unchangingly increasing or decreasing in nature.</description>
+    </item>
     
     <item>
       <title>Stacks in go and python</title>
@@ -18,9 +30,9 @@
       <pubDate>Tue, 21 Dec 2021 19:21:55 -0800</pubDate>
       
       <guid>http://adityabhatia.com/algos-ds/stacks/</guid>
-      <description>Using list as a stack Stacks come very handy in solving some of the problems. Often using just an array does the purpose rather than specific data structures.
+      <description>Using list as a stack in python Stacks come very handy in solving some of the problems. Often using just an array does the purpose rather than specific data structures.
 In python to use a list as a stack is straight forward with append and pop methods already available.
-if __name__ == &#39;__main__&#39;: st = [] for i in range(10): st.append(i) for i in range(10): top = st.pop() print(top)  In go to use slices as a stack, push and pop methods are missing.</description>
+if __name__ == &#39;__main__&#39;: st = [] for i in range(10): st.append(i) for i in range(10): top = st.pop() print(top)  Using slices as a stack in go In go to use slices as a stack, push and pop methods are missing.</description>
     </item>
     
     <item>
