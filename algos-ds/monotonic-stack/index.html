@@ -117,7 +117,7 @@ if (!doNotTrack) {
           <article class="post__content">
               
 <p>Stacks are quite simple data structures with LIFO (Last In First Out) property. I added this <a href="https://adityabhatia.com/algos-ds/stacks/">post</a> with the implementation of a stack using list/slice in python and go.</p>
-<p>More constraint properties can be added to this simple stack structure, which can help solving multiple other problems.</p>
+<p>More constraint properties can be added to this simple stack structure, which can help solve multiple other problems.</p>
 <p>In this post I will be talking about stack with monotonic property.</p>
 <p>Monotone means same or unchanging. Defining stacks with monotonic increasing/decreasing properties means all elements in the stack are unchangingly increasing or decreasing in nature.</p>
 <p>Example of monotonic decreasing stack would be:</p>
@@ -136,7 +136,7 @@ if (!doNotTrack) {
 <li>If the stack is not empty, pop() all the elements on top of the stack which will violate the monotonic invariant of the stack, once current element is inserted on top of the stack.</li>
 <li>Insert the current element on top of the stack.</li>
 </ul>
-<p>Code to do create a monotonic decreasing stack.</p>
+<p>Code to do create a monotonic decreasing stack from <code>nums: List[int]</code>.</p>
 <pre><code class="language-python">st = []
 for i in nums:
     while st and st[-1] &lt; i: # For monotonic increasing less than operator changes to greater than.
@@ -146,7 +146,7 @@ for i in nums:
     #TODO 2 work with i and st[-1] if len(st) &gt; 0
     st.append(i)
 </code></pre>
-<p>In this basic construct the two <code>TODO's</code> in code can be used to find <code>next greater</code> and <code>previous greater</code> element of array elements.</p>
+<p>In this basic construct the two <code>TODO</code> in code can be used to find <code>next greater</code> and <code>previous greater</code> element of array elements.</p>
 <ul>
 <li><code>TODO 1</code>, gives the <code>next greater</code> value for <code>elem</code> as <code>i</code>. As if <code>i</code> was smaller than <code>elem</code>, <code>elem</code> would have not been popped. Value of <code>i</code> can be stored for <code>elem</code> in another array or map based on the question.</li>
 <li><code>TODO 2</code>, gives the <code>previous greater or equal</code>  for <code>i</code> as value on top of stack i.e. <code>st[-1]</code>. As if there was any value smaller than <code>i</code>, it would have been poped before reaching <code>TODO 2</code>.</li>
@@ -154,7 +154,7 @@ for i in nums:
 <p>Based on the question <code>next greater</code> or <code>previous greater</code> index can also be calculated with a trivial change.</p>
 <p>Similarly using increasing monotonic stack <code>next smaller</code> and <code>previous smaller</code> value can be calculated from <code>TODO 1</code> and <code>TODO 2</code>.</p>
 <p>Using a stack here, reduced the time complexity of such problems from O(N^2) to O(N) using extra O(N) space. It is a really good example of optimizing runtime complexity using extra space in such problems.</p>
-<p>A good excercise, is to iterate from the end of array, and see what value these stack gives at two <code>TODO's</code> line.</p>
+<p>A good excercise, is to iterate from the end of array, and see what value these stack gives at two <code>TODO</code> lines.</p>
 
 
               
