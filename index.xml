@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2020</copyright>
-    <lastBuildDate>Thu, 23 Dec 2021 10:53:20 -0800</lastBuildDate>
+    <lastBuildDate>Wed, 29 Dec 2021 16:36:17 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Permutations I</title>
+      <link>http://adityabhatia.com/algos-ds/permutations/</link>
+      <pubDate>Wed, 29 Dec 2021 16:36:17 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/permutations/</guid>
+      <description>Finding permutations of elements in an array, is a fairly simple problem with the usage of recursion and backtracking.
+In this article, adding a template to help with these kind of problems.
+Example Problems:
+ Permutations Permutations II  In the two problems the only difference is that in one problem all the numbers are unique and in other it is not. If all the numbers are not unique in the array then the number of permutations decreases by a factor of similar numbers factorial i.</description>
+    </item>
     
     <item>
       <title>Monotonic Stacks</title>
