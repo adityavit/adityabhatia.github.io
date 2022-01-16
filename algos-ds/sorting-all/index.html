@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Sorted methods of sorting N numbers! | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Sorted methods of sorting N numbers!" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/sorting-all\/",
+      "name": "Sorted methods of sorting N numbers!",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Sorted methods of sorting N numbers!</h1>
+            <time datetime="2022-01-12 23:26:04 -0800 PST" class="post__date">Jan 12 2022</time> 
+          </header>
+          <article class="post__content">
+              
+<p>In this article will be adding different ways to sort an array of numbers and code snippets for each one of them. Idea with this post is to keep all the sort snippets close to each other which can be easily referred in order of decreasing time complexity.</p>
+<p>Leetcode problem:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/sort-an-array">Sort an array</a></li>
+</ul>
+<h3 id="decease--conqure-strategies">Decease &amp; Conqure Strategies:<a class="anchor" href="#decease--conqure-strategies">#</a></h3>
+<p><strong>Bubble Sort</strong></p>
+<ul>
+<li>Time Complexity: O(N^2)</li>
+<li>In Place</li>
+<li>Stable</li>
+</ul>
+<pre><code class="language-python">def sortArray(nums: List[int]) -&gt; List[int]:
+    # Bubble sort: Top down strategy, first do work then delegate.
+    # Decease &amp; Conqure: Bubble up the largest element in the N elements to N - 1 position, and then repeat the same process for N - 1 elements and N - 2 position.
+    # BubbleSort(N) :=&gt;  BubbleSort(N - 1) + [bubblemax(N)]
+    n = len(nums)
+    for i in range(1, n):
+        for j in range(n - i):
+            if nums[j] &gt; nums[j + 1]:
+                nums[j], nums[j + 1] = nums[j + 1], nums[j]
+    return nums
+</code></pre>
+<p><strong>Selection Sort</strong></p>
+<ul>
+<li>Time Complexity: O(N^2)</li>
+<li>In Place</li>
+<li>Not Stable: As swap of min element with left index can change the order of equal elements. Ex [3, 3, 3, 1]</li>
+</ul>
+<pre><code class="language-python">def sortArray(nums: List[int]) -&gt; List[int]:
+        # Selection sort: Top down strategy, first do work then delegate.
+        # Decease &amp; Conqure: Select the min element out of N - i  elements for ith position, then do the same for i + 1 positon with N - i - 1 elements.
+        # SeletionSort(N) :=&gt; [min(N)] + SelectionSort(N - 1)
+        n = len(nums)
+        for i in range(n):
+            lo = i
+            for j in range(i, n):
+                if nums[j] &lt; nums[lo]:
+                    lo = j
+            nums[i], nums[lo] = nums[lo], nums[i]
+        return nums
+</code></pre>
+<p><strong>Insertion Sort</strong></p>
+<ul>
+<li>Time Complexity: Worst &amp; Average case: O(N^2), Best Case: Theta(N) (Array is already sorted.)</li>
+<li>In place</li>
+<li>Stable</li>
+</ul>
+<pre><code class="language-python">def sortArray(nums: List[int]) -&gt; List[int]:
+    # Insertion sort: Bottom Up strategy, first delegate then do work.
+    # Decease &amp; Conqure: Assume first N - 1 elements are sorted already then insert the Nth element at the right place.
+    # InsertionSort(N) :=&gt; InsertionSort(N - 1) + Insert(N)
+    n = len(nums)
+    for i in range(n):
+        # Move all greater elements to right and find the right position to insert ith element.
+        j, tmp = i, nums[i]
+        while j &gt;= 1 and nums[j - 1] &gt; tmp:
+            nums[j] = nums[j - 1]
+            j -= 1
+        nums[j] = tmp
+        # Using swap similar to bubble sort
+        #for j in reversed(range(0, i)):
+        #    if nums[j] &gt; nums[j + 1]:
+        #        nums[j], nums[j+1] = nums[j+1], nums[j]
+    return nums
+</code></pre>
+<h3 id="divide--conqure-strategies">Divide &amp; Conqure Strategies:<a class="anchor" href="#divide--conqure-strategies">#</a></h3>
+<p><strong>Merge Sort</strong></p>
+<ul>
+<li>Time Complexity O(N logN)</li>
+<li>Uses O(N) auxilary space.</li>
+<li>Stable</li>
+</ul>
+<pre><code class="language-python">def sortArray(nums: List[int]) -&gt; List[int]:
+    # Merge Sort
+    # Divide &amp; Conqure: Divide the array in two equal parts, recursively sort them and merge the two parts to form sorted array.
+    # MergeSort(N) = 2 * MergeSort(N/2) + Merge(N)
+    def helper(lo, hi: int):
+        if lo == hi:
+            return
+        mid = (lo + hi)//2
+        helper(lo, mid)
+        helper(mid + 1, hi)
+        merge(lo, mid+1, hi)
+    
+    # Merge two sorted sections in an arry.
+    # Sections from [start1..start2-1] &amp; [start2..end2] index included.
+    def merge(start1, start2, end2: int):
+        # Copy one of the sub array in temporary store.
+        tmp = nums[start1:start2]
+        i, j, k = 0, start2, start1
+        while i &lt; len(tmp) and j &lt;= end2:
+            if tmp[i] &lt;= nums[j]:
+                nums[k] = tmp[i]
+                i += 1
+            else:
+                nums[k] = nums[j]
+                j += 1
+            k += 1
+        while i &lt; len(tmp):
+            nums[k] = tmp[i]
+            i += 1
+            k += 1
+        while j &lt;= end2:
+            nums[k] = nums[j]
+            j += 1
+            k += 1
+    
+    helper(0, len(nums) - 1)
+    return nums
+</code></pre>
+<p><strong>TimSort</strong></p>
+<ul>
+<li>Time Complexity O(N logN)</li>
+<li>Uses O(N) auxilary space.</li>
+<li>Stable</li>
+</ul>
+<p>Combination of mergeSort and insertionSort where, if the number of elements are small in subarray do insertion sort otherwise do merge sort on the array. Used in python <code>sort()</code> implementation. Includes clever ways to divide the array into smaller sorted subarrays.</p>
+<p><strong>QuickSort</strong></p>
+<ul>
+<li>Time Complexity Best &amp; Average O(N logN), Worst case O(N^2)</li>
+<li>In place; Extra stack space O(N) worst case.</li>
+<li>Not Stable; Partitioning breaks the stability</li>
+</ul>
+<pre><code class="language-python">def sortArray(nums: List[int]) -&gt; List[int]:
+    # quickSort
+    def helper(lo, hi: int):
+        if lo &gt;= hi:
+            return
+        pivot = partition(lo, hi)
+        # Pivot should not be part of the remaining recursive call.
+        helper(lo, pivot - 1)
+        helper(pivot + 1, hi)
+    
+    # Partition is based on Lomuto algorithm, listed in the other article I posted for array partitions.
+    # Important differnce is pivot should be placed back at the right position after the partition.
+    def partition(lo, hi: int):
+        pi, pivot = lo, random.randint(lo, hi) # Randomly select pivot index.
+        nums[hi], nums[pivot] = nums[pivot], nums[hi] # move the pivot out of the elements to partition either to start or end.
+        for i in range(lo, hi):
+            if nums[i] &lt;= nums[hi]: # If less than and equal to pivot, move to the left of the partition.
+                nums[i], nums[pi] = nums[pi], nums[i]
+                pi += 1
+        nums[hi], nums[pi] = nums[pi], nums[hi] # move the pivot back to where the partition is done.
+        return pi # Return the index of the pivot.
+    
+    helper(0, len(nums) - 1)
+    return nums
+</code></pre>
+<h3 id="transform--conqure-strategies">Transform &amp; Conqure Strategies:<a class="anchor" href="#transform--conqure-strategies">#</a></h3>
+<p><strong>Heap Sort</strong></p>
+<ul>
+<li>Time Complexity: O(N logN)</li>
+<li>In place; Can be made in-place, by using a max heap and appending the extracted max at the end of the array.</li>
+<li>Not Stable; heapify breaks the order of the equal ordered elements.</li>
+</ul>
+<pre><code class="language-python">def sortArray(nums: List[int]) -&gt; List[int]:
+    # heapSort
+    heapq.heapify(nums) # O(N) operation
+    sol = []
+    for i in range(len(nums)):
+        sol.append(heapq.heappop(nums)) # Each extract min operation over heap is : O(logN)
+    return sol
+</code></pre>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/permutations/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Permutations I</span>
+    </a>
+  
+
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>

@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2020</copyright>
-    <lastBuildDate>Wed, 29 Dec 2021 16:36:17 -0800</lastBuildDate>
+    <lastBuildDate>Wed, 12 Jan 2022 23:26:04 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/algos-ds/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Sorted methods of sorting N numbers!</title>
+      <link>http://adityabhatia.com/algos-ds/sorting-all/</link>
+      <pubDate>Wed, 12 Jan 2022 23:26:04 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/sorting-all/</guid>
+      <description>In this article will be adding different ways to sort an array of numbers and code snippets for each one of them. Idea with this post is to keep all the sort snippets close to each other which can be easily referred in order of decreasing time complexity.
+Leetcode problem:
+ Sort an array  Decease &amp;amp; Conqure Strategies: Bubble Sort
+ Time Complexity: O(N^2) In Place Stable  def sortArray(nums: List[int]) -&amp;gt; List[int]: # Bubble sort: Top down strategy, first do work then delegate.</description>
+    </item>
     
     <item>
       <title>Permutations I</title>
