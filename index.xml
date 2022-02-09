@@ -25,6 +25,15 @@ Leetcode problem:
     </item>
     
     <item>
+      <title>Sliding window I</title>
+      <link>http://adityabhatia.com/algos-ds/sliding-window/</link>
+      <pubDate>Sun, 09 Jan 2022 18:34:45 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/sliding-window/</guid>
+      <description>In arrays and strings, there are a subset of problems which deal with window of subarrays or substrings. In such problems the idea is to search a subarray matching a particular condition. A brute-force way of checking all the sub-arrays or substrings gives a runtime complexity of O(N^2). Sliding Window technique can be really helpful in such problems to reduce the time complexity to O(N) in such problems. In this post I would be discussing some common code templates which can be used for solving using sliding window techniques.</description>
+    </item>
+    
+    <item>
       <title>Permutations I</title>
       <link>http://adityabhatia.com/algos-ds/permutations/</link>
       <pubDate>Wed, 29 Dec 2021 16:36:17 -0800</pubDate>

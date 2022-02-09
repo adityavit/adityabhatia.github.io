@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Sliding window I | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Sliding window I" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/sliding-window\/",
+      "name": "Sliding window I",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Sliding window I</h1>
+            <time datetime="2022-01-09 18:34:45 -0800 PST" class="post__date">Jan 9 2022</time> 
+          </header>
+          <article class="post__content">
+              
+<p>In arrays and strings, there are a subset of problems which deal with window of subarrays or substrings. In such problems the idea is to search a subarray matching a particular condition. A brute-force way of checking all the sub-arrays or substrings gives a runtime complexity of O(N^2). <code>Sliding Window</code> technique can be really helpful in such problems to reduce the time complexity to O(N) in such problems. In this post I would be discussing some common code templates which can be used for solving using sliding window techniques.</p>
+<p>A sliding window can be of two types.</p>
+<ul>
+<li>Fixed size sliding window, where the length of the window is fixed as it slides over the array/string.</li>
+<li>Variable size sliding window, where the length of the window increases/decreases as it slides over the array/string.</li>
+</ul>
+<p>In this article would be covering <code>Fixed size sliding window</code> and <code>code template</code> around that.</p>
+<p>Example Problems:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/">Number of sub-arrays of size k with mean greater than or equal to threshold</a> Medium</li>
+<li><a href="https://leetcode.com/problems/find-k-length-substrings-with-no-repeated-characters/">Find k length substrings with no repeated characters</a> Medium</li>
+<li><a href="https://leetcode.com/problems/sliding-window-maximum/">Sliding Window Maximum</a> Hard</li>
+</ul>
+<p>Problems in this category are easier to recognize, as the problem statements itself defines the window length and is given as part of the parameter of the question.</p>
+<p>A window of size <code>k</code> in an array of size <code>N</code> will have <code>N - k + 1</code>  sub arrays of size k. Ex. In an array like <code>[0, 1, 2, 3, 4, 5, 6, 7]</code> will have windows of size <code>k=3</code> as <code>[0, 1, 2], [1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], [5, 6, 7]</code>. As it can be seen, after the first window is  initialized subsequent windows are created by adding next number and removing a number from the previous window. As <code>[0, 1, 2]</code> can be moved to next window by removing <code>0</code> and adding <code>3</code> to the window. So a sliding window works like a double ended queue <code>deque</code> where in each iteration an element is added from the end and an element is removed from the front thus maintaining the size k after initialization.</p>
+<p>Even though the operation of the sliding window gives an impression of using extra space of a deque, but for scalar values like total of subarray can be maintained in constant space. Example of such a problem.</p>
+<ul>
+<li>Find if there is a sub-array of size <code>k</code> in array of integer <code>nums</code> with the total as target value <code>t</code>.</li>
+</ul>
+<pre><code class="language-python"># array `nums`, window size `k`, subarray sum = target
+def subArrayEqualsTarget(nums: List[int], k: int, t: int):
+    s, n = 0, len(nums)
+    # Initialization Phase 
+    # Work on the first window of k elements.
+    for i in range(k): # Accumulate sum of left most window [0..k] in s
+        s += nums[i]
+    if s == t: 
+        return True # Found first window sum as target
+    # Iteration Phase 
+    # Iterate from k..n to work on each window of k size.
+    for i in range(k, n):
+        s += nums[i] - nums[i-k] # Add a new right value nums[i] to window and remove left nums[i-k] value from window.
+        if s == t:
+            return True # found subsequent window sum as target
+    return False
+</code></pre>
+<p>The above problem, is a generic template where the <code>sum</code> function can be replaced by other functions like dividing by <code>k</code> to get rolling mean or removing and adding left and right values respectively to hash map for checking duplicates and even getting rolling hash.</p>
+<p>Let&rsquo;s go over some of the problems mentioned above, to see how this template is used.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/number-of-sub-arrays-of-size-k-and-average-greater-than-or-equal-to-threshold/">Number of sub-arrays of size k with mean greater than or equal to threshold</a></li>
+</ul>
+<pre><code>Given an array of integers arr and two integers k and threshold, return the number of sub-arrays of size k and average greater than or equal to threshold.
+
+Example 1:
+
+Input: arr = [2,2,2,2,5,5,5,8], k = 3, threshold = 4
+Output: 3
+Explanation: Sub-arrays [2,5,5],[5,5,5] and [5,5,8] have averages 4, 5 and 6 respectively. All other sub-arrays of size 3 have averages less than 4 (the threshold).
+</code></pre>
+<p>This is a counting problem, where every time a average of k numbers is greater than or equal to threshold is counted as a solution.</p>
+<p>A brute force way to solve the problem would be iterate over each n - k windows and calculate average for each window and compare it with threshold., this will result in O(nk) solution. It is not hard to see that the calculation of the average for each window from start is redundant, and if can reuse the average calculated in the previous window to get the average of the current window then only constant work is done at every index in the array. Based on that algorithm the run time is O(n) and space is O(1)</p>
+<pre><code class="language-python">def numOfSubarrays(nums: List[int], k: int, threshold: int) -&gt; int:
+    s, n, t = 0, len(nums), threshold * k # sum should be greater than threshold * k for average to be greater than threshold.
+    sol = 0
+    # Intialization on first window.
+    for i in range(k):
+        s += nums[i]
+    if s &gt;= t:
+        sol += 1
+    # Working with rest of the windows.
+    for i in range(k, n):
+        s += nums[i] - nums[i - k] # Add the nums[i] to the window, remove nums[i - k] form the window.
+        if s &gt;= t: # Check if the sum is greater than threshold * k
+            sol +=1
+    
+    return sol
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/find-k-length-substrings-with-no-repeated-characters/">find k length substrings with no repeated characters</a></li>
+</ul>
+<pre><code>Given a string s and an integer k, return the number of substrings in s of length k with no repeated characters.
+
+Example:
+
+Input: s = &quot;havefunonleetcode&quot;, k = 5
+Output: 6
+Explanation: There are 6 substrings they are: 'havef','avefu','vefun','efuno','etcod','tcode'.
+</code></pre>
+<p>This is again a counting problem, where the sub-strings of size <code>k</code> need to be counted with no repeated characters. A brute force approach again would be to go over the <code>n-k</code> sub strings and iterate over each substring to check if there are repeated characters. Such an alorithm will take O(nk) algorithm. To make a linear alogirthm need to avoid repeated work of checking substrings again. To do so after the first window in each iteration an item is added to the window and item is removed from the window if the number of unique items in the window are equal to <code>k</code> then that is valid solution. A map can be used to keep track of the items added in the window and it&rsquo;s frequencies. This algorithm takes O(n) time and O(1) space as there are only lower case characters stored in map.</p>
+<pre><code class="language-python">def numKLenSubstrNoRepeats(s: str, k: int) -&gt; int:
+    mp, n = defaultdict(int), len(s)
+    sol = 0
+    # Intialization phase for first window
+    for i in range(min(n, k)):
+        mp[s[i]] += 1
+    if len(mp) == k:
+        sol += 1
+    # Iterating over each window
+    for i in range(k, n):
+        mp[s[i - k]] -= 1 # decreasing frequency count of the element
+        if mp[s[i - k]] == 0: # If the element is not present anymore remove from array.
+            del mp[s[i - k]]
+        mp[s[i]] += 1
+        if len(mp) == k:
+            sol += 1
+    return sol
+</code></pre>
+<p>There are few other problems, to practice this pattern more.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/">Maximum number of vowels in a substring</a></li>
+<li><a href="https://leetcode.com/contest/weekly-contest-278/problems/find-substring-with-given-hash-value/">Substring with given hash</a></li>
+</ul>
+<p>Now once we know fixed window basic template lets take a look at a harder problem.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/sliding-window-maximum/">Sliding Window Maximum</a></li>
+</ul>
+<pre><code>You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.
+
+Return the max sliding window.
+Example 1:
+
+Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
+Output: [3,3,5,5,6,7]
+Explanation: 
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+
+</code></pre>
+<p>Based on the problem statement it is not difficult to identify that this is again a fixed sliding window problem. The new number can be added to the right side of the window and old number can be deleted from the left side of the window as we have done earlier, the difficult part is finding the maximum number from the elements in the window. A naive way would be again to look at all the <code>n - k</code> windows and find max in each window which will take <code>k</code> iterations giving <code>O(nk)</code> time.</p>
+<p>If someone is aware of the <code>heap</code> data structure it is quite easy to see that max heap can give the maximum number in O(1) time. The complexity of using heap is, it is not easy to delete an element from the heap, when a number moves out of the window and is not the maximum. Also adding and removing an element from heap takes <code>O(log n)</code> complexity, giving the overall time complexity as <code>O(nlogn)</code>. So to keep track of the elements in the heap, index of the element can also be added to the number, and can be lazy removed when fetching the max in every iteration.</p>
+<pre><code class="language-python">def maxSlidingWindow(nums: List[int], k: int) -&gt; List[int]:
+    hp, n = [], len(nums)
+    sol = []
+    #Initialization for first window
+    for i in range(min(n, k)):
+        heapq.heappush(hp, (-nums[i], i)) # Add (-element, index) to heap. Negative element is added as python heaps are min heap.
+    
+    # Append max of the first window [0..k]
+    sol.append(-hp[0][0])
+    # Iterate for each window of size k
+    for i in range(k, n):
+        # Remove if the outside window element is on top of heap
+        while hp and hp[0][1] &lt;= i - k:
+            heapq.heappop(hp)
+        # Add the current window element to heap
+        heapq.heappush(hp, (-nums[i], i))
+        # Add max to the solution
+        sol.append(-hp[0][0])
+    return sol
+</code></pre>
+<p>In languages like <code>Java</code> or <code>C++</code> a <code>sortedMap</code> or <code>TreeMap</code> can also be used which are based on balanced binary search tree. These can easily find max in O(logn) and can also remove elements in O(logn). Still the complexity will O(nlogn)</p>
+<p>To reduce the complexity further, needs to look at a way to find the max, delete and insert in constant time for each window. The way to think about it is.</p>
+<p>Every time an element is removed from the window, two cases can occur.</p>
+<ol>
+<li>If it is not the max, the max would be either the old max or the new added element.</li>
+<li>If it is the max, then a new max needs to be determined, which would be the second max or next smaller element after the removed element.</li>
+</ol>
+<p>If you have seen <code>monotonic stack/queues</code>, those data structures can help to tell that. Read more: <a href="https://adityabhatia.com/algos-ds/monotonic-stack/">Monotonic Stacks</a></p>
+<p>A decreasing monotonic stack can find the next smaller element. A deque can be used, so that the max is the element being removed from the right of the window then it can be popped from the left of the deque. Basically deque contains the element in the window in decreasing order of their values, thus when the element from left is removed than left most element becomes the max.</p>
+<pre><code class="language-python">def maxSlidingWindow(nums: List[int], k: int) -&gt; List[int]:
+    dq, n = Deque(), len(nums)
+    sol = []
+    # Initialize first window. Add [0..k] elements in the decreasing monotonic deque.
+    for i in range(min(n, k)):
+        while dq and dq[-1] &lt; nums[i]: # Pop all the values on top of the stack smaller than current value pop
+            dq.pop()
+        dq.append(nums[i]) # Insert current value to the top of the stack.
+    # Append max of the first window [0..k]
+    sol.append(dq[0])
+    
+    for i in range(k, n):
+        if dq and dq[0] == nums[i - k]: # If the value being removed from window is the max, pop from the left.
+            dq.popleft()
+        while dq and dq[-1] &lt; nums[i]: # Again pop all the smaller values from top of the stack than current value
+            dq.pop()
+        dq.append(nums[i])
+        sol.append(dq[0]) # Insert max to the solution to the solution.
+    return sol
+</code></pre>
+<p>The above alorithm runs O(N) time complexity and O(k) space.</p>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/permutations/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Permutations I</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/sorting-all/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >Sorting N numbers</a>
+    </a>
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>
