@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>Monotonic Stacks | Aditya Bhatia Blog!</title>
+  <title>Monotonic Data Structures | Aditya Bhatia Blog!</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -15,7 +15,7 @@
   
   
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Monotonic Stacks" />
+  <meta name="twitter:title" content="Monotonic Data Structures" />
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="https://twitter.com/tuubow" />
   <meta name="twitter:creator" content="https://twitter.com/tuubow" />
@@ -50,7 +50,7 @@
       "@context": "http://schema.org", 
       "@type": "WebSite", 
       "url": "http:\/\/adityabhatia.com\/algos-ds\/monotonic-stack\/",
-      "name": "Monotonic Stacks",
+      "name": "Monotonic Data Structures",
       "author": {
         "@type": "Person",
         "name": ""
@@ -111,7 +111,7 @@ if (!doNotTrack) {
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">Monotonic Stacks</h1>
+            <h1 id="post__title">Monotonic Data Structures</h1>
             <time datetime="2021-12-23 10:53:20 -0800 PST" class="post__date">Dec 23 2021</time> 
           </header>
           <article class="post__content">
@@ -158,7 +158,10 @@ for i in range(len(nums)):
 <p>Similarly using increasing monotonic stack <code>next closest smaller</code> and <code>previous closest smaller</code> value can be calculated from <code>TODO 1</code> and <code>TODO 2</code>.</p>
 <p>Using a stack here, reduced the time complexity of such problems from O(N^2) to O(N) using extra O(N) space. It is a really good example of optimizing runtime complexity using extra space in such problems.</p>
 <p>A good excercise, is to iterate from the end of array, and see what value these stack gives at two <code>TODO</code> lines.</p>
-<p>Also a deque can be used where rmeoval of the item needs to be done at both the ends of the stacks.</p>
+<ul>
+<li>Monotonic Queues</li>
+</ul>
+<p>An extension of a monotonic stacks are monotonic queues. Such queues still has the elements in increasing or decreasing order but the elements can also be removed from the left end of the queue.</p>
 
 
               
