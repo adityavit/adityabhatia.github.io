@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Sliding Window II | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Sliding Window II" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/sliding-window-ii\/",
+      "name": "Sliding Window II",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Sliding Window II</h1>
+            <time datetime="2022-02-08 22:56:57 -0800 PST" class="post__date">Feb 8 2022</time> 
+          </header>
+          <article class="post__content">
+              
+<p>This article is continuation of the previous article about <a href="https://adityabhatia.com/algos-ds/sliding-window/">sliding windows I</a> which talks about fixed length sliding window. In this aritcle will look for problems which can be solved using variable length sliding window. Variable length sliding window problems are more tricky to detect. Sometimes a problem will mention a window which makes it easier, but sometimes that conclusion needs to be done by analyzing and running examples in the problem.
+There are quadratic number <code>O(N^2)</code> of variable length windows in an array i.e. if two end points are choosen out of N numbers, N choose 2 which would be <code>N(N-1)/2</code> which would be <code>O(N^2)</code> in number. Iterating over each sub problem will give another <code>O(N)</code> complexity. So usually brute force algorithms of variable length sliding windows are usually <code>O(N^3)</code> complexity. The <code>O(N^3)</code> complexity can be easily brought down by a factor <code>O(N)</code> by accumulating the result as the window size is increased from <code>[i..j]</code> to <code>[i..j+1]</code>, but there are still <code>O(N^2)</code> such windows so such algorithms will still be <code>O(N^2)</code>.</p>
+<p>In some problems where there is an invariant (example sum less than k) which needs to be true over the sub-array, in such problems an increment of the right side of the window may make invariant as false, which needs to be again made true by moving the left side of the window. So with two pointer approach only windows where the invarint is true are considered, decreasing the problem runtime to <code>O(N)</code> in such problems.</p>
+<p>Problem:</p>
+<pre><code>Given a list of positive numbers, find number of sub-arrays with sum equal to k.
+
+Example: [1, 4, 1, 3, 5, 1, 3, 2], k = 5
+
+result: 4  
+subarrays: [1, 4], [4, 1], [5], [3, 2]
+
+</code></pre>
+<p>General Template:</p>
+<pre><code class="language-python">def countSubArrayWithSumk(nums: List[int], k: int) -&gt; int:
+    # Intialize
+    count = 0
+    n, s = len(nums), 0
+    left = 0 # Left pointer to the window
+    # Iterate over each window, by incrementing right side of the window.
+    for i in range(n): # i points to the right of the window
+        s += nums[i] # Add element to the right of the window
+        # Increment left side of the window, if the invariant is no true any more
+        while left &lt;= i and s &gt; k: # Invariant if the window has sum &gt; k, than remove elements from left.
+            s -= nums[left] # Pop element from the left
+            left += 1 # Increment left pointer
+        if s == k: # Check if the window sum == k
+            count += 1 # Increment counter if the sum matches the description
+    return count
+</code></pre>
+<p>An important point to remember when applying variable length sliding window pattern is:</p>
+<ol>
+<li>Adding an element to the right side window accumulates/increases the stored result in the window.</li>
+<li>Removing an element from the left side of the window de-accumulates/decreases the stored result in the window.</li>
+<li>An invariant can be defined which can help to slide the window across the array.</li>
+</ol>
+<p>These three conditions are important to meet the invariant supporting the sliding of the window in the array. For example if the given numbers are both positive and negative and window uses a sum function then adding number to the window can both increase/decrease the total of the window. In such cases sliding window pattern won&rsquo;t work in the problem as the invariant used to slide the window will not work. Whereas if there are just positive numbers then adding a number to the window only increases the total in the window and at some point the invariant will be not valid which moves the left pointer to make invariant true again.</p>
+<p>So it is very critical to define what would be the accumulation function and invariant supporting the sliding of the window.</p>
+<p>Next article will be discussing some such problems and apply the template to the problems.</p>
+<p>Example Problems:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters">Longest substring with at most two distict characters</a> Medium</li>
+</ul>
+<pre><code>Given a string s, return the length of the longest substring that contains at most two distinct characters.
+
+Example 1:
+
+Input: s = &quot;eceba&quot;
+Output: 3
+Explanation: The substring is &quot;ece&quot; which its length is 3.
+Example 2:
+
+Input: s = &quot;ccaabbb&quot;
+Output: 5
+Explanation: The substring is &quot;aabbb&quot; which its length is 5.
+</code></pre>
+<pre><code class="language-python">def lengthOfLongestSubstringTwoDistinct(s: str) -&gt; int:
+    mp = defaultdict(int)
+    left, sol, n = 0, 0, len(s)
+    for i in range(n):
+        mp[s[i]] += 1 # Add current element to the right side of the window
+        while left &lt;= i and len(mp) &gt; 2: # Invariant if window size is greater than 2 remove elements from left
+            mp[s[left]] -= 1   # Remove left element from the window
+            if mp[s[left]] == 0: # Once left element is removed, check if value is zero delete it
+                del mp[s[left]]
+            left += 1 # Move the left side of the window
+        sol = max(sol, i - left + 1) # Update the global solution, with current length
+    return sol
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters">Longest substring without repeated characters</a> Medium</li>
+</ul>
+<pre><code>Given a string s, find the length of the longest substring without repeating characters.
+
+Example 1:
+
+Input: s = &quot;abcabcbb&quot;
+Output: 3
+Explanation: The answer is &quot;abc&quot;, with the length of 3.
+Example 2:
+
+Input: s = &quot;bbbbb&quot;
+Output: 1
+Explanation: The answer is &quot;b&quot;, with the length of 1.
+Example 3:
+
+Input: s = &quot;pwwkew&quot;
+Output: 3
+Explanation: The answer is &quot;wke&quot;, with the length of 3.
+Notice that the answer must be a substring, &quot;pwke&quot; is a subsequence and not a substring.
+</code></pre>
+<p>This problem also is very similar to the previous problem, only change is the invariant when the size of the map is smaller than the length of the substring it means that the substring doesn&rsquo;t have app distinct characters.</p>
+<pre><code class="language-python">def lengthOfLongestSubstring(s: str) -&gt; int:
+    mp, n, left = defaultdict(int), len(s), 0
+    sol = 0
+    for i in range(n):
+        mp[s[i]] += 1
+        #Invariant if map contains no repeated character of the current element.
+        while left &lt;= i and mp[s[i]] &gt; 1: # Invariant here can also len(mp) &lt; i - left + 1 as repeated characters size of map will be smaller than size of substring.
+            mp[s[left]] -= 1
+            if mp[s[left]] == 0:
+                del mp[s[left]]
+            left += 1  
+        sol = max(sol, i - left + 1)
+    return sol
+</code></pre>
+<p>Further Optimization can be done to move the left pointer directly to the last known index of the current index if it is greater than the left previous left pointer. This optimization is quite specfic to this problem.</p>
+<pre><code class="language-python">def lengthOfLongestSubstring(s: str) -&gt; int:
+    mp, n, left = defaultdict(int), len(s), 0
+    sol = 0
+    for i in range(n):
+        if s[i] in mp:
+            left = max(left, mp[s[i]] + 1) # Left window will move directly to s[i] + 1 if it is later than the left pointer.
+        mp[s[i]] = i
+        sol = max(sol, i - left + 1)
+    return sol
+</code></pre>
+<p>Related problems:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/maximum-erasure-value/">Maximum erasure value</a></li>
+</ul>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/sorting-all/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Sorting N numbers</span>
+    </a>
+  
+
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>
