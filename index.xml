@@ -29,8 +29,7 @@
       <guid>http://adityabhatia.com/algos-ds/sorting-all/</guid>
       <description>In this article will be adding different ways to sort an array of n numbers and code snippets for each one of them. Idea with this post is to keep all the sorting methods with code snippets in one place, for comparison purpose.
 Leetcode problem:
- Sort an array  Decease &amp;amp; Conqure Strategies: Bubble Sort
- Time Complexity: O(N^2) In Place Stable  def sortArray(nums: List[int]) -&amp;gt; List[int]: # Bubble sort: Top down strategy, first do work then delegate.</description>
+ Sort an array  Decease &amp;amp; Conqure Strategies: Bubble Sort  Time Complexity: O(N^2) In Place Stable  def sortArray(nums: List[int]) -&amp;gt; List[int]: # Bubble sort: Top down strategy, first do work then delegate.</description>
     </item>
     
     <item>
@@ -83,11 +82,8 @@ if __name__ == &#39;__main__&#39;: st = [] for i in range(10): st.append(i) for 
       <pubDate>Thu, 02 Dec 2021 19:23:29 -0800</pubDate>
       
       <guid>http://adityabhatia.com/algos-ds/array-partition/</guid>
-      <description>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems, where partition function is different than the one in quick sort.
-In this post describing a generic code template to solve such partition problems in O(n) time and O(1) space.
-2 way partition problem
-Example problems:
- Partition the array such that all the even numbers come before all the odd numbers.</description>
+      <description>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems, where partition function is slightly different than the one in quick sort. Along with partitioning array the same partitioning technique can be used to find kth smallest/largest element in the array using quick select.
+In this post describing a generic code template based on the Nico Lomuto algorithm to solve such partition problems in O(n) time and O(1) space.</description>
     </item>
     
     <item>

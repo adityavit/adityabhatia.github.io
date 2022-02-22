@@ -116,8 +116,9 @@ if (!doNotTrack) {
           </header>
           <article class="post__content">
               
-<p>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems, where partition function is different than the one in quick sort.</p>
-<p>In this post describing a generic code template to solve such partition problems in O(n) time and O(1) space.</p>
+<p>Paritioning an array is a common problem in computer science. In quick sort, the array is partitioned into smaller/equal and larger values based on the pivot. There are many other partition problems, where partition function is slightly different than the one in <a href="https://adityabhatia.com/algos-ds/sorting-all/#quicksort">quick sort</a>. Along with partitioning array the same partitioning technique can be used to find <code>kth smallest/largest element</code> in the array using quick select.</p>
+<p>In this post describing a generic code template based on the <a href="https://en.wikipedia.org/wiki/Quicksort#Lomuto_partition_scheme"><code>Nico Lomuto algorithm</code></a> to solve such partition problems in O(n) time and O(1) space.</p>
+<h3 id="partition-problems">Partition problems<a class="anchor" href="#partition-problems">#</a></h3>
 <p><strong>2 way partition problem</strong></p>
 <p>Example problems:</p>
 <ul>
@@ -128,56 +129,63 @@ if (!doNotTrack) {
 <p>In such problems the array needs to be divided by a boundry separating the first partition and second partition. Let the index of this boundry be <code>b1</code> all the indexes before this boundry belong to partition 1 and all the indexes after this boundry are either from partition 2 or unclassified.</p>
 <p>A template is such case will be.</p>
 <pre><code class="language-python">def two_way_partition(A: List[int]) -&gt; None:
-    b1, i = 0, 0 # b1 is index such that all elements with index &lt; b1 will belong to partition one.
-    while i &lt; len(A):
+    b1, n = 0, len(A) # b1 is index such that all elements with index &lt; b1 will belong to partition one.
+    for i in range(n):
         if belong_to_partition1(A[i]):
             swap(A, b1, i)
             b1 += 1
-        i += 1
     return
 </code></pre>
 <p>For even odd problem this will look like.</p>
 <pre><code class="language-python">def even_odd(A: List[int]) -&gt; None:
-    e, i = 0, 0
-    while i &lt; len(A):
+    e, n = 0, len(A)
+    for i in range(n):
         if A[i] % 2 == 0: # even partition function
             swap(A, e, i)
             e += 1
-        i += 1
     return
+def swap(A: List[List[int]], i, j: int) -&gt; int:
+    A[i], A[j] = A[j], A[i]
 </code></pre>
 <p>For pivot partitioning it will look like.</p>
 <pre><code class="language-python">def partition_pivot(A: List[int], pivot: int) -&gt; None:
-    le, i = 0, 0
-    while i &lt; len(A):
+    le, n = 0, len(A)
+    for i in range(n):
         if A[i] &lt;= pivot: # less than equal partition function
             swap(A, le, i)
             le += 1
-        i += 1
     return
+
+def swap(A: List[List[int]], i, j: int) -&gt; int:
+    A[i], A[j] = A[j], A[i]
 </code></pre>
 <p>For zero first partition will look like.</p>
 <pre><code class="language-python">def zero_first(A: List[int]) -&gt; None:
-    z, i = 0, 0
-    while i &lt; len(A):
+    z, n = 0, len(A)
+    for i in range(n):
         if A[i] == 0: # zero partition function
             swap(A, z, i)
             z += 1
-        i += 1
     return
+
+def swap(A: List[List[int]], i, j: int) -&gt; int:
+    A[i], A[j] = A[j], A[i]
 </code></pre>
 <p><strong>3 way partition problem</strong></p>
 <p>Extending on the 2 way partition, there are problems where the array needs to be divided into three partitions.</p>
 <p>Examples:</p>
 <ul>
-<li>Dutch National Flag Problem, partition with first color (0s) then second color (1s), and third color (2s).</li>
-<li>Partition the array with all the smaller then equal numbers and then the larger numbers compared to the pivot.</li>
+<li>Dutch National Flag Problem <a href="https://leetcode.com/problems/sort-colors">Sort Colors</a></li>
 </ul>
 <p>In these problems there are two boundaries, b1 denoting the first partition then b2 denoting the second partion and then the rest. So all the indexes less than b1 contain parition 1 elments and all the indexes <code>&gt;= b1</code> and <code>&lt; b2</code> contains partition 2 and all the indexes <code>&gt;=b2</code> contains partition3 or unclassified elements.</p>
 <p>In such case the template will look like.</p>
 <pre><code class="language-python">def three_way_partition(A: List[int]) -&gt; None:
-    b1, b2, i = 0, 0, 0
-    while i &lt; len(A):
+
+    def swap(A: List[List[int]], i, j: int) -&gt; int:
+        A[i], A[j] = A[j], A[i]
+
+    b1, b2, n = 0, 0, len(A)
+    for i in range(n):
         if belong_to_partition1(A[i]):
             swap(A, b2, i) # swap element b2 with i
             swap(A, b1, b2) # swap element b1 with b2 to move the element to partition 1
@@ -186,17 +194,21 @@ if (!doNotTrack) {
         elif belong_to_partition2(A[i]):
             swap(A, b2, i) # only swap in second partition
             b2 += 1  # only increment partition 2 boundry
-        i += 1
     return
 </code></pre>
-<p>Dutch National Flag on <a href="https://leetcode.com/problems/sort-colors">leetcode</a>:</p>
+<ul>
+<li>Dutch National Flag <a href="https://leetcode.com/problems/sort-colors">Sort Colors</a>:</li>
+</ul>
 <pre><code class="language-python">class Solution:
     def sortColors(self, nums: List[int]) -&gt; None:
         &quot;&quot;&quot;
         Do not return anything, modify nums in-place instead.
         &quot;&quot;&quot;
-        b1, b2, i = 0, 0, 0
-        while i &lt; len(nums):
+        def swap(A: List[List[int]], i, j: int) -&gt; int:
+            A[i], A[j] = A[j], A[i]
+
+        b1, b2, n = 0, 0, len(A)
+        for i in range(n):
             if nums[i] == 0:
                 swap(nums, b2, i)
                 swap(nums, b1, b2)
@@ -205,12 +217,131 @@ if (!doNotTrack) {
             elif nums[i] == 1:
                 swap(nums, b2, i)
                 b2 += 1
-            i += 1
-            
-def swap(A: List[int], i, j: int):
-    A[i], A[j] = A[j], A[i]
+
 </code></pre>
 <p>Now the same template can be applied to more partition problems like 4 way partition, only it would be more tedius to write.</p>
+<h3 id="quick-select"><strong>Quick Select</strong><a class="anchor" href="#quick-select">#</a></h3>
+<p>Quick select uses the same techniques as in the <a href="https://adityabhatia.com/algos-ds/sorting-all/#quicksort">Quick Sort</a>. With the difference that once the partition is decided based on the condition only single recursive call with the desired partition is made. This makes the code to be tail recursive and thus can also be written iteratively. Complexity of such procedures also reduce to <code>O(N)</code> in the average case, with randomly chosen pivot, from the <code>O(nlogn)</code> naive solution of actually sorting the underlying structure.</p>
+<p>Example Problems:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/kth-largest-element-in-an-array/"><code>kth largest element in an array</code></a></li>
+</ul>
+<p>To find the kth largest element in a sorted array is pretty straight forward. kth largest element in a sorted array will be at <code>n - k</code> index. i.e. largest element will at <code>n - 1</code> index, second largest will at <code>n - 2</code> index in the sorted array. In the problem array is not sorted, which makes it a little bit tricky. The array can be first sorted and then fetch the index gives a O(nlogn) solution.</p>
+<p>A better solution intiution comes from the idea, that if an element is chosen randomly and it&rsquo;s rank is calculated by iteration over the array to find all the smaller elements than the chosen number. Such brings the case if the rank of the chosen is same as desired rank then we get the answer, otherwise if the rank is less than desired rank, then repeat the process with the greater elements. Else if the rank is greater than the desired rank, than the desired element will live among the smaller elements than the pivot. Thus giving a <code>divide and conquer</code> kind of algorithm based on <code>quick sort</code>.</p>
+<pre><code class="language-python">def findKthLargest(nums: List[int], k: int) -&gt; int:
+    start, end, n = 0, len(nums) - 1, len(nums)
+    
+    def swap(A: List[List[int]], i, j: int) -&gt; int:
+        A[i], A[j] = A[j], A[i]
+
+    def qSelect(lo, hi):
+        if lo &gt; hi:
+            return -1
+        p = random.randint(lo, hi) # select a random pivot index
+        swap(nums, p, hi) # swap the pivot with last element
+        # partition logic, similar to above template.
+        j = lo # j is index such that all elements with index &lt; j will be less than pivot
+        for i in range(lo, hi): # iterate over the array
+            if nums[i] &lt; nums[hi]: # if the element is smaller than pivot nums[hi] move witin j
+                swap(nums, j, i)
+                j += 1
+        swap(nums, hi, j)  # put pivot in the j th position as 
+        # all elements less pivot will in array nums[:j] 
+        # all greater or equal than pivot will be in nums[j+1:]
+        # Note: pivot is at the correct position in the sorted array
+        if j == n - k: # If the pivot position is the desired rank, return it.
+            return nums[j]
+        if j &gt; n - k:
+            return qSelect(lo, j - 1)
+        return qSelect(j + 1, hi)
+    
+    return qSelect(start, end)
+</code></pre>
+<p>As the above code is <a href="https://en.wikipedia.org/wiki/Tail_call"><code>tail recursive</code></a>, it can also be written iteratively. There is no change in the partition logic. Only change here is that inverted base case <code>lo &lt;= hi</code> is used to keep track while loop for which the sub array is valid array.</p>
+<pre><code class="language-python">def findKthLargest(nums: List[int], k: int) -&gt; int:
+
+    def swap(A: List[List[int]], i, j: int) -&gt; int:
+        A[i], A[j] = A[j], A[i]
+
+    lo, hi, n = 0, len(nums) - 1, len(nums)
+    while lo &lt;= hi: 
+        p = random.randint(lo, hi)
+        swap(nums, p, hi)
+        j = lo
+        for i in range(lo, hi):
+            if nums[i] &lt; nums[hi]:
+                swap(nums, j, i)
+                j += 1
+        swap(nums, hi, j)
+        if j == n - k:
+            return nums[j]
+        if j &gt; n - k:
+            hi = j - 1
+        else:
+            lo = j + 1
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/k-closest-points-to-origin/"><code>k closest points to origin</code></a></li>
+</ul>
+<p>Problem is similar to the above, but the idea is rather than finding kth largest, it returns the smallest k points. i.e. nums[:k]. Also the point distance is calculated based on the distance function.</p>
+<pre><code class="language-python">def kClosest(points: List[List[int]], k: int) -&gt; List[List[int]]:
+    
+    def distance(point: List[int]):
+        return point[0] * point[0] + point[1] * point[1]
+    
+    def swap(A: List[List[int]], i, j: int) -&gt; int:
+        A[i], A[j] = A[j], A[i]
+
+    lo, hi, n = 0, len(points) - 1, len(points)
+    while lo &lt;= hi:
+        p = random.randint(lo, hi)
+        swap(points, p, hi)
+        # Partition function.
+        pD = distance(points[hi])
+        j = lo
+        for i in range(lo, hi):
+            if distance(points[i]) &lt;= pD: # `&lt;=` handles the case when all the numbers are same, then getting the nth element leads to time out as only one element is removed from the partition at a time. With `&lt;=` all same numbers are removed from the partition.
+                swap(points, i, j)
+                j += 1
+        swap(points, j, hi)
+        if j == k - 1: # the index of kth closest point will be k - 1, Always compare index with index values.
+            return points[:k]
+        if j &lt; k - 1:
+            lo = j + 1
+        else:
+            hi = j - 1
+    return points[:j]
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/top-k-frequent-elements/"><code>top k frequent elements</code></a></li>
+</ul>
+<p>Top k frequent elements problem, is also quite similar to the k distance problem. The difference here is that the partition needs to be done using the frequency of the element in the array. So as a preprocessing, created a frequency table, which can answer the question what is the frequency of a particular element. Once the frequency is created, take all the unique keys and select one of them as the pivot to partition the array. In the left side all the elements with higher or equal frequency and right side with all the lower frequency elements. Based on the partition similar decision can be made as in the previous solution.</p>
+<pre><code class="language-python">def topKFrequent(nums: List[int], k: int) -&gt; List[int]:
+
+    def swap(A: List[int], i, j: int):
+        A[i], A[j] = A[j], A[i]
+
+    freq = Counter(nums)
+    keys = list(freq.keys())
+    lo, hi = 0, len(keys) - 1
+    while lo &lt;= hi:
+        p = random.randint(lo, hi)
+        swap(keys, p, hi)
+        j = lo
+        for i in range(lo, hi):
+            if freq[keys[i]] &gt;= freq[keys[hi]]: # `&gt;=` partitions the array into greater and equal frequency elements are on the left side of the pivot and then all the lower frequency elements.
+                swap(keys, i, j)
+                j += 1
+        swap(keys, j, hi)
+        if j == k - 1:
+            return keys[:k]
+        if j &lt; k - 1:
+            lo = j + 1
+        else:
+            hi = j - 1
+    return keys[:k]
+</code></pre>
+<p>These problem, can also be solved via sorting and heaps which will give <code>O(nlogn)</code> complexity in worst case. Idea is to bring it down to <code>O(N)</code> with quick select.</p>
 
 
               

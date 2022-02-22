@@ -121,8 +121,8 @@ if (!doNotTrack) {
 <ul>
 <li><a href="https://leetcode.com/problems/sort-an-array">Sort an array</a></li>
 </ul>
-<h3 id="decease--conqure-strategies">Decease &amp; Conqure Strategies:<a class="anchor" href="#decease--conqure-strategies">#</a></h3>
-<p><strong>Bubble Sort</strong></p>
+<h2 id="decease--conqure-strategies">Decease &amp; Conqure Strategies:<a class="anchor" href="#decease--conqure-strategies">#</a></h2>
+<h3 id="bubble-sort">Bubble Sort<a class="anchor" href="#bubble-sort">#</a></h3>
 <ul>
 <li>Time Complexity: O(N^2)</li>
 <li>In Place</li>
@@ -139,7 +139,7 @@ if (!doNotTrack) {
                 nums[j], nums[j + 1] = nums[j + 1], nums[j]
     return nums
 </code></pre>
-<p><strong>Selection Sort</strong></p>
+<h3 id="selection-sort">Selection Sort<a class="anchor" href="#selection-sort">#</a></h3>
 <ul>
 <li>Time Complexity: O(N^2)</li>
 <li>In Place</li>
@@ -158,7 +158,7 @@ if (!doNotTrack) {
             nums[i], nums[lo] = nums[lo], nums[i]
         return nums
 </code></pre>
-<p><strong>Insertion Sort</strong></p>
+<h3 id="insertion-sort">Insertion Sort<a class="anchor" href="#insertion-sort">#</a></h3>
 <ul>
 <li>Time Complexity: Worst &amp; Average case: O(N^2), Best Case: Theta(N) (Array is already sorted.)</li>
 <li>In place</li>
@@ -182,8 +182,8 @@ if (!doNotTrack) {
         #        nums[j], nums[j+1] = nums[j+1], nums[j]
     return nums
 </code></pre>
-<h3 id="divide--conqure-strategies">Divide &amp; Conqure Strategies:<a class="anchor" href="#divide--conqure-strategies">#</a></h3>
-<p><strong>Merge Sort</strong></p>
+<h2 id="divide--conqure-strategies">Divide &amp; Conqure Strategies:<a class="anchor" href="#divide--conqure-strategies">#</a></h2>
+<h3 id="merge-sort">Merge Sort<a class="anchor" href="#merge-sort">#</a></h3>
 <ul>
 <li>Time Complexity O(N logN)</li>
 <li>Uses O(N) auxilary space.</li>
@@ -227,14 +227,14 @@ if (!doNotTrack) {
     helper(0, len(nums) - 1)
     return nums
 </code></pre>
-<p><strong>TimSort</strong></p>
+<h3 id="timsort">TimSort<a class="anchor" href="#timsort">#</a></h3>
 <ul>
 <li>Time Complexity O(N logN)</li>
 <li>Uses O(N) auxilary space.</li>
 <li>Stable</li>
 </ul>
 <p>Combination of mergeSort and insertionSort where, if the number of elements are small in subarray do insertion sort otherwise do merge sort on the array. Used in python <code>sort()</code> implementation. Includes clever ways to divide the array into smaller sorted subarrays.</p>
-<p><strong>QuickSort</strong></p>
+<h3 id="quicksort">QuickSort<a class="anchor" href="#quicksort">#</a></h3>
 <ul>
 <li>Time Complexity Best &amp; Average O(N logN), Worst case O(N^2)</li>
 <li>In place; Extra stack space O(N) worst case.</li>
@@ -266,7 +266,7 @@ if (!doNotTrack) {
     return nums
 </code></pre>
 <h3 id="transform--conqure-strategies">Transform &amp; Conqure Strategies:<a class="anchor" href="#transform--conqure-strategies">#</a></h3>
-<p><strong>Heap Sort</strong></p>
+<h3 id="heap-sort">Heap Sort<a class="anchor" href="#heap-sort">#</a></h3>
 <ul>
 <li>Time Complexity: O(N logN)</li>
 <li>In place; Can be made in-place, by using a max heap and appending the extracted max at the end of the array.</li>
