@@ -280,6 +280,7 @@ def swap(A: List[List[int]], i, j: int) -&gt; int:
         else:
             lo = j + 1
 </code></pre>
+<p>This problem can be extended to find the median in the array if <code>k</code> is given as <code>n/2</code>.</p>
 <ul>
 <li><a href="https://leetcode.com/problems/k-closest-points-to-origin/"><code>k closest points to origin</code></a></li>
 </ul>
@@ -342,6 +343,10 @@ def swap(A: List[List[int]], i, j: int) -&gt; int:
     return keys[:k]
 </code></pre>
 <p>These problem, can also be solved via sorting and heaps which will give <code>O(nlogn)</code> complexity in worst case. Idea is to bring it down to <code>O(N)</code> with quick select.</p>
+<p>Other Similar problem:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/top-k-frequent-words/"><code>top k frequent words</code></a></li>
+</ul>
 
 
               

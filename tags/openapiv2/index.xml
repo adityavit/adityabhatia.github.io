@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>openapiv2 on Aditya Bhatia Blog!</title>
+    <link>http://adityabhatia.com/tags/openapiv2/</link>
+    <description>Recent content in openapiv2 on Aditya Bhatia Blog!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Aditya Bhatia © 2020</copyright>
+    <lastBuildDate>Tue, 22 Feb 2022 17:47:10 -0800</lastBuildDate>
+    
+	<atom:link href="http://adityabhatia.com/tags/openapiv2/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>OpenAPIv2 to openapiv2</title>
+      <link>http://adityabhatia.com/go-world/openapiv2-to-openapiv2/</link>
+      <pubDate>Tue, 22 Feb 2022 17:47:10 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/go-world/openapiv2-to-openapiv2/</guid>
+      <description>While updating kube controller dependencies, got this strange error in the gitlab pipelines. Although everthing ran smoothly locally.
+vendor/k8s.io/kube-openapi/pkg/util/proto/document.go:24:2: cannot find package &amp;quot;.&amp;quot; in: /builds/co2/cloud-delivery/stack-groups/vendor/github.com/googleapis/gnostic/openapiv2  It took some to figure out what was going, so adding this here for my reference and for someone else. In the newer version of github.com/googleapis/gnostic/openapiv2 package name has been updated from OpenAPIv2 to openapiv2.
+Although it does change the name of the package locally, git doesn&amp;rsquo;t acknowledge the case change in the vendor directory as a valid change.</description>
+    </item>
+    
+  </channel>
+</rss>

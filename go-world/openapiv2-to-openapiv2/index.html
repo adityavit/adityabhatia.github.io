@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>Usage of ginkgo arguments using go test | Aditya Bhatia Blog!</title>
+  <title>OpenAPIv2 to openapiv2 | Aditya Bhatia Blog!</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -15,7 +15,7 @@
   
   
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Usage of ginkgo arguments using go test" />
+  <meta name="twitter:title" content="OpenAPIv2 to openapiv2" />
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="https://twitter.com/tuubow" />
   <meta name="twitter:creator" content="https://twitter.com/tuubow" />
@@ -49,8 +49,8 @@
     { 
       "@context": "http://schema.org", 
       "@type": "WebSite", 
-      "url": "http:\/\/adityabhatia.com\/go-world\/ginkgo_params_with_go_test\/",
-      "name": "Usage of ginkgo arguments using go test",
+      "url": "http:\/\/adityabhatia.com\/go-world\/openapiv2-to-openapiv2\/",
+      "name": "OpenAPIv2 to openapiv2",
       "author": {
         "@type": "Person",
         "name": ""
@@ -111,63 +111,73 @@ if (!doNotTrack) {
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">Usage of ginkgo arguments using go test</h1>
-            <time datetime="2021-11-19 13:00:05 -0800 PST" class="post__date">Nov 19 2021</time> 
+            <h1 id="post__title">OpenAPIv2 to openapiv2</h1>
+            <time datetime="2022-02-22 17:47:10 -0800 PST" class="post__date">Feb 22 2022</time> 
           </header>
           <article class="post__content">
               
-<p>Running ginkgo tests using <code>go test</code> is a neat way on integrating behavioural testing with go tests.</p>
-<p>When using pass-through arguments or user defined arguments in ginkgo, they can passed in following way.</p>
-<pre><code class="language-go">var life int
-
-func init() {
-	flag.IntVar(&amp;life, &quot;life&quot;, -1, &quot;Meaning of Life!&quot;)
-}
-
-func TestString(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, &quot;Run meaning of life suite&quot;)
-}
-
-var _ = Describe(&quot;Ultimate Question of Life, the Universe, and Everything&quot;, func() {
-	Context(&quot;According to Deep Thought&quot;, func() {
-		When(&quot;calculated over 7.5 million years&quot;, func() {
-			It(&quot;should be correct&quot;, func() {
-				fmt.Fprintln(GinkgoWriter, &quot;Verifying ultimate question!&quot;)
-				Expect(42).To(Equal(life), &quot;Meaning of life not determined!&quot;)
-			})
-		})
-	})
-})
+<p>While updating kube controller dependencies, got this strange error in the gitlab pipelines. Although everthing ran smoothly locally.</p>
+<pre><code class="language-shell">vendor/k8s.io/kube-openapi/pkg/util/proto/document.go:24:2: cannot find package &quot;.&quot; in:
+	/builds/co2/cloud-delivery/stack-groups/vendor/github.com/googleapis/gnostic/openapiv2
 </code></pre>
-<p>Can pass <code>life</code> variable using command.</p>
-<pre><code class="language-sh">ginkgo -- -life=42
+<p>It took some to figure out what was going, so adding this here for my reference and for someone else.
+In the newer version of github.com/googleapis/gnostic/openapiv2 package name has been updated from <code>OpenAPIv2</code> to <code>openapiv2</code>.</p>
+<p>Although it does change the name of the package locally, git doesn&rsquo;t acknowledge the case change in the vendor directory as a valid change.</p>
+<p>And git list the files still with old case.</p>
+<pre><code class="language-sh">&gt; git ls-files | grep vendor/github.com/googleapis/gnostic
+vendor/github.com/googleapis/gnostic/LICENSE
+vendor/github.com/googleapis/gnostic/OpenAPIv2/OpenAPIv2.go
+vendor/github.com/googleapis/gnostic/OpenAPIv2/OpenAPIv2.pb.go
+vendor/github.com/googleapis/gnostic/OpenAPIv2/OpenAPIv2.proto
+vendor/github.com/googleapis/gnostic/OpenAPIv2/README.md
+vendor/github.com/googleapis/gnostic/OpenAPIv2/document.go
+vendor/github.com/googleapis/gnostic/OpenAPIv2/openapi-2.0.json
 </code></pre>
-<p>To pass the same using <code>go test</code></p>
-<pre><code class="language-sh">go test --args -life=42
+<p>So in gitlab which fetches the vendor from the repository still sees the files as <code>OpenAPIv2</code> and all dependencies on the package break, whereas locally it works fine.</p>
+<p>Fixing it pretty simple, delete the files and recreate it and add to git again.</p>
+<pre><code class="language-sh">&gt; git rm -rf vendor/github.com/googleapis/gnostic/OpenAPIv2
+rm 'vendor/github.com/googleapis/gnostic/OpenAPIv2/OpenAPIv2.go'
+rm 'vendor/github.com/googleapis/gnostic/OpenAPIv2/OpenAPIv2.pb.go'
+rm 'vendor/github.com/googleapis/gnostic/OpenAPIv2/OpenAPIv2.proto'
+rm 'vendor/github.com/googleapis/gnostic/OpenAPIv2/README.md'
+rm 'vendor/github.com/googleapis/gnostic/OpenAPIv2/document.go'
+rm 'vendor/github.com/googleapis/gnostic/OpenAPIv2/openapi-2.0.json'
 </code></pre>
-<p>A ginkgo argument can be passed in go tests, example passing <code>-v</code> for verbose.</p>
-<pre><code class="language-sh">go test --args -life=42 -ginkgo.v
+<p>Recreated the files again using <code>go mod vendor</code>, add add the files again using <code>git add vendor/</code>.</p>
+<p>This update the files as:</p>
+<pre><code class="language-sh">&gt; git status
+	renamed:    vendor/github.com/googleapis/gnostic/OpenAPIv2/OpenAPIv2.go -&gt; vendor/github.com/googleapis/gnostic/openapiv2/OpenAPIv2.go
+	renamed:    vendor/github.com/googleapis/gnostic/OpenAPIv2/OpenAPIv2.pb.go -&gt; vendor/github.com/googleapis/gnostic/openapiv2/OpenAPIv2.pb.go
+	renamed:    vendor/github.com/googleapis/gnostic/OpenAPIv2/OpenAPIv2.proto -&gt; vendor/github.com/googleapis/gnostic/openapiv2/OpenAPIv2.proto
+	renamed:    vendor/github.com/googleapis/gnostic/OpenAPIv2/README.md -&gt; vendor/github.com/googleapis/gnostic/openapiv2/README.md
+	renamed:    vendor/github.com/googleapis/gnostic/OpenAPIv2/document.go -&gt; vendor/github.com/googleapis/gnostic/openapiv2/document.go
+	renamed:    vendor/github.com/googleapis/gnostic/OpenAPIv2/openapi-2.0.json -&gt; vendor/github.com/googleapis/gnostic/openapiv2/openapi-2.0.json
 </code></pre>
+<p>Added the changes and pushed it to fix the problem.</p>
 
 
               
           </article>
           
 
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="http://adityabhatia.com/tags/openapiv2/">openapiv2</a>
+    </li>
+    <li class="tag__item">
+        <a class="tag__link" href="http://adityabhatia.com/tags/openapiv2/">openapiv2</a>
+    </li>
+    </ul>
+
  <div class="pagination">
   
-    <a class="pagination__item" href="http://adityabhatia.com/go-world/reference_in_for_range/">
+    <a class="pagination__item" href="http://adityabhatia.com/go-world/ginkgo_params_with_go_test/">
         <span class="pagination__label">Previous Post</span>
-        <span class="pagination__title">Usage of reference in &#34;for range loops&#34; leads to a bug</span>
+        <span class="pagination__title">Usage of ginkgo arguments using go test</span>
     </a>
   
 
-  
-    <a class="pagination__item" href="http://adityabhatia.com/go-world/openapiv2-to-openapiv2/">
-      <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >OpenAPIv2 to openapiv2</a>
-    </a>
   
 </div>
 

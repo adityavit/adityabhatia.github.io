@@ -7,9 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2020</copyright>
+    <lastBuildDate>Tue, 22 Feb 2022 17:47:10 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>go mod vendor</title>
+      <link>http://adityabhatia.com/tags/go-mod-vendor/</link>
+      <pubDate>Tue, 22 Feb 2022 17:47:10 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/tags/go-mod-vendor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>openapiv2</title>
+      <link>http://adityabhatia.com/tags/openapiv2/</link>
+      <pubDate>Tue, 22 Feb 2022 17:47:10 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/tags/openapiv2/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

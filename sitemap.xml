@@ -4,7 +4,32 @@
   
   <url>
     <loc>http://adityabhatia.com/</loc>
-    <lastmod>2022-02-08T22:56:57-08:00</lastmod>
+    <lastmod>2022-02-22T17:47:10-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://adityabhatia.com/tags/go-mod-vendor/</loc>
+    <lastmod>2022-02-22T17:47:10-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://adityabhatia.com/go-world/</loc>
+    <lastmod>2022-02-22T17:47:10-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://adityabhatia.com/tags/openapiv2/</loc>
+    <lastmod>2022-02-22T17:47:10-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://adityabhatia.com/go-world/openapiv2-to-openapiv2/</loc>
+    <lastmod>2022-02-22T17:47:10-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://adityabhatia.com/tags/</loc>
+    <lastmod>2022-02-22T17:47:10-08:00</lastmod>
   </url>
   
   <url>
@@ -48,11 +73,6 @@
   </url>
   
   <url>
-    <loc>http://adityabhatia.com/go-world/</loc>
-    <lastmod>2021-11-19T13:00:05-08:00</lastmod>
-  </url>
-  
-  <url>
     <loc>http://adityabhatia.com/go-world/ginkgo_params_with_go_test/</loc>
     <lastmod>2021-11-19T13:00:05-08:00</lastmod>
   </url>
@@ -64,10 +84,6 @@
   
   <url>
     <loc>http://adityabhatia.com/categories/</loc>
-  </url>
-  
-  <url>
-    <loc>http://adityabhatia.com/tags/</loc>
   </url>
   
 </urlset>
