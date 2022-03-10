@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2020</copyright>
-    <lastBuildDate>Tue, 08 Feb 2022 22:56:57 -0800</lastBuildDate>
+    <lastBuildDate>Tue, 08 Mar 2022 23:37:45 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/algos-ds/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Intervals</title>
+      <link>http://adityabhatia.com/algos-ds/intervals/</link>
+      <pubDate>Tue, 08 Mar 2022 23:37:45 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/intervals/</guid>
+      <description>In this article will talk about the interval problems, and look for pattern in such problems. In interval problems a sequence of overlapping and non-overlapping intervals are given denoted by [start, end] time on the number line.
+Example such problems
+ Merge Intervals  An interval is defined by a range by two points, start and end both inclusive. A merge of two intervals can be seen in four ways, if one of the interval is taken as a reference.</description>
+    </item>
     
     <item>
       <title>Sliding Window II</title>

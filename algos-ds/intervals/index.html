@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Intervals | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Intervals" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/intervals\/",
+      "name": "Intervals",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Intervals</h1>
+            <time datetime="2022-03-08 23:37:45 -0800 PST" class="post__date">Mar 8 2022</time> 
+          </header>
+          <article class="post__content">
+              
+<p>In this article will talk about the interval problems, and look for pattern in such problems. In interval problems a sequence of overlapping and non-overlapping intervals are given denoted by <code>[start, end]</code> time on the number line.</p>
+<p>Example such problems</p>
+<ul>
+<li><a href="https://leetcode.com/problems/merge-intervals">Merge Intervals</a></li>
+</ul>
+<p>An interval is defined by a range by two points, start and end both inclusive. A merge of two intervals can be seen in four ways, if one of the interval is taken as a reference. For example if red interval is taken as reference.</p>
+<ol>
+<li>Red interval starts before blue interval <code>s1 &lt;= e2</code> and <code>e1 &gt;= s2</code>.</li>
+<li>Red interval is contained by blue interval such that <code>s1 &lt;= e2</code> and <code>e1 &gt; s2</code></li>
+<li>Red Interval contains blue interval such that <code>s1 &lt;= e2</code> and <code>e1 &gt;= s2</code></li>
+<li>Red Interval ends after blue interval <code>s1 &lt;= e2</code> and <code>e1 &gt;= s2</code></li>
+</ol>
+<p><img src="/img/interval-merge.png" alt="IntervalMerge"></p>
+<p>Basically all these 4 types of merge can be indentified by just one condition <code>s1 &lt;= e2 and e1 &gt;= s2</code>. Which means if one of the interval starts before the other interval&rsquo;s end and same interval end after the start of the other interval then both the intervals merge. Once it is found that merge is needed, new merged interval can be given as.</p>
+<p><code>newInterval = [min(s1, s2), max(e1, e2)]</code></p>
+<p>If all the intervals are layed down on the number line in sorted order. It would be easier to do merge them one by one. So based on that the algorithm can be given as.</p>
+<ol>
+<li>Sort the intervals based on the (start, end)</li>
+<li>Create an empty stack</li>
+<li>Iterate over the sorted intervals.</li>
+<li>Check if there is any interval on top of the stack which merge with current interval.
+<ul>
+<li>If yes merge it, and update top of the stack.</li>
+</ul>
+</li>
+<li>Else just add the current interval to the stack.</li>
+<li>Return the stack.</li>
+</ol>
+<p>Time complexity of the algorithm can be given as <code>O(NlogN)</code> and Space as <code>O(N)</code>.</p>
+<pre><code class="language-python">st = 0 # start index
+end = 1 # dnd index
+def merge(intervals: List[List[int]]) -&gt; List[List[int]]:
+    intervals = sorted(intervals)
+    n = len(intervals)
+    res = []
+    for i in range(n):
+        if res and intervals[i][st] &lt;= res[-1][end] and res[-1][end] &gt;= intervals[i][st]:
+            # Merge with the top of the stack interval with current interval
+            res[-1][st] = min(res[-1][st], intervals[i][st])
+            res[-1][end] = max(res[-1][end], intervals[i][end])
+        else:
+            res.append(intervals[i])
+    return res
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/insert-interval/">Insert Interval</a></li>
+</ul>
+<p>Using the template of the above problem, the insert interval problem can be solved. By taking the inserted interval as the initial interval in the stack. In this problem an extra condition needs to be added for the case when the given interval is after the current interval. This case can be checked using condition <code>e1 &gt; e2</code>. In such cases the top interval needs to be popped first and then inserted after the current interval.</p>
+<p>Note: Sorting is not needed in this because <code>intervals</code> are given as sorted. This give a time and space complexity of <code>O(N)</code> .</p>
+<pre><code class="language-python">st = 0
+end = 1
+def insert(intervals: List[List[int]], newInt: List[int]) -&gt; List[List[int]]:
+    res = [newInt]
+    n = len(intervals)
+    for i in range(n):
+        if res and res[-1][st] &lt;= intervals[i][end] and res[-1][end] &gt;= intervals[i][st]:
+            # Merge with the top of the stack interval with current interval
+            res[-1][st] = min(res[-1][st], intervals[i][st])
+            res[-1][end] = max(res[-1][end], intervals[i][end])
+        elif res and res[-1][end] &gt; intervals[i][end]:
+            # interval on top of the stack is after the current interval
+            top = res.pop()
+            res.append(intervals[i])
+            res.append(top)
+        else:
+            res.append(intervals[i])
+    return res
+</code></pre>
+<p>If the intervals were not sorted, then the inserted interval could be added to the intervals and sort them and run the merge algorithm afterwards as given above. In that case sorting itself would have taken <code>O(NlogN)</code> algorithm.</p>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/sliding-window-ii/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Sliding Window II</span>
+    </a>
+  
+
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>
