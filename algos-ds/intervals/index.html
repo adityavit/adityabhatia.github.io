@@ -121,22 +121,22 @@ if (!doNotTrack) {
 <ul>
 <li><a href="https://leetcode.com/problems/merge-intervals">Merge Intervals</a></li>
 </ul>
-<p>An interval is defined by a range by two points, start and end both inclusive. A merge of two intervals can be seen in four ways, if one of the interval is taken as a reference. For example if red interval is taken as reference.</p>
+<p>An interval is defined by a range by two points, start and end both inclusive. An overlap of two intervals can be seen in four ways, if one of the interval is taken as a reference. For example, if red interval is taken as reference.</p>
 <ol>
 <li>Red interval starts before blue interval <code>s1 &lt;= e2</code> and <code>e1 &gt;= s2</code>.</li>
-<li>Red interval is contained by blue interval such that <code>s1 &lt;= e2</code> and <code>e1 &gt; s2</code></li>
+<li>Red interval is contained by blue interval such that <code>s1 &lt;= e2</code> and <code>e1 &gt;= s2</code></li>
 <li>Red Interval contains blue interval such that <code>s1 &lt;= e2</code> and <code>e1 &gt;= s2</code></li>
 <li>Red Interval ends after blue interval <code>s1 &lt;= e2</code> and <code>e1 &gt;= s2</code></li>
 </ol>
 <p><img src="/img/interval-merge.png" alt="IntervalMerge"></p>
-<p>Basically all these 4 types of merge can be indentified by just one condition <code>s1 &lt;= e2 and e1 &gt;= s2</code>. Which means if one of the interval starts before the other interval&rsquo;s end and same interval end after the start of the other interval then both the intervals merge. Once it is found that merge is needed, new merged interval can be given as.</p>
-<p><code>newInterval = [min(s1, s2), max(e1, e2)]</code></p>
+<p>Basically all these 4 types of overlap can be indentified by just one condition <code>s1 &lt;= e2 and e1 &gt;= s2</code>. Which means if one of the interval starts before the other interval&rsquo;s end and same interval end after the start of the other interval then both the intervals overlap. Once it is found that there is an overlap, intervals can merged to a new interval as:</p>
+<p><code>newMergedInterval = [min(s1, s2), max(e1, e2)]</code></p>
 <p>If all the intervals are layed down on the number line in sorted order. It would be easier to do merge them one by one. So based on that the algorithm can be given as.</p>
 <ol>
 <li>Sort the intervals based on the (start, end)</li>
 <li>Create an empty stack</li>
 <li>Iterate over the sorted intervals.</li>
-<li>Check if there is any interval on top of the stack which merge with current interval.
+<li>Check if there is any interval on top of the stack which overlap with current interval.
 <ul>
 <li>If yes merge it, and update top of the stack.</li>
 </ul>
@@ -153,7 +153,7 @@ def merge(intervals: List[List[int]]) -&gt; List[List[int]]:
     res = []
     for i in range(n):
         if res and intervals[i][st] &lt;= res[-1][end] and res[-1][end] &gt;= intervals[i][st]:
-            # Merge with the top of the stack interval with current interval
+            # Overlap: Merge with the top of the stack interval with current interval
             res[-1][st] = min(res[-1][st], intervals[i][st])
             res[-1][end] = max(res[-1][end], intervals[i][end])
         else:
@@ -172,7 +172,7 @@ def insert(intervals: List[List[int]], newInt: List[int]) -&gt; List[List[int]]:
     n = len(intervals)
     for i in range(n):
         if res and res[-1][st] &lt;= intervals[i][end] and res[-1][end] &gt;= intervals[i][st]:
-            # Merge with the top of the stack interval with current interval
+            # Overlap: Merge with the top of the stack interval with current interval
             res[-1][st] = min(res[-1][st], intervals[i][st])
             res[-1][end] = max(res[-1][end], intervals[i][end])
         elif res and res[-1][end] &gt; intervals[i][end]:
