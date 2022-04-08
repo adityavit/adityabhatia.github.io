@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>Usage of ginkgo arguments using go test | Aditya Bhatia Blog!</title>
+  <title>Designing Data-Intensive Application | Aditya Bhatia Blog!</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -15,7 +15,7 @@
   
   
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Usage of ginkgo arguments using go test" />
+  <meta name="twitter:title" content="Designing Data-Intensive Application" />
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="https://twitter.com/tuubow" />
   <meta name="twitter:creator" content="https://twitter.com/tuubow" />
@@ -49,8 +49,8 @@
     { 
       "@context": "http://schema.org", 
       "@type": "WebSite", 
-      "url": "http:\/\/adityabhatia.com\/go-world\/ginkgo_params_with_go_test\/",
-      "name": "Usage of ginkgo arguments using go test",
+      "url": "http:\/\/adityabhatia.com\/notes\/books\/ddia\/",
+      "name": "Designing Data-Intensive Application",
       "author": {
         "@type": "Person",
         "name": ""
@@ -95,8 +95,7 @@ if (!doNotTrack) {
       </li>
     
       <li>
-        <a  class="active"
-         href="/go-world">Go World!</a>
+        <a  href="/go-world">Go World!</a>
       </li>
     
   </ul>
@@ -111,44 +110,13 @@ if (!doNotTrack) {
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">Usage of ginkgo arguments using go test</h1>
-            <time datetime="2021-11-19 13:00:05 -0800 PST" class="post__date">Nov 19 2021</time> 
+            <h1 id="post__title">Designing Data-Intensive Application</h1>
+            <time datetime="2022-03-16 13:09:34 -0700 PDT" class="post__date">Mar 16 2022</time> 
           </header>
           <article class="post__content">
               
-<p>Running ginkgo tests using <code>go test</code> is a neat way on integrating behavioural testing with go tests.</p>
-<p>When using pass-through arguments or user defined arguments in ginkgo, they can passed in following way.</p>
-<pre><code class="language-go">var life int
-
-func init() {
-	flag.IntVar(&amp;life, &quot;life&quot;, -1, &quot;Meaning of Life!&quot;)
-}
-
-func TestString(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, &quot;Run meaning of life suite&quot;)
-}
-
-var _ = Describe(&quot;Ultimate Question of Life, the Universe, and Everything&quot;, func() {
-	Context(&quot;According to Deep Thought&quot;, func() {
-		When(&quot;calculated over 7.5 million years&quot;, func() {
-			It(&quot;should be correct&quot;, func() {
-				fmt.Fprintln(GinkgoWriter, &quot;Verifying ultimate question!&quot;)
-				Expect(42).To(Equal(life), &quot;Meaning of life not determined!&quot;)
-			})
-		})
-	})
-})
-</code></pre>
-<p>Can pass <code>life</code> variable using command.</p>
-<pre><code class="language-sh">ginkgo -- -life=42
-</code></pre>
-<p>To pass the same using <code>go test</code></p>
-<pre><code class="language-sh">go test --args -life=42
-</code></pre>
-<p>A ginkgo argument can be passed in go tests, example passing <code>-v</code> for verbose.</p>
-<pre><code class="language-sh">go test --args -life=42 -ginkgo.v
-</code></pre>
+<h3 id="relaible-scalable-and-maintainable-applications">Relaible, Scalable and Maintainable Applications<a class="anchor" href="#relaible-scalable-and-maintainable-applications">#</a></h3>
+<h1 id="partitioning">Partitioning</h1>
 
 
               
@@ -157,17 +125,7 @@ var _ = Describe(&quot;Ultimate Question of Life, the Universe, and Everything&q
 
  <div class="pagination">
   
-    <a class="pagination__item" href="http://adityabhatia.com/go-world/reference_in_for_range/">
-        <span class="pagination__label">Previous Post</span>
-        <span class="pagination__title">Usage of reference in &#34;for range loops&#34; leads to a bug</span>
-    </a>
-  
 
-  
-    <a class="pagination__item" href="http://adityabhatia.com/go-world/openapiv2-to-openapiv2/">
-      <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >OpenAPIv2 to openapiv2</a>
-    </a>
   
 </div>
 

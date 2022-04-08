@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Binary Search I | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Binary Search I" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/binary-search\/",
+      "name": "Binary Search I",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Binary Search I</h1>
+            <time datetime="2022-04-05 14:01:53 -0700 PDT" class="post__date">Apr 5 2022</time> 
+          </header>
+          <article class="post__content">
+              
+<p>Binary search is the fastest way to search elements in sorted static array have time complexities of <code>O(logn)</code>. In this article will look a template for doing binary search and then extending that template for variants of binary search problems.</p>
+<p>Example</p>
+<ul>
+<li><a href="https://leetcode.com/problems/binary-search/">Binary Search</a></li>
+</ul>
+<p>Template for Iterative Binary Search</p>
+<pre><code class="language-python">def binarySearch(nums: List[int], target: int) -&gt; int:
+    st, end = 0, len(nums) - 1
+    while st &lt;= end:
+        mid = st + (end - st)//2
+        if nums[mid] == target:
+            return mid
+        if nums[mid] &lt; target:
+            st = mid + 1
+        else:
+            end = mid - 1
+    return -1
+</code></pre>
+<p>Other Examples:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/guess-number-higher-or-lower/">guess-number-higher-or-lower</a></li>
+</ul>
+<p>Now based on finding let&rsquo;s try to see what happens when the while loop completely runs in the problem.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/first-bad-version/">first-bad-version</a></li>
+</ul>
+<pre><code>Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
+
+You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
+</code></pre>
+<p>In this problem as you can see there are only two partitions i.e. Good and Bad versions. So when the mid version is good, it is on the left side of the partition and need to move the start to the mid + 1 and when mid version is bad, it is on the right side of the partition and needs to move to the left.</p>
+<p>Important conditions here is what happens when while loop stops i.e. start &gt; end. In such a case start = end + 1, the position of start will the first element of the right parition i.e. first bad version. End will point to the last element in the left partition i.e. last good version.
+The diagram below shows the end of the while loop. At the end either the <code>mid</code> will be first bad element (right element on the partition), in which case <code>end</code> will become <code>mid - 1</code> and then only start will increase in further iterations till it becomes <code>mid</code>. Or <code>mid</code> will be the last good element (left element of the partition) in which case <code>start</code> will become <code>mid + 1</code>and <code>end</code> will decrease in further iterations till it reaches <code>start - 1</code> or left element of the parition.</p>
+<p><img src="/img/binary_search_1.png" alt="binary Search end condition"></p>
+<p>Code for this problem can be given as</p>
+<pre><code class="language-python">def firstBadVersion(n: int) -&gt; int:
+    st, end = 1, n
+    while st &lt;= end:
+        mid = st + (end - st)// 2
+        isBad = isBadVersion(mid)
+        if isBad: # Belongs to right partition, look to the left by moving end to mid - 1
+            end = mid - 1
+        else: # Belongs to the left partition, look to the right by moving start to mid + 1 
+            st = mid + 1
+    return st # return the first bad version.
+</code></pre>
+<p>Once this concept is understood, that at the end of the while loop, start will point to the first element of the right partition and end will point to the last element of left parititon. Then after that the problem becomes all about defining the paritions in the binary search.</p>
+<p>Following are some of the examples based on the concept.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/search-insert-position">https://leetcode.com/problems/search-insert-position</a></li>
+</ul>
+<p>This problem is again very similar to the previous problem, just the function to define parition is different.</p>
+<p><img src="/img/binary_search_II.png" alt="Search Insert parition"></p>
+<pre><code class="language-python">def searchInsert(nums: List[int], target: int) -&gt; int:
+    st, end = 0, len(nums) - 1
+    while st &lt;= end:
+        mid = st + (end - st)//2
+        if nums[mid] &lt; target: # If in left parition, move the start to the right
+            st = mid + 1
+        else: # If in the right parition, move the end to the left
+            end = mid - 1
+    return st
+</code></pre>
+<p>other similar examples, with similar templates:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/find-smallest-letter-greater-than-target/">find-smallest-letter-greater-than-target</a></li>
+</ul>
+<p>Finding the partitions, can be further enhanced to find boundry of two partitions as seen in this problem.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/">find-first-and-last-position-of-element-in-sorted-array</a></li>
+</ul>
+<p>In this problem, looking for start and end indexes for the target value.
+This can be interpreted as finding two partition boundaries i.e.</p>
+<ol>
+<li>Partition/Boundary 1: Left partition contains all element &lt; target and right partition &gt;= target. In that case the <code>start</code> points to index at the end of the loop to the start of <code>=target</code> partition if valid.</li>
+<li>Parititon/Boundary 2: Left partition contains all element &lt;= target and right partition &gt; target. In that case the <code>end</code> points to index at the end of the while loop to the end of <code>=target</code> parition.</li>
+</ol>
+<p><img src="/img/binary_search_III.png" alt="Search Two partitions"></p>
+<pre><code class="language-python">def searchRange(nums: List[int], target: int) -&gt; List[int]:
+    st , end = 0, len(nums) - 1
+    while st &lt;= end: # Find partition 1 boundary 1
+        mid = st + (end - st)//2
+        if nums[mid] &lt; target:
+            st = mid + 1
+        else:
+            end = mid - 1
+    if st == len(nums) or nums[st] != target: # If the target is not found
+    # Reached end of array as all numbers were smaller than target.
+    # Array doesn't have the target number
+        return [-1, -1]
+    first, end = st, len(nums) - 1
+    while st &lt;= end: # Find partition 2 boundary 2
+        mid = st + (end - st)//2
+        if nums[mid] &lt;= target:
+            st = mid + 1
+        else:
+            end = mid - 1
+    return [first, end]
+</code></pre>
+<p>Other similar problem:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/check-if-a-number-is-majority-element-in-a-sorted-array/">check-if-a-number-is-majority-element-in-a-sorted-array</a></li>
+</ul>
+<p>Binary Search in a Matrix</p>
+<ul>
+<li><a href="https://leetcode.com/problems/search-a-2d-matrix">Search in matrix</a></li>
+</ul>
+<pre><code class="language-python">def searchMatrix(mat: List[List[int]], target: int) -&gt; bool:
+    n, m = len(mat), len(mat[0])
+    if n == 0 or m == 0:
+        return False
+    st, end = 0, n * m - 1 # Take the matrix as single dimension array
+    while st &lt;= end:
+        mid = st + (end - st) // 2
+        r, c = mid//m, mid % m # Convert single dimension field to matrix row and col.
+        if mat[r][c] == target:
+            return True
+        if mat[r][c] &lt; target:
+            st = mid + 1
+        else:
+            end = mid - 1
+    return False
+</code></pre>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/intervals/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Intervals</span>
+    </a>
+  
+
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2022</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>
