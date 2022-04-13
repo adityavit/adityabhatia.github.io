@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Binary Search II | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Binary Search II" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/binary-search-ii\/",
+      "name": "Binary Search II",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Binary Search II</h1>
+            <time datetime="2022-04-13 11:33:37 -0700 PDT" class="post__date">Apr 13 2022</time> 
+          </header>
+          <article class="post__content">
+              
+<p>In the <a href="https://adityabhatia.com/algos-ds/binary-search/">previous article</a> related to binary search, when the element is found and when element is not found in a sorted array. In this article will look at binary search when overall array is exactly not sorted.</p>
+<p>Example Problem:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/">Peak index in a mountain Array</a></li>
+</ul>
+<p>In this problem, a peak is somewhere middle of the array. All the elements to the left and right of the peak are monotonically decreasing. As you can see array is not exactly sorted in the usual terms here. As described in the previous article, we can find the boundry if we can divide the array in two sections with an invariant. Finding this invariant requires little bit analysis of the problem. Once the invariant is determined the problem is about applying the template to find the boundry.</p>
+<p>Such template can be given as.</p>
+<pre><code class="language-python">def binarySearchBoundry(arr: List[int]) -&gt; int:
+    st, end = 0, len(arr) - 1 # start, end to the left and right end of the array.
+    while st &lt;= end:
+        mid = st + (end - st)//2
+        if &quot;&lt;left boundry invariant&gt;&quot;: # if the mid lies in the left boundary, How that is determined?
+            st = mid + 1 # Move the mid to the right side
+        else: # Else the mid lies in the right boundary.
+            end = mid - 1 # Move the mid to the left side
+    return &quot;st/end&quot; # st points to the start of the right boundary, end points to the end of the left boundary&quot;
+</code></pre>
+<p>When the while loop ends the array will be partitioned based on the left and right invariants.
+<img src="/img/binary_search_invariant.png" alt="Search Partition at the end of the while loop"></p>
+<p>For the peak problem the left invariant can be given as <code>arr[mid] &lt; arr[mid + 1]</code> i.e. every element to the left of the peak if chosen as the peak will be smaller than the next element. And same is not true in the case of the right partition including peak i.e. if any element is chosen from the peak to the right as mid then <code>arr[mid] &gt; arr[mid + 1]</code>. So when the partition is done at the end of the while loop, the <code>start</code> will point to the starting index of the right boundary which will be the peak.</p>
+<p>Based on the template above the peak finding code can be written as.</p>
+<pre><code class="language-python">def peakIndexInMountainArray(arr: List[int]) -&gt; int:
+    n = len(arr)
+    st, end = 0, len(arr) - 1 # Edge case, as the left variant looks as the right element
+    while st &lt;= end:
+        mid = st + (end - st)//2
+        if mid &lt; n - 1 and arr[mid] &lt; arr[mid + 1]: # All the elements to the left of the peak will be smaller than the next element.
+            st = mid + 1
+        else:
+            end = mid - 1
+    return st # start points to the starting index of the right boundary, which is peak
+</code></pre>
+<p>Other similar problems:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/find-in-mountain-array/">find in mountain array</a></li>
+</ul>
+<p>In the above problem, once the peak can be determined using above code and checked for target. Then it is about binary search target to the left increasing partition of the peak and if not found binary search to the right decreasing partition of the peak.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/find-peak-element/">find peak element</a></li>
+</ul>
+<p>Finding any peak element in the array, in this problem the array is not sorted at all and still to do the problem in O(logn) complexity. We need to apply binary search in the problem. So it is important to understand, that binary search is not just applied in the case of sorted arrays. Problem can also be given as finding any local maximum or any local minimum in an array.</p>
+<p>Actually the code of this problem is exactly same as the code for finding when there is just one peak. The idea here is when the mid lands in an ascending region of the peak i.e. where <code>arr[mid] &lt; arr[mid + 1]</code>, then there would be a peak on the right side of the region else the peak would be on the left side of the descending region. So eventually it will converge to one of the peaks which is in the middle of ascending and descending region.</p>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/binary-search/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Binary Search I</span>
+    </a>
+  
+
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2022</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>
