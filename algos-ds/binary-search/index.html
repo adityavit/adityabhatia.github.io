@@ -218,7 +218,6 @@ This can be interpreted as finding two partition boundaries i.e.</p>
 <p>Other similar problem:</p>
 <ul>
 <li><a href="https://leetcode.com/problems/check-if-a-number-is-majority-element-in-a-sorted-array/">check-if-a-number-is-majority-element-in-a-sorted-array</a></li>
-<li><a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/">Peak index in a mountain Array</a></li>
 </ul>
 <p>Binary Search in a Matrix</p>
 <ul>
@@ -239,16 +238,6 @@ This can be interpreted as finding two partition boundaries i.e.</p>
         else:
             end = mid - 1
     return False
-</code></pre>
-<pre><code class="language-python">def peakIndexInMountainArray(arr: List[int]) -&gt; int:
-    st, end = 0, len(arr) - 2
-    while st &lt;= end:
-        mid = st + (end - st)//2
-        if arr[mid] &lt; arr[mid + 1]:
-            st = mid + 1
-        else:
-            end = mid - 1
-    return st
 </code></pre>
 
 
