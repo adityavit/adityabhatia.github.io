@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>Designing Data-Intensive Application | Aditya Bhatia Blog!</title>
+  <title>Tree Traversal | Aditya Bhatia Blog!</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -15,7 +15,7 @@
   
   
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Designing Data-Intensive Application" />
+  <meta name="twitter:title" content="Tree Traversal" />
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="https://twitter.com/tuubow" />
   <meta name="twitter:creator" content="https://twitter.com/tuubow" />
@@ -49,8 +49,8 @@
     { 
       "@context": "http://schema.org", 
       "@type": "WebSite", 
-      "url": "http:\/\/adityabhatia.com\/notes\/books\/ddia\/",
-      "name": "Designing Data-Intensive Application",
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/tree-traversal\/",
+      "name": "Tree Traversal",
       "author": {
         "@type": "Person",
         "name": ""
@@ -91,7 +91,8 @@ if (!doNotTrack) {
       </li>
     
       <li>
-        <a  href="/algos-ds">Algos &amp; DS World!</a>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
       </li>
     
       <li>
@@ -110,65 +111,71 @@ if (!doNotTrack) {
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">Designing Data-Intensive Application</h1>
-            <time datetime="2022-03-16 13:09:34 -0700 PDT" class="post__date">Mar 16 2022</time> 
+            <h1 id="post__title">Tree Traversal</h1>
+            <time datetime="2022-10-18 12:28:48 -0700 PDT" class="post__date">Oct 18 2022</time> 
           </header>
           <article class="post__content">
               
-<p>Question Model:</p>
-<p>Modeling the DDIA book in terms of Questions and Answers.</p>
-<h3 id="relaible-scalable-and-maintainable-applications">Relaible, Scalable and Maintainable Applications<a class="anchor" href="#relaible-scalable-and-maintainable-applications">#</a></h3>
-<h1 id="partitioning">Partitioning</h1>
-<h1 id="transactions">Transactions</h1>
+<p>Trees can be traversed in multiple ways. This document talks about multiple ways to traverse tree.
+I added templates for the such traversal here for easy reference and also set of sample problems to practice the templates on.</p>
 <ul>
-<li>
-<p><input checked="" disabled="" type="checkbox"> What does ACID stand for in transactions?
-ACID in the transactions stand for
-A : Atomicity
-C : Consistency
-I : Isolation
-D : Durability
-ADID transactions provided by the database systems provide the safety guarantees, so that the application can be build with needing to worry about these properties.</p>
-</li>
-<li>
-<p><input checked="" disabled="" type="checkbox"> What is atomicity?
-Atomicity in transactions means that writes to the database will happen in all-or-nothing i.e. if there is an in middle of the transaction, then the partial results should be discarded.</p>
-</li>
-<li>
-<p><input checked="" disabled="" type="checkbox"> How concurrency atomicity different from database attomicity?
-Atomicity in thread concurrency is discussed as a thread not able to access partial data while another thread is executing atomic operation. This is achieved using locks or using processor levels atomic operations.</p>
-<p>In terms of databases, atomicity is not about concurrency. Atomicity doesn&rsquo;t talk about accessing partial data access by concurrent connections as that is covered using <code>Isolation</code> rather it is about when a fault occurs which doing several writes in a transaction, transaction should disacrd or undo all the partial writes until that point and error out. According to the book a better word for Atomicity should be <code>Abortability</code> rather than <code>Atomicity</code>.</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> What is consistency in terms of databases ACID?</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> What are different types of consistencies?</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Is consistency a database level guarantee?</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> What does Isolation mean as a database guarantee?</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Why Isolation is an important guarantee?</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> What is durability guarantee?</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> Can there be absolute durability in the system?</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> What are some of the ways that system provides durability but still fails?</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> How are multi object transactions guarantee is provided?</p>
-</li>
-<li>
-<p><input disabled="" type="checkbox"> How are atomicity and isolation critical for multi object transactions?</p>
-</li>
+<li>Level-wise Tree Traversal</li>
+</ul>
+<p>A level-wise traversal of the tree can be described as visiting the nodes in the tree from root to the leaves such that all the parents at the same distance from root are visited before their children. A BFS can be used for such a traversal, the code for such BFS traversal looks very similar to the one in the graph traversal.</p>
+<p>Below will define the define the template for such traversal and some problems based on the traversal.</p>
+<p><a href="https://leetcode.com/problems/binary-tree-level-order-traversal">Level Order Traversal Problem</a></p>
+<pre><code class="language-Python">def levelOrder(root: TreeNode):
+  if root == None:
+      return []
+  sol = []
+  # Create a double ended queue
+  q = deque([root])
+  # iterate till the q is empty
+  while len(q) &gt; 0:
+      # Create level temp store list
+      l = []
+      # Iterate over the count of nodes in the q, all these nodes will be at the same level
+      for _ in range(len(q)):
+          # Pop from the left of the queue
+          node = q.popleft()
+          # Add the children to the queue.
+          if node.left != None:
+              q.append(node.left)
+          if node.right != None:
+              q.append(node.right)
+          # Add the node to the level temp store
+          l.append(node.val)
+      # Add the temp store list to the solution
+      sol.append(l)
+  return sol
+
+</code></pre>
+<p>A TreeNode in a binary tree is described as: (This will be used as an input object for all subsequent templates too.)</p>
+<pre><code class="language-Python"># Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+</code></pre>
+<p>Other similar problems can be based on above template with minor changes:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/binary-tree-level-order-traversal-ii/">Level Order Traversal from bottom up</a></li>
+</ul>
+<ul>
+<li>Same template, rather than using stack to store solution, use <code>Deque</code> and append to left of the queue.</li>
+</ul>
+<ul>
+<li><a href="https://leetcode.com/problems/n-ary-tree-level-order-traversal/">N-array tree level order Traversal</a></li>
+</ul>
+<ul>
+<li>Same template, with changes to iterate over the children rather than just adding left and right children.</li>
+</ul>
+<ul>
+<li><a href="https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/">Zig-Zag level order Traversal</a></li>
+</ul>
+<ul>
+<li>Same Template, with changes to reverse the temp solution before adding it solution alternatively in level iteration.</li>
 </ul>
 
 
@@ -177,6 +184,11 @@ Atomicity in thread concurrency is discussed as a thread not able to access part
           
 
  <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/binary-search-ii/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Binary Search II</span>
+    </a>
   
 
   

@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2022</copyright>
-    <lastBuildDate>Wed, 13 Apr 2022 11:33:37 -0700</lastBuildDate>
+    <lastBuildDate>Tue, 18 Oct 2022 12:28:48 -0700</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Tree Traversal</title>
+      <link>http://adityabhatia.com/algos-ds/tree-traversal/</link>
+      <pubDate>Tue, 18 Oct 2022 12:28:48 -0700</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/tree-traversal/</guid>
+      <description>Trees can be traversed in multiple ways. This document talks about multiple ways to traverse tree. I added templates for the such traversal here for easy reference and also set of sample problems to practice the templates on.
+ Level-wise Tree Traversal  A level-wise traversal of the tree can be described as visiting the nodes in the tree from root to the leaves such that all the parents at the same distance from root are visited before their children.</description>
+    </item>
     
     <item>
       <title>Binary Search II</title>
@@ -41,7 +51,9 @@ def binarySearch(nums: List[int], target: int) -&amp;gt; int: st, end = 0, len(n
       <pubDate>Wed, 16 Mar 2022 13:09:34 -0700</pubDate>
       
       <guid>http://adityabhatia.com/notes/books/ddia/</guid>
-      <description>Relaible, Scalable and Maintainable Applications Partitioning </description>
+      <description>Question Model:
+Modeling the DDIA book in terms of Questions and Answers.
+Relaible, Scalable and Maintainable Applications Partitioning Transactions   What does ACID stand for in transactions? ACID in the transactions stand for A : Atomicity C : Consistency I : Isolation D : Durability ADID transactions provided by the database systems provide the safety guarantees, so that the application can be build with needing to worry about these properties.</description>
     </item>
     
     <item>
