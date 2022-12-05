@@ -152,10 +152,33 @@ for i in range(len(nums)):
 <p>In this basic construct the two <code>TODO</code> in code can be used to find <code>next closest greater</code> and <code>previous closest greater</code> element of array elements.</p>
 <ul>
 <li><code>TODO 1</code>, gives the <code>next closest greater</code> value for index <code>elem</code> as index <code>i</code>. As if <code>nums[i]</code> was smaller than <code>nums[elem]</code>, <code>elem</code> would have not been popped. Value of index <code>i</code> can be stored for index <code>elem</code> in another array or map based on the question.</li>
-<li><code>TODO 2</code>, gives the <code>previous greater or equal</code>  for index <code>i</code> as value on top of stack i.e. <code>nums[st[-1]]</code>. As if there was any value smaller than <code>nums[i]</code>, it would have been poped before reaching <code>TODO 2</code>.</li>
+<li><code>TODO 2</code>, gives the <code>previous greater or equal</code>  for index <code>i</code> as value on top of stack i.e. <code>nums[st[-1]]</code>. As if there was any value smaller than <code>nums[i]</code>, it would have been popped before reaching <code>TODO 2</code>.</li>
 </ul>
 <p>Based on the question <code>next closest greater</code> or <code>previous closest greater</code> index can also be calculated with a trivial change.</p>
 <p>Similarly using increasing monotonic stack <code>next closest smaller</code> and <code>previous closest smaller</code> value can be calculated from <code>TODO 1</code> and <code>TODO 2</code>.</p>
+<p>Now let&rsquo;s look at problem <a href="https://leetcode.com/problems/daily-temperatures">Daily Temperatures</a></p>
+<p>The problem is defined as</p>
+<pre><code class="language-text">Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.
+
+Example 1:
+
+Input: temperatures = [73,74,75,71,69,72,76,73]
+Output: [1,1,4,2,1,1,0,0]
+</code></pre>
+<p>The problem is asking to find at each <code>ith</code> element the next element <code>j</code> such that <code>temperature[j] &gt; temperature[i]</code> and return <code>j - i</code> for the <code>ith</code> element if <code>j</code> exist else <code>0</code>.</p>
+<p>So based on the blog, it can be seen that the problem is asking to find the <code>next closest greater</code> element index and use that to find the result. So for this decreasing monotonic stack can be used as described above and populate <code>TODO #1</code> to find the result.</p>
+<pre><code class="language-Python">def dailyTemperatures(self, temp: List[int]) -&gt; List[int]:
+    st = []
+    ans = [0] * len(temp)
+    for i in range(len(temp)):
+        while st and temp[st[-1]] &lt; temp[i]: # For monotonic increasing less than operator changes to greater than.
+            # pop all the elements smaller than i for the stack, to be still be monotonic decreasing once i is inserted.
+            elem = st.pop()
+            # Update TODO 1 to take difference between i and elem, to find number of elements between next closest greater element.
+            ans[elem] = i - elem
+        st.append(i)
+    return ans
+</code></pre>
 <p>Using a stack here, reduced the time complexity of such problems from O(N^2) to O(N) using extra O(N) space. It is a really good example of optimizing runtime complexity using extra space in such problems.</p>
 <p>A good excercise, is to iterate from the end of array, and see what value these stack gives at two <code>TODO</code> lines.</p>
 <ul>
