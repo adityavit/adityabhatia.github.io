@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Investments on Aditya Bhatia Blog!</title>
+    <link>http://adityabhatia.com/investments/</link>
+    <description>Recent content in Investments on Aditya Bhatia Blog!</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Aditya Bhatia © 2022</copyright>
+    <lastBuildDate>Mon, 20 Nov 2023 10:51:23 -0800</lastBuildDate>
+    
+	<atom:link href="http://adityabhatia.com/investments/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Enphase</title>
+      <link>http://adityabhatia.com/investments/enphase/</link>
+      <pubDate>Mon, 20 Nov 2023 10:51:23 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/investments/enphase/</guid>
+      <description>Summary about Enphase based on Q3 earnings call
+Company Overview
+Enphase Energy is an American energy technology company that develops and manufactures solar microinverters, battery energy storage, and EV charging stations primarily for residential customers. The company is headquartered in Fremont, California, and has a global presence with sales and distribution in over 100 countries.
+Key Financial Highlights
+ Revenue: $551.1 million in Q3 2023, down 23% from Q2 2023 Gross margin: 48.</description>
+    </item>
+    
+  </channel>
+</rss>
