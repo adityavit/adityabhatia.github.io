@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2022</copyright>
-    <lastBuildDate>Tue, 18 Oct 2022 12:28:48 -0700</lastBuildDate>
+    <lastBuildDate>Wed, 29 Nov 2023 10:33:53 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/algos-ds/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Selection</title>
+      <link>http://adityabhatia.com/algos-ds/selection/</link>
+      <pubDate>Wed, 29 Nov 2023 10:33:53 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/selection/</guid>
+      <description>In this article will summarize mathematics related to selection of k items in n items and counting problems problems related to selection of items.
+Let&amp;rsquo;s first understand what n choose k means, i.e. choosing/selecting k items out of n items.
+Let&amp;rsquo;s take an example of 4 balls of Red(R), Blue(B), Green(G), White(W) color and try to understand from that. Whenever we choose k items from n items, we can create a bucket of size k and put the items in that bucket, so the remaining items outside of bucket will be n - k at the end of the selection.</description>
+    </item>
     
     <item>
       <title>Tree Traversal</title>
