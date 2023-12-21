@@ -7,20 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2022</copyright>
-    <lastBuildDate>Wed, 29 Nov 2023 10:33:53 -0800</lastBuildDate>
+    <lastBuildDate>Wed, 06 Dec 2023 23:37:41 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/algos-ds/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Selection</title>
-      <link>http://adityabhatia.com/algos-ds/selection/</link>
-      <pubDate>Wed, 29 Nov 2023 10:33:53 -0800</pubDate>
+      <title>Dynamic Programming (Part 2)</title>
+      <link>http://adityabhatia.com/algos-ds/dp-2/</link>
+      <pubDate>Wed, 06 Dec 2023 23:37:41 -0800</pubDate>
       
-      <guid>http://adityabhatia.com/algos-ds/selection/</guid>
-      <description>In this article will summarize mathematics related to selection of k items in n items and counting problems problems related to selection of items.
-Let&amp;rsquo;s first understand what n choose k means, i.e. choosing/selecting k items out of n items.
-Let&amp;rsquo;s take an example of 4 balls of Red(R), Blue(B), Green(G), White(W) color and try to understand from that. Whenever we choose k items from n items, we can create a bucket of size k and put the items in that bucket, so the remaining items outside of bucket will be n - k at the end of the selection.</description>
+      <guid>http://adityabhatia.com/algos-ds/dp-2/</guid>
+      <description>This post is continuation of the first dynamic programing post. In this post will be looking into a class of optimization problem which can be solved with dynamic programming.
+Let&amp;rsquo;s first see what are some of the approaches to solve optimization problem.
+  Brute Force : In this approach, basically we are traversing all the paths in the tree. If there are exponential spread of the tree, the solution will lead to an exponential solution.</description>
+    </item>
+    
+    <item>
+      <title>Dynamic Programming (Part 1)</title>
+      <link>http://adityabhatia.com/algos-ds/dp-1/</link>
+      <pubDate>Wed, 03 May 2023 22:18:45 -0700</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/dp-1/</guid>
+      <description>Dynamic programming is a problem solving strategy which can help to improve exponential runtime of the algorithm for certain type of problems. In this article, I will go over some of the background of this strategy with examples. In further article of these series, I will go over different type of DP problems I have encountered and templates/strategy to solve them.
+The name as dynamic programming for this strategy hides the actual strategy.</description>
     </item>
     
     <item>

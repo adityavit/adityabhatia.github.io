@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Dynamic Programming (Part 1) | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Dynamic Programming (Part 1)" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/dp-1\/",
+      "name": "Dynamic Programming (Part 1)",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+      <li>
+        <a  href="/investments">My Investment analysis</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Dynamic Programming (Part 1)</h1>
+            <time datetime="2023-05-03 22:18:45 -0700 PDT" class="post__date">May 3 2023</time> 
+          </header>
+          <article class="post__content">
+              
+<p>Dynamic programming is a problem solving strategy which can help to improve exponential runtime of the algorithm for certain type of problems. In this article, I will go over some of the background of this strategy with examples. In further article of these series, I will go over different type of DP problems I have encountered and templates/strategy to solve them.</p>
+<p>The name as dynamic programming for this strategy hides the actual strategy.The strategy can be described as decomposing the problem into sub-problems, using strategies like divide and conquer or decrease and conquer and then solving these sub problems optimally to compose the optimal solution for actual given problem.</p>
+<p>The problems where this strategy can be applied, can reduce the time from exponential to polynomial is that the sub problems are often repeated across the problem space, so once the sub-problem is solved then result of the problem is stored in memory and reused there after whenever the same problem is called again.</p>
+<p>So even though there can be exponential calls to sub-problems, number of unique sub-problems are often polynomial in number, which can significantly helping in reducing the time complexity. The run time can then be defined as = (number of unique subproblem) * time taken to solve each sub-problem.</p>
+<ul>
+<li>DP can be used to solve two kind of problems.</li>
+</ul>
+<ol>
+<li>Optimization problems, which are used to minimize or maximize the overall result, which is min/max of the sub problems.</li>
+<li>Non-optimization problem, example such counting problems, where the overall result is a count of combinations or permutations calculated as function of the sub problems. Or some problems, where overall problem by definition is defined as a function of smaller sub problems.</li>
+</ol>
+<ul>
+<li>Set of problems, where this dp strategy can be applied for optimization have two characteristics:</li>
+</ul>
+<ol>
+<li>Optimal sub-structure:</li>
+</ol>
+<p>This property is used to define the correctness of the DP algorithm in optimization problem. What this property says is that the optimal sub solution can be selected to make the overall optimal solution.
+Will discuss more about this property when covering optimization problems.</p>
+<ol start="2">
+<li>Overlapping sub problems:</li>
+</ol>
+<p>The overlapping sub problem is where the dynamic programming is able to save time by reusing the results already computed rather than computing the results again and again. With this property, there is no repetition of the same path of the recursion tree. Using this property DP can also be described as recursion without repetition. This is the step which helps to compute the run time of such problem by just computing the run time of only unique sub problems.</p>
+<ul>
+<li>Methods:</li>
+</ul>
+<p>There are two methods to describe the solution and write the implementation of DP problems. Both the methods will have the same time complexity for solving the problem other than constant factor during recursive implementation of top down method. In both these methods the idea is to visualize or describe the problem space in terms of a dependency graph, where the overall problem is dependent on the underlying sub problems.</p>
+<ol>
+<li>Top Down method</li>
+</ol>
+<p>The top down approach is basically a DFS of the sub problem dependency graph. Where each path is explored till the leaf node, and partial result for nodes are stored in the table(map), in case the node is visited again the partial results are reused from the map rather than exploring the same path again. In that way each path in the graph is only traversed once.</p>
+<ol start="2">
+<li>Bottom up method</li>
+</ol>
+<p>Bottom up method is basically solving the smaller sub-problems starting from the base cases in the topological order of the dependency graph. These smaller sub problems are starting nodes in the DAG of the dependency graph when sorted topologically. Once these sub problems are solved the solution is stored in a suitable data structure like an array and can be used to compose the solution for the higher level problems. Important thing here is that all the dependent sub problems in the topological order need to be solved before solution can be composed for the overall solution, this defines the order of iteration over the sub problems such that this can be achieved.</p>
+<p>I will be focusing on the bottom up approach, as:</p>
+<ol>
+<li>For interview setting this approach is easier to implement.</li>
+<li>Easier to debug and test, because of no recursive tree.</li>
+<li>The time and space complexities are much easier to reason.</li>
+</ol>
+<ul>
+<li>Steps for solving DP problem using bottom up approach.</li>
+</ul>
+<ol>
+<li>Forming the recurrence to define the problem with decrease/divide and conquer approach.</li>
+</ol>
+<ul>
+<li>This is the part which is the most critical &amp; thought engaging part of DP problem solving.</li>
+<li>The idea in this part is to define the problem, in the form smaller sub problems this could be smaller problem by 1 or half sub problem. Then defining how to compose the smaller sub problems to form the overall problem. This leads to a recurrence which then needs to be solved as the next step.</li>
+</ul>
+<ol start="2">
+<li>Expressing the recursive solution as a bottom up algorithm.</li>
+</ol>
+<ul>
+<li>Identifying all the unique sub-problems in the solution.</li>
+<li>Creating a dependency graph of the sub problems and understand the topological order for solving the overall problem.</li>
+<li>Create a data structure to store the sub problems, and fill the base cases.</li>
+<li>Execute the sub-problems in the topological order, storing the results and building up the solutions to the overall problem.</li>
+</ul>
+<p>Let&rsquo;s look at some non optimization problems first:</p>
+<ul>
+<li>1-D problems</li>
+</ul>
+<ol>
+<li><a href="https://leetcode.com/problems/fibonacci-number/">fibonacci sequence</a></li>
+</ol>
+<p>Fib(n) = Fib(n-1) + Fib(n-2)</p>
+<p>More about the complexity of Fibonnaci sequence?
+How DP can solve the Fibonnaci sequence in O(n) time?
+More about the two approaches work with the Fibonnaci numbers?</p>
+<ol start="2">
+<li><a href="https://leetcode.com/problems/climbing-stairs/">Climbing Stairs</a></li>
+</ol>
+<p>This one is a problem form of the Fibonnaci series problem as it forms the same recurrence.</p>
+<pre><code class="language-Python">def climbStairs(self, n: int) -&gt; int:
+    # recurrence
+    # ways[i] : Number of ways to reach ith step.
+    # Can reach the ith step by either climbing 1 step from the previous step or climbing 2 steps from the i-2 step. This means total ways will some of the two ways.
+    # ways[i] =&gt; ways[i - 1] + ways[i - 2]
+    if n == 1:
+        return 1
+    # define data structure to store the sub solution.
+    dp = [0] * (n)
+
+    # fill base case
+    # 0th index is the first step
+    dp[0], dp[1] = 1, 2
+
+    # iterate over the solutions in topological order from bottom to top
+    for i in range(2, n):
+        dp[i] = dp[i - 1] + dp[i - 2]
+
+    return dp[n - 1]
+</code></pre>
+<p>The above solution brings down the time complexity to O(n) from the exponential time for traversing the overall fibonnaci graph with repeating work.
+The space complexity is O(n) this can be brought down further, by observing that ith solution only needs last two sub problem solutions. So need to just remember those when iterating over the loop, and the space can be brought down to O(1). Given below a solution to do that.</p>
+<p>This further optimization in the space is a natural extension for many DP problems, built on the idea that for any ith sub problem solution, need to only store the solutions for the sub problem on which ith problem is dependent upon!</p>
+<pre><code class="language-Python">def climbStairs(self, n: int) -&gt; int:
+    # recurrence
+    # ways[i] : Number of ways to reach ith step.
+    # Can reach the ith step by either climbing 1 step from the previous step or climbing 2 steps from the i-2 step. This means total ways will some of the two ways.
+    # ways[i] =&gt; ways[i - 1] + ways[i - 2]
+    oneStepWays = 1
+    twoStepWays = 2
+    if n == 1:
+        return oneStepWays
+    for i in range(2, n):
+        ways = twoStepWays
+        twoStepWays = oneStepWays + twoStepWays
+        oneStepWays = ways
+    return twoStepWays
+</code></pre>
+<ol start="3">
+<li><a href="https://leetcode.com/problems/domino-and-tromino-tiling">Domino &amp; Tromino Tiling</a></li>
+</ol>
+<ul>
+<li>2-D problems</li>
+</ul>
+<p><a href="https://adityabhatia.com/algos-ds/selection/">n choose k selection</a></p>
+<ol start="4">
+<li>
+<p><a href="https://leetcode.com/problems/pascals-triangle/">Pascal Triangle</a></p>
+</li>
+<li>
+<p><a href="https://leetcode.com/problems/pascals-triangle-ii/">Pascal Triangle II</a></p>
+</li>
+<li>
+<p><a href="https://leetcode.com/problems/unique-paths/">Unique Paths</a></p>
+</li>
+<li>
+<p><a href="https://leetcode.com/problems/unique-paths-ii/">Unique Paths II</a></p>
+</li>
+</ol>
+<pre><code class="language-python">def uniquePathsWithObstacles(self, oG: List[List[int]]) -&gt; int:
+        # Define recurrence
+        # UP(n,m) =&gt; 0 if oG(n,m) == 1
+        # else
+        # =&gt; UP(n-1, m) + UP(n, m - 1)
+        if oG[0][0] == 1:
+            return 0
+        # create a data structure to store the result
+        n, m = len(oG), len(oG[0])
+        dp = [[0] * m for _ in range(n)]
+        # fill the base case      
+        dp[0][0] = 1
+
+        for i in range(1, n):
+            if oG[i][0] == 1:
+                break
+            dp[i][0] = dp[i - 1][0]
+
+        for j in range(1, m):
+            if oG[0][j] == 1:
+                break
+            dp[0][j] = dp[0][j - 1]
+        # fill the rest of the table, in topological order of the dependent sub problem.
+        for i in range(1, n):
+            for j in range(1, m):
+                if oG[i][j] != 1:
+                    dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+
+        return dp[n-1][m-1]
+</code></pre>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/tree-traversal/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Tree Traversal</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/dp-2/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >Dynamic Programming (Part 2)</a>
+    </a>
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2022</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>

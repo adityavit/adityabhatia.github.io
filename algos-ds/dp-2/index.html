@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Dynamic Programming (Part 2) | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Dynamic Programming (Part 2)" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/dp-2\/",
+      "name": "Dynamic Programming (Part 2)",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+      <li>
+        <a  href="/investments">My Investment analysis</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Dynamic Programming (Part 2)</h1>
+            <time datetime="2023-12-06 23:37:41 -0800 PST" class="post__date">Dec 6 2023</time> 
+          </header>
+          <article class="post__content">
+              
+<p>This post is continuation of the first dynamic programing post. In this post will be looking into a class of optimization problem which can be solved with dynamic programming.</p>
+<p>Let&rsquo;s first see what are some of the approaches to solve optimization problem.</p>
+<ol>
+<li>
+<p>Brute Force : In this approach, basically we are traversing all the paths in the tree. If there are exponential spread of the tree, the solution will lead to an exponential solution. In such problems the number of input which can be solved are really small, normally less than 10, may be even smaller than that. Can use DFS or BFS to explore the paths, and find the minimum/maximum solution across all the paths. Run time of such solution is exponential.</p>
+</li>
+<li>
+<p>Branch &amp; Bound : This approach is basically a extension of the brute force approach, but rather than traversing all the paths in the graph, some of the paths can pruned based on the heuristics for example the partial path solution solution itself is greater than the previous registered solution when find the minimum solution. With such approach many paths in the problem space, will be cut short rather than exploring till the leaf nodes. In the worst case the solution will still be exponential, but in practice would be a much better solution over brute force, with small optimization.</p>
+</li>
+<li>
+<p>Greedy : Greedy approach takes the local optimal solution always at each step, assuming that it will lead to a global optimal solution. This approach seems very simple, but often leads to wrong answers for the overall problem. Also in case it seems to work a  prove might be needed, which is hard to analyze in interview settings.</p>
+</li>
+<li>
+<p>Dynamic Programming : Dynamic programming approach seems to work for problems where the optimal sub structure is available and the brute force solution seems exponential due to overlapping sub problems. With the optimal sub structure, defining the correctness of the solution and overlapping sub problems improving the performance of the problem from exponential to polynomial time.</p>
+</li>
+</ol>
+<p>With that let&rsquo;s see explore optimal sub structure in the problem:</p>
+<p>Optimal sub structure property can be defined as: To get the optimal solution for the problem, the selection of the optimal subproblem should be made, which will also be selecting it&rsquo;s own optimal sub problem to form it&rsquo;s solution. i.e. If the path from A to C via B is minimum then path from A to B which is minimum in all the paths from A to B, will also be part of the minimum path from A to C via B. Basically it means is that once we find the minimum path from A to B then that path can be extended by adding the edge B -&gt; C to get the minimum path from A to C via B. So to find the overall minimum path from A-&gt;C we just need to compare and get minimum path for all the incoming nodes to C and add the cost of the edge from that node to C.</p>
+<p><em>Optimization with ordered selection</em></p>
+<p>In this type of problems basically overall cost is being optimized among various permutations or ordered selections of the paths. There is no condition added to a selection of a certain element in the path. In such types the cost of the <code>ith</code> element is always added along with the optimized cost of the previous sob problems.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/min-cost-climbing-stairs">Min Cost Climbing Stairs</a></li>
+</ul>
+<p>This problem is an extension of the <a href="https://leetcode.com/problems/climbing-stairs/">climbing stairs</a> problem, where the number of ways which needs to be calculated was done. In this problem it is trying to find the minimum path sum for each of the way to reach the top floor.</p>
+<pre><code class="language-Python">def minCostClimbingStairs(self, cost: List[int]) -&gt; int:
+    # There are two ways to step on the ith step, the cost at the ith step will be minimum of either of the steps along with the given cost of ith step. This forms the recurrance.
+    # mC[i] =&gt; min(mC[i - 1], mC[i - 2]) + cost[i]
+
+    # Define data structure to store sub solutions
+    n = len(cost)
+    # extra one step for the top of the floor
+    dp = [0] * (n + 1)
+
+    # fill base case
+    dp[0], dp[1] = cost[0], cost[1]
+
+    # iterate over the sub problems in topological order to get ith result
+    for i in range(2, n):
+        dp[i] = min(dp[i - 1], dp[i - 2]) + cost[i]
+
+    dp[n] = min(dp[n - 1], dp[n - 2])
+    # return the last step
+    return dp[n]
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/minimum-path-sum">Minimum Path Sum</a></li>
+</ul>
+<p>This is an extension of the unique path problem, which we explored in the previous section. In this problem rather than finding the number of paths, we are looking into find the minimum cost for the path, or the path with the minimum cost.</p>
+<p>We need to understand why the optimal sub structure property is true here, considering that if there is a path from (0, 0) to (n - 1, m - 1) through (n , m - 1 ) is minimum then the same path prefix from (0, 0) to (n, m - 1) will also be minimum in all the paths from (0, 0) to (n, m - 1), if that is not the case then some other path prefix is minimum then the initial path which we considered won&rsquo;t be minimum.</p>
+<p>Here we can use the second property of DP which is optimal sub structure to see at the last (n - 1, m - 1) cell if the minimum path sum for (n - 1, m) and (n, m - 1) are already present then we can choose whichever is minimum and add the current cost for cell to achieve the minimum path sum for (n - 1, m - 1).</p>
+<p>Now we can fill the for each of the sub solutions first in topological order, to build up the solution for the final result.</p>
+<pre><code class="language-python">def minPathSum(self, grid: List[List[int]]) -&gt; int:
+    # define recurrence
+    # MinPS(n,m) = min(MinPS(n-1, m), MinPS(n, m - 1)) + grid(n, m)
+
+    # create data structure to store the solutions
+    n, m = len(grid), len(grid[0])
+    dp = [[0] * m for _ in range(n)]
+
+    # fill base cases
+    dp[0][0] = grid[0][0]
+    for r in range(1, n):
+        dp[r][0] = grid[r][0] + dp[r - 1][0]
+
+    for c in range(1, m):
+        dp[0][c] = grid[0][c] + dp[0][c - 1]
+
+    # Iterate over the problems in topological order from left to right, top to bottom.
+    for r in range(1, n):
+        for c in range(1, m):
+            dp[r][c] = min(dp[r - 1][c], dp[r][c - 1]) + grid[r][c]
+
+    # return the solution of the final problem
+    return dp[n-1][m - 1]
+</code></pre>
+<p><em>Optimization with ordered selection with condition</em></p>
+<p>These are special type of optimization problems again based on the ordered selection, but a condition is added for the selection of the <code>ith</code> element in the problem. So the <code>ith</code> sub problem, solution is formed by either considering the <code>ith</code> element cost with previous solution or not considering the <code>ith</code> element cost and only considering the previous sub problem solution and taking optimized result.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/house-robber">House Robber</a></li>
+</ul>
+<pre><code class="language-Python">def rob(self, nums: List[int]) -&gt; int:
+    # recurrence
+    # The robber at the ith house has two option, can either rob the house or not rob the house
+    # M(i) =&gt; Is the max money the robber will make at the ith house
+    # M(i) =&gt; max(M(i - 1), M(i - 2) + cost(i))
+    # If the robber robs the house, it makes money over the house he robbed next to the adjacent
+    # If the robber doesn't rob the house then he makes the money from the adjacent house.
+    # Robber trying to maximize the gains, will do max of the two.
+
+    # Data structure
+    n = len(nums)
+    dp = [0] * n
+
+    # base case
+    dp[0] = nums[0]
+    if n == 1:
+        return dp[0]
+    dp[1] = max(dp[0], nums[1])
+
+    # iterate over the sub problems
+    for i in range(2, n):
+        dp[i] = max(dp[i - 1], dp[i - 2] + nums[i])
+
+    return dp[n - 1]
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/house-robber-ii">House Robber II</a></li>
+</ul>
+<p>This is an extension of the previous problem, where an additional condition was added for the selection for first and last elements of the array. In such cases, it is better to consider selection as two separate cases and handle it separately.</p>
+<pre><code class="language-python">def rob(self, nums: List[int]) -&gt; int:
+    # recurrence
+    # The robber at the ith house has two option, can either rob the house or not rob the house
+    # M(i) =&gt; Is the max money the robber will make at the ith house
+    # M(i) =&gt; max(M(i - 1), M(i - 2) + cost(i))
+    # If the robber robs the house, it makes money over the house he robbed next to the adjacent
+    # If the robber doesn't rob the house then he makes the money from the adjacent house.
+    # Robber trying to maximize the gains, will do max of the two.
+
+    # The recurrence don't change, only thing which is different is that the last house cannot be considered if the first house is part of the solution i.e. robbed, so better to keep both the solutions separately. If we start with first house, only go till n - 1 houses. And if nth house is considered i.e. then don't include the first house in the recurrence.
+
+    # initialize table
+    n = len(nums)
+    # data store when first house is robbed.
+    firstDp = [0] * n
+    # data store when last house is robbed.
+    lastDp = [0] * n
+    if n == 1:
+        return nums[0]
+
+    # fill base cases
+    firstDp[0] = nums[0]
+    firstDp[1] = max(nums[0], nums[1])
+
+    lastDp[n - 1] = nums[n - 1]
+    lastDp[n - 2] = max(nums[n - 1], nums[n - 2])
+
+    # iterate sub problems for ith element from front and back.
+    for i in range(2, n - 1):
+        # iterate over []2 to n - 2] i.e. forwards
+        firstDp[i] = max(firstDp[i - 1], firstDp[i - 2] + nums[i])
+        # iterate over [n - 3 to 1] i.e. backwards
+        lastIdx = n - i - 1
+        lastDp[lastIdx] = max(lastDp[lastIdx + 1], lastDp[lastIdx + 2] + nums[lastIdx])
+
+    return max(firstDp[n - 2], lastDp[1])
+</code></pre>
+<p><em>Optimization with Unordered selection:</em></p>
+<ul>
+<li><a href="https://leetcode.com/problems/coin-change/">Coin Change</a></li>
+<li><a href="https://leetcode.com/problems/coin-change-ii/">Coin Change II</a></li>
+</ul>
+<p><em>Other optimization problems:</em></p>
+<ul>
+<li><a href="https://leetcode.com/problems/minimum-cost-for-tickets">Minimum cost of tickets</a></li>
+</ul>
+<p>In this problem is basically, having a different cost for each of the sub problem. There is optimal sub-structure by reasoning that if any ith day a minimum cost is formed by the minimum cost of i + x day then, then cost at i+x day will be also be minimum. Because if it is not then a new optimal path can be selected for ith day.</p>
+<p>At each day, there are three options of buying a pass, and when a x day pass is bought on ith day, the same pass can be applied for the next x number of days. When the pass is applied for i + x days, then cost of those days is not taken and the cost of the ith day is the sum of x day pass + (i + x + 1) day cost, which has already been optimally computed and stored in the table.</p>
+<p>Based on that recurrence can be formed as explained in the solution.</p>
+<pre><code class="language-python">def mincostTickets(self, days: List[int], costs: List[int]) -&gt; int:
+    # recurrence
+    # So at any day in days[i] when travelled, could buy any of the passes.
+    # When a pass is bought for the day it covers either that day or next 7 days or next 30 days.
+    # So the cost till day till the end of the days will be
+    # min of the sum of cost of the pass spent on ith day + cost spent till i + x day based on the pass purchased.
+    # minCost[i] =&gt; minimum travel cost spent till ith day to the end of the days.
+    # minCost[i] =&gt; If i is a travel day
+    #                   min(minCost[i + 1] + costs[0] # single day pass,
+    #                       minCost[i + 7] + costs[1] # seven day pass,
+    #                       minCost[i + 30] + cost[2] # thirty day pass)
+    #               If i is not a travel day
+    #                   minCost[i + 1]
+
+    n = len(days)
+    # create table
+    lastDay = days[-1]
+    maxDays = lastDay + 30
+    # 0 index is zero day, so adding one extra day to match 1st index with 1st day
+    dp = [0] * (maxDays + 1)
+
+    # iterate the sub problems from the end, as the ith day problem is dependent on the later day problem.
+    for _, day in enumerate(reversed(days)):
+        # iterate over the non travel days between current day and lastDay in reverse order
+        for noTravelDay in range(lastDay - 1, day, -1):
+            dp[noTravelDay] = dp[noTravelDay + 1]
+        dp[day] = min(dp[day + 1] + costs[0], dp[day + 7] + costs[1], dp[day + 30] + costs[2])
+        lastDay = day
+
+    return dp[days[0]]
+</code></pre>
+<p>In the above solution, the days on which the travel is not made contains the same value as i + 1 day cost when the last travel was done.
+This extra memory, although brings gains in speed for high <code>n</code>, but where the <code>n</code> is small but the values in <code>n</code> are wide spread for example and input array like <code>[1,100,200,365]</code> will create an array of <code>365 values</code> with most of the values same as the values on which travel was made.</p>
+<p>The solution for such can be optimized further to look for only the travel dates. In such case to find out the <code>i+7</code> and <code>i+30</code> a simple lookup cannot be done, so we need to iterate from <code>i + 1</code> index till we find the element outside the day range.</p>
+<p>This solution has been covered next. This solution works for lower cases of <code>n</code> where the values are wide spread. Whereas the previous solution works better in time leetcode using more memory, for bigger values of <code>n</code>.</p>
+<pre><code class="language-python">def mincostTickets(self, days: List[int], costs: List[int]) -&gt; int:
+        # recurrence
+        # So at any day in days[i] when travelled, could buy any of the passes.
+        # When a pass is bought for the day it covers either that day or next 7 days or next 30 days.
+        # So the cost till day till the end of the days will be
+        # min of the sum of cost of the pass spent on ith day + cost spent till i + x day based on the pass purchased.
+        # minCost[i] =&gt; minimum travel cost spent till ith day to the end of the days.
+        # minCost[i] =&gt; If i is a travel day
+        #                   min(minCost[i + 1] + costs[0] # single day pass,
+        #                       minCost[i + 7] + costs[1] # seven day pass,
+        #                       minCost[i + 30] + cost[2] # thirty day pass)
+        #               If i is not a travel day
+        #                   minCost[i + 1]
+
+        n = len(days)
+        # create table
+        # Add extra day to handle edge conditions
+        dp = [0] * (n + 1)
+
+        # no base case
+
+        # iterate the sub problems from the end, as the i th day problem is dependant on the later day problem.
+        for i in range(n - 1, -1, -1):
+            dayPass = dp[i + 1] + costs[0]
+
+            # iterate over to fetch the sub problem after 7 days
+            # At max this will iterate 7 times.
+            j = i + 1
+            while j &lt; n and days[j] &lt; days[i] + 7:
+                j += 1
+            sevenDayPass = dp[j] + costs[1]
+
+            # iterate over to fetch the sub problem after 30 days
+            # At max this will iterate 30 times.
+            k = i + 1
+            while k &lt; n and days[k] &lt; days[i] + 30:
+                k += 1
+            thirtyDayPass = dp[k] + costs[2]
+            dp[i] = min(dayPass, sevenDayPass, thirtyDayPass)
+        return dp[0]
+</code></pre>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/dp-1/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Dynamic Programming (Part 1)</span>
+    </a>
+  
+
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2022</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>
