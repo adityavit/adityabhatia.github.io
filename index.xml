@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2022</copyright>
-    <lastBuildDate>Wed, 06 Dec 2023 23:37:41 -0800</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jan 2024 23:52:34 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Directed Graphs</title>
+      <link>http://adityabhatia.com/algos-ds/directed-graphs/</link>
+      <pubDate>Wed, 03 Jan 2024 23:52:34 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/directed-graphs/</guid>
+      <description>In the previous section on Graphs, discussed about un-directed graphs and applied two graph traversal algorithms dfs and bfs. The problems on undirected are usually more simpler, because the edges in the dfs and bfs tree are very simple in the graphs as there is no direction to the edge. So usually problem are about traversal of the graph or finding a cycle or connected component in graph or a path between two nodes.</description>
+    </item>
+    
+    <item>
+      <title>Graphs</title>
+      <link>http://adityabhatia.com/algos-ds/graphs/</link>
+      <pubDate>Tue, 02 Jan 2024 11:45:37 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/graphs/</guid>
+      <description>In this discuss we will look at patterns for solving graph problems. IMO the most challenging part of solving graph problems, is modeling the problem as a graph problem. Once the problem is modeled as a graph problem, the rest of the algorithm around the graph problems are quite standard and usually involves some of kind of traversal either BFS or DFS on the graph object. The complexity estimation of the graph problem also requires careful evaluation of the vertices and edges.</description>
+    </item>
     
     <item>
       <title>Dynamic Programming (Part 2)</title>

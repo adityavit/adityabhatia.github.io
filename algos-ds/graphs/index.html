@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Graphs | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Graphs" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/graphs\/",
+      "name": "Graphs",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+      <li>
+        <a  href="/investments">My Investment analysis</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Graphs</h1>
+            <time datetime="2024-01-02 11:45:37 -0800 PST" class="post__date">Jan 2 2024</time> 
+          </header>
+          <article class="post__content">
+              
+<p>In this discuss we will look at patterns for solving graph problems. IMO the most challenging part of solving graph problems, is modeling the problem as a graph problem. Once the problem is modeled as a graph problem, the rest of the algorithm around the graph problems are quite standard and usually involves some of kind of traversal either BFS or DFS on the graph object. The complexity estimation of the graph problem also requires careful evaluation of the vertices and edges.</p>
+<p>So what type of problems are modeled using graph problems. The problems which I have discussed in other posts are of sorting or selection are just define on n nodes and there has been no need to define the relationship between these nodes. Graph problems are modeled by also defining the relationship between the nodes.</p>
+<p>For example a normal sorting problem would be like: sort the course based on the grades in the course, a similar sorting graph problem would be sorting the courses based on the requirements on other courses (no cycles) which is a dependency relationship which is defined by edges between the courses.</p>
+<p>Similar problems can be modeled for searching, for example search a node, which is connect with another node. Or optimization problem of finding the shortest/minimum path between two nodes where the nodes are connected by some weights.</p>
+<p>So for the graph problems, it is important to look out for if there is a relationship between nodes defined in the problem. If yes, then it is about defining the nodes and their relationship with other nodes to model the graph problem.</p>
+<p>In this article I would be looking into the patterns for traversal of graphs, like DFS and BFS and what kind of problems can be solved using those algorithms. In further articles on graph, I will inspecting some of the advanced algorithms build using the traversal as the foundation.</p>
+<p>So there are two types of graphs, un-directed i.e. for example all edges can be considered from a to b and also b to a. And directed, where the edge has specific direction i.e. for example a to b.</p>
+<p><strong>DFS</strong>
+Template for DFS is quite straight forward using the recursive format.</p>
+<ol>
+<li>Mark the passed vertex as visited.</li>
+<li>Iterate over all the neighbors of the vertex from the adj list or map.</li>
+<li>If the neighbor vertices are not visited, run dfs on each of the vertices.</li>
+</ol>
+<pre><code class="language-Python"># DFS
+def dfs(node: int):
+  visited[node] = True
+  for v in adjList[node]:
+    if v not in visited:
+      dfs(v)
+</code></pre>
+<p>Time Complexity: O(V + E), which will the sum of vertices and edges in the graph.
+Space Complexity: O(V), Max space of the recursive call stack is number of vertices in the graph in worst case.</p>
+<p><strong>BFS</strong></p>
+<p>Template for BFS on a component of the graph, and a visited map of nodes.</p>
+<ol>
+<li>Create a queue, add the source node to the queue.</li>
+<li>Iterate over the queue till it is empty.</li>
+<li>Pop the left most vertex from the queue, and mark it as visited.</li>
+<li>Iterate over all the connected vertices of the node by iterating over the list of the vertex.</li>
+<li>If the neighbor vertex is not visited as the queue.</li>
+</ol>
+<pre><code class="language-Python"># BFS
+def bfs(node: int):
+  q = deque()
+  q.append(node)
+  visited[node] = True
+  while len(q) &gt; 0:
+    v = q.popleft()
+    for e in adjList[v]:
+      if not visited[e]:
+        # Mark it as visited before appending to the queue, so that it won't be added multiple times to the queue.
+        visited[e] = True
+        q.append(e)
+</code></pre>
+<p>Time Complexity: O(V + E), which will the sum of vertices and edges in the graph.
+Space Complexity: O(V), Max space of the queue is number of vertices in the graph.</p>
+<p><strong>Graph Traversal</strong></p>
+<p>Once the DFS and BFS templates are defined, basically the problem will.</p>
+<ol>
+<li>Create a graph representation i.e. adjacency List or adjacency Map</li>
+<li>Define BFS or DFS template for the graph traversal.</li>
+<li>Run an outer loop over the nodes of the graph, so that on each node DFS and BFS runs if not already visited.</li>
+</ol>
+<p><strong>Problems</strong></p>
+<p>Based on the above template, we can into the traversal problems for these types of graph.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph">No of connected components</a></li>
+</ul>
+<pre><code class="language-python">from collections import defaultdict,deque
+class Solution:
+    def countComponents(self, n: int, edges: List[List[int]]) -&gt; int:
+        # build the graph: adjList or adjMap
+        adjList = defaultdict(list)
+        for edge in edges:
+            # Add two edges a -&gt; b and b -&gt; a as undirected graph
+            adjList[edge[0]].append(edge[1])
+            adjList[edge[1]].append(edge[0])
+
+        # DFS
+        def dfs(node: int):
+            visited[node] = True
+            for v in adjList[node]:
+                if v not in visited:
+                    dfs(v)
+        # BFS
+        def bfs(node: int):
+            q = deque()
+            q.append(node)
+            visited[node] = True
+            while len(q) &gt; 0:
+                v = q.popleft()
+                for e in adjList[v]:
+                    if not visited[e]:
+                        visited[e] = True
+                        q.append(e)
+        # define visited map
+        visited = defaultdict(bool)
+        c = 0
+        # Iterate over the vertices to run DFS or BFS
+        for i in range(n):
+            if i not in visited:
+                # dfs(i) or bfs(i)
+                bfs(i)
+                c += 1
+        return c
+</code></pre>
+<p>Similar is the problem <a href="https://leetcode.com/problems/number-of-provinces">Number of Provinces</a></p>
+<p>The graph is defined as adjacency matrix rather, and need to find number of components.</p>
+<pre><code class="language-python">def findCircleNum(self, edges: List[List[int]]) -&gt; int:
+    def dfs(node: int):
+        visited[node] = True
+        for i, e in enumerate(edges[node]):
+            if i != node and e == 1 and i not in visited:
+                dfs(i)
+
+    visited = defaultdict(bool)
+    c = 0
+    for i in range(len(edges)):
+        if i not in visited:
+            dfs(i)
+            c += 1
+    return c
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/keys-and-rooms">Keys and Rooms</a></li>
+</ul>
+<p>In this problem each room key is an edge to the next room which can be explored using one of traversal algorithm.
+The solution is about checking if there is one connected component.</p>
+<pre><code class="language-python">def canVisitAllRooms(self, rooms: List[List[int]]) -&gt; bool:
+    def dfs(node: int):
+        if node in visited:
+            return
+        visited[node] = True
+        for v in rooms[node]:
+            dfs(v)
+
+    def bfs(node: int):
+        q = deque()
+        q.append(node)
+        visited[node] = True
+        while q:
+            v = q.popleft()
+            for e in rooms[v]:
+                if e not in visited:
+                    visited[e] = True
+                    q.append(e)
+
+    visited = defaultdict(bool)
+    # bfs(0)
+    dfs(0)
+    # If the graph is connected, i.e. all nodes get visited when traversal starts at 0, then graph can be fully explored.
+    return len(visited) == len(rooms)
+</code></pre>
+<p><strong>Detecting Cycles in Directed Graphs</strong></p>
+<p><em>DFS</em></p>
+<ol>
+<li>A cycle is detected in DFS traversal by detecting a back edge between nodes in the graph.</li>
+<li>A back edge is defined as an edge from node to an already visited vertex in the graph which is not an immediate parent to the node.</li>
+<li>A back edge is an edge which goes up the recursive tree to an ancestor node which is not the parent of the current vertex.</li>
+</ol>
+<p>So basically there will be cycles in the undirected graph if the neighbor is already visited and is not the immediate parent of the node.</p>
+<p>The above DFS template can be modified a little to define the change.</p>
+<pre><code class="language-python"># DFS return True if cycle else return False
+def dfs(node: int) -&gt; bool:
+  visited[node] = True
+  for v in adjList[node]:
+    if v not in visited:
+      parent[v] = node
+      if dfs(v): # If there is cycle in the rest graph traversal, return True
+        return True
+    else:
+      if parent[node] != v:
+        return True
+  return False
+</code></pre>
+<p><em>BFS</em></p>
+<ol>
+<li>A cycle is detected in BFS traversal by detecting a cross edge between nodes in the graph.</li>
+<li>A cross edge is defined as an edge from node to already visited vertex in the graph which is not immediate parent of the node.</li>
+<li>A cross edge will be an edge connecting two vertices in the same level or immediate level in the BFS level order tree structure.</li>
+</ol>
+<p>So basically, every time we see a visited neighbor of a node that can be a cross edge if it is not immediate parent of the node. This is because in the case of undirected graph we will be adding <code>a-&gt;b</code> and <code>b-&gt;a</code> as the edges, so when exploring <code>b</code> vertex after being added as neighbor of <code>a</code> in the code it will see vertex <code>a</code> as already visited but that doesn&rsquo;t make a cycle in the graph as it is the parent of <code>b</code>. To keep track of the immediate parents, we can update another map <code>parent</code> like <code>visited</code> and check there. Whereas a graph like <code>a&lt;-&gt;b</code>, <code>a&lt;-&gt;c</code>, <code>b&lt;-&gt;c</code> does make a cycle.</p>
+<p>The above BFS template can be modified a little to define the change.</p>
+<pre><code class="language-Python"># BFS detect cycles return True if cycle else return false
+def bfs(node: int) -&gt; bool:
+  q = deque()
+  q.append(node)
+  visited[node] = True
+  while len(q) &gt; 0:
+    v = q.popleft()
+    for e in adjList[v]:
+      if not visited[e]:
+        # register parent of vertex e which are connected with v
+        parent[e] = v
+        visited[e] = True
+        q.append(e)
+      else: # If e already visited it can be the parent of v, so check if parent[v] != e for detecting cross edge
+        if parent[e] != v: # True, means there is a cross b/w v and e
+          return True
+  return False
+
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/graph-valid-tree">Graph Valid Tree</a></li>
+</ul>
+<p>A tree can be defined as a connected graph with no cycles. So basically in this problem, we are trying to find if there are no cycles in the graph as well as a single component similar to the <a href="https://leetcode.com/problems/keys-and-rooms">Keys and Rooms</a> problem.</p>
+<p>The modified dfs/bfs template can be used in the problem.</p>
+<pre><code class="language-Python">def validTree(self, n: int, edges: List[List[int]]) -&gt; bool:
+    adjList = defaultdict(list)
+    # Create adjacency List
+    for e in edges:
+        # undirected graphs add both the edges
+        adjList[e[0]].append(e[1])
+        adjList[e[1]].append(e[0])
+
+    def dfs(node: int) -&gt; bool:
+        visited[node] = True
+        for v in adjList[node]:
+            if v not in visited:
+                parent[v] = node
+                if dfs(v):
+                    return True
+            else:
+                if parent[node] != v:
+                    return True
+        return False
+
+    def bfs(node: int) -&gt; bool:
+        q = deque()
+        q.append(node)
+        visited[node] = True
+        while len(q) &gt; 0:
+            v = q.popleft()
+            for e in adjList[v]:
+                if not visited[e]:
+                    # register parent of vertex e which are connected with v
+                    parent[e] = v
+                    visited[e] = True
+                    q.append(e)
+                else: # If e already visited it can be the parent of v, so check if parent[v] != e for detecting cross edge
+                    if parent[v] != e: # True, means there is a cross b/w v and e
+                        return True
+        return False
+
+    parent = defaultdict(int)
+    visited = defaultdict(bool)
+    parent[0] = -1
+    hasCycle = dfs(0)
+    if hasCycle:
+        return False
+    if len(visited) != n:
+        return False
+    return True
+</code></pre>
+<p>Another similar problem related to cross edge and back edge is about determining graph is bipartite: <a href="https://leetcode.com/problems/is-graph-bipartite">Is Graph Bipartite?</a></p>
+<ol>
+<li>A Tree is always bipartite, as each level can be part of alternative group and there is no edge in same group.</li>
+<li>A graph with odd cycle is not bipartite, because each consecutive labelling of the nodes always result in last two adjacent nodes in the cycle in same group. Such a triangle graph like: 1(R) -&gt; 2(B) -&gt; 3(R) -&gt; 1(R) is not bipartite.</li>
+<li>A graph with even cycle is still bipartite, because each consecutive labelling of the nodes always result in last two adjacent nodes in the cycle in different group. Such a a rectangle like: 1(R) -&gt; 2(B) -&gt; 3(R) -&gt; 4(B) -&gt; 1(R)</li>
+<li>When doing a BFS having a cross edges in the same level or adjacent level creates a cycle in the graph. But the cross edge in the same level will cause the graph to be non-bipartite as the cycle will be odd in length, whereas the adjacent level cross edge will lead to even cycle which doesn&rsquo;t cause the graph to be non bipartite.</li>
+<li>Similarly in the DFS back edges creates cycle in the graph. A back edge which goes to an ancestor which is part of the same group will result in the graph not being bipartite, whereas the edge to the graph which is no part of the same group should be fine and not change bipartite property of the graph.</li>
+</ol>
+<p>Keeping all this in mind, we can detect if the graph is bipartite by labelling the nodes in two groups and checking if the cross edge in BFS or back edge in DFS goes to the same group neighbor, when the neighbor is already visited.</p>
+<pre><code class="language-Python">def isBipartite(self, graph: List[List[int]]) -&gt; bool:
+    def dfs(node: int) -&gt; bool:
+        visited[node] = True
+        for v in graph[node]:
+            if v not in visited:
+                # make the group opposite of the parent
+                group[v] = not group[node]
+                if not dfs(v):
+                    return False
+            else:
+                # neighbor already visited, check group is not same, then not bipartite
+                if group[v] == group[node]:
+                    return False
+        return True
+
+    def bfs(node: int) -&gt; bool:
+        # If a bipirate graph component will have nodes without cycles or with back edges/cross edges which create cycles but only going to separate groups or adjacent level.
+        q = deque()
+        q.append(node)
+        visited[node] = True
+        while q:
+            v = q.popleft()
+            for u in graph[v]:
+                if u not in visited:
+                    visited[u] = True
+                    # make the group opposite of the parent
+                    group[u] = not group[v]
+                    q.append(u)
+                else:
+                    # neighbor already visited, check group is same, then not bipartite
+                    if group[v] == group[u]:
+                        return False
+        return True
+
+    visited = defaultdict(bool)
+    group = defaultdict(bool)
+    for node in range(len(graph)):
+        if node not in visited:
+            if not bfs(node): # or dfs(node)
+                return False
+    return True
+</code></pre>
+<p>Other problems which about graph bipartite?</p>
+<ul>
+<li><a href="https://leetcode.com/problems/possible-bipartition/">Possible Bipartition</a></li>
+<li>Possible to divide graph into two colors where no adjacent node is of the same color.</li>
+</ul>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/dp-2/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Dynamic Programming (Part 2)</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/directed-graphs/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >Directed Graphs</a>
+    </a>
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2022</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>
