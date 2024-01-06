@@ -132,7 +132,7 @@ In the case of directed graph, the selection of traversal algorithm is also impo
 <li>Run an outer loop for each of the vertex and run DFS or BFS on each of the vertex based on the graph.</li>
 </ol>
 <p>Let&rsquo;s now look at what problems DFS and BFS can be applied to solve them.</p>
-<p><strong>DFS</strong></p>
+<h2 id="dfs">DFS<a class="anchor" href="#dfs">#</a></h2>
 <p>The template <code>DFS</code> in the directed graph is based on the template of the undirected as posted in the previous graph. Along with two small changes.</p>
 <pre><code class="language-Python">visited = defaultdict(bool)
 # dTime refers to discovery time
@@ -179,19 +179,21 @@ Let&rsquo;s see how. I have taken the same graph as the CLRS book.</p>
 <li>Cross Edge (Yellow Color), all other edges and no relationship can be established here. They can either go from vertices in the same depth first tree if there is no ancestor relationship between two vertices or it can be edge between two depth first tree.</li>
 </ol>
 <p>The dfs tree exploration gives few interesting properties with the timer.</p>
+<h1 id="parentheses-property">Parentheses property</h1>
+<p>Let&rsquo;s say for each vertex discovery time is denoted by open parentheses <code>{</code> and finish Time is denoted by closing parentheses <code>}</code>. Then we can use the <code>dTime</code> and <code>fTime</code> of vertices to get the properties below.</p>
 <ol>
 <li>Node connected with back edge, for example <code>x -&gt; v</code>, the discovery time and finish time of x will contained entirely within discovery time of v i.e. <code>dTime[v] &lt; dTime[x] &lt; fTime[x] &lt; fTime[v]</code>. And v will be an ancestor or x.</li>
 <li>Node connected with Tree edge or Forward edge for example <code>u -&gt; v</code> or <code>u -&gt; x</code>, the discovery time and finish time of the descendant in this case <code>v, x</code> will always be contained by the discovery and finish time of the ancestor i.e. <code>u</code>. i.e. <code>dTime[u] &lt; dTime[x] &lt; fTime[x] &lt; fTime[u]</code> and <code>dTime[u] &lt; dTime[v] &lt; fTime[v] &lt; fTime[u]</code></li>
 </ol>
-<p>Basically from 1 and 2, it can be said that ancestor discovery and finish time will always contain the discovery and finish time of all descendants, for back, forward and tree edges. Or descendants will always finish before their ancestor.</p>
+<p>Basically from 1 and 2, it can be said that for back, forward and tree edges ancestor discovery and finish time will always contain the descendants discovery and finish time. Or descendants will always finish before their ancestor. In other words using the parentheses it will look something like <code>{ {} }</code> where the outer parentheses are for the ancestor, and inner parentheses block is for the descendant.</p>
 <ol start="3">
-<li>
-<p>The vertex of the cross edges don&rsquo;t have ancestor and descendant relationship, their discovery time will disjoint sets. For example for cross edge <code>w -&gt; y</code> [dTime[y]/fTime[y]] &lt; [dTime[w]/fTime[y]], basically there is no overlap like in the case of ancestor and descendant relationship.</p>
-</li>
-<li>
-<p>Only a back to the ancestor will lead to a cycle in the graph. So to find if there is a cycle in the graph find if there is a back edge. <code>This can be determined very easily by checking if the visited neighbor finish time is present or not during recursion</code> The above template can be updated in the clause when neighbor is already visited, to detect cycles in the directed graph as:</p>
-</li>
+<li>The vertex of the cross edges don&rsquo;t have ancestor and descendant relationship, their discovery time will disjoint sets. For example for cross edge <code>w -&gt; y</code> <code>[dTime[y]/fTime[y]] &lt; [dTime[w]/fTime[y]]</code>, basically there is no overlap like in the case of ancestor and descendant relationship. Using the parentheses to replace the <code>dTime</code> and <code>fTime</code> for the vertices of cross edge, it will look like <code>{} {}</code>.</li>
 </ol>
+<h3 id="detect-cycle">Detect cycle<a class="anchor" href="#detect-cycle">#</a></h3>
+<ol start="4">
+<li>Only a back edge to the ancestor will lead to a cycle in the graph. So to find if there is a cycle in the graph find if there is a back edge. <code>This edge can be determined very easily by checking if the visited neighbor finish time not present in fTime during recursion</code>. This is because finish Time of the ancestor will be greater than the descendant. As descendant is processing it visits a vertex already visited with no finish time pointing that the vertex is an ancestor.</li>
+</ol>
+<p>The above template can be updated in the clause when neighbor is already visited, to detect cycles in the directed graph as:</p>
 <pre><code class="language-Python">visited = defaultdict(bool)
 # dTime refers to discovery time
 dTime = defaultdict(int)
@@ -207,11 +209,13 @@ def dfs(u: int)-&gt;bool:
   dTime[u] = timer
   for v in graph[u]:
     if v not in visited:
+      # if the descendants return a cycle, return a cycle found, no need to continue further.
       if dfs(v):
         return True
     else:
       # v node already visited, now checking if it is a ancestor in dfs tree, by checking if it is finished
       if v not in fTime:
+        # back edge found
         return True
    return False
   # record the time/order in which the vertex pops out of the recursive call stack
@@ -225,11 +229,13 @@ for v in graph:
       return True
 return False
 </code></pre>
+<h3 id="topological-sort">Topological Sort<a class="anchor" href="#topological-sort">#</a></h3>
 <ol start="5">
-<li>If there are no cycles in the directed graph, i.e. there are no back edges in the graph. The graph is called as <code>DAG (directed acyclic graph)</code>. In such graphs the vertices can be ordered from ancestor to the descendants in the decreasing order of the finish time to give the <code>topological sort</code> for the graph. This can be done by pushing the stacks as soon as they finish to a stack and then returning reverse of the stack, as the descendants vertices will be add before the ancestor.</li>
+<li>If there are no cycles in the directed graph, i.e. there are no back edges in the graph. The graph is called as <code>DAG (directed acyclic graph)</code>. In such graphs the vertices can be ordered from ancestor to the descendants in the decreasing order of the finish time to give the <code>topological sort</code> for the graph.</li>
 </ol>
-<p>Basically Topological sort represents the order in which a set of vertices need to be accessed to reach the desired vertex, usually representing the dependencies of that vertex. A cycle in the graph prevents to define this dependency graph because like the chicken egg problem.</p>
-<p>The above template can be updated to return the topological order of the graph, If no cycles.</p>
+<p>This can be done by pushing the vertex as soon as they finish to a stack array. Then returning reverse of the stack array after whole <code>dfs</code> is performed on graph, as the descendants vertices will be add before the ancestor.</p>
+<p>Basically Topological sort represents the order in which a set of vertices need to be accessed to reach the desired vertex, usually representing the dependencies of the vertex. A cycle in the graph prevents to define this dependency graph or ordering because of the <a href="https://en.wikipedia.org/wiki/Chicken_or_the_egg">chicken or the egg problem</a>.</p>
+<p>The above template can be updated to return the topological order of the graph, If no cycles else return True.</p>
 <pre><code class="language-Python">visited = defaultdict(bool)
 # dTime refers to discovery time
 dTime = defaultdict(int)
@@ -271,7 +277,93 @@ for v in graph:
 print(topOrder.reverse())
 return False
 </code></pre>
-<p><strong>BFS</strong></p>
+<ul>
+<li><a href="https://leetcode.com/problems/course-schedule">Course Schedule</a></li>
+</ul>
+<p>In this problem, the courses and prerequisites relationship is given. All the courses cannot be taken if there is a cycle in the graph as a dependency graph for each node cannot be obtained. So the problem is about detecting cycle in the graph.</p>
+<p>I have the templated above, I have replaced <code>fTimer</code> with a <code>finish</code> map which is just keeping track of whether is finished or not by bool. As a back edge as seen earlier will be only be there between the vertex (node) and the neighbor (v) which is <code>visited</code> by not <code>finished</code> as it is the ancestor.</p>
+<pre><code class="language-python">def canFinish(self, n: int, prerequisites: List[List[int]]) -&gt; bool:
+    adjList = defaultdict(list)
+
+    for e in prerequisites:
+        # Making edge as e[1] -&gt; e[0], e[0] depends on course e[1], can reach e[0] only from e[1]
+        # reversing the direction of the edge from e[0] -&gt; e[1] in adjList, doesn't really matter cycle will still be detected.
+        # Only the topological order will be reversed.
+        adjList[e[1]].append(e[0])
+
+    # dfs to return True if graph at node has cycles else return false.
+    def dfs(node: int) -&gt; bool:
+        visited[node] = True
+        for v in adjList[node]:
+            if v not in visited:
+                if dfs(v):
+                    # cycle in a graph at vertex v return True.
+                    return True
+            else:
+                # Back edge check, if visited but not finished.
+                if v not in finish:
+                    # Found back edge, cycle detected return True
+                    return True
+
+        finish[node] = True
+        return False
+
+    # Keep track of finished nodes in the recursive tree.
+    finish = defaultdict(bool)
+    visited = defaultdict(bool)
+    for node in range(n):
+        if node not in visited:
+            if dfs(node):
+                return False
+
+    return True
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/course-schedule-ii">Course Schedule II</a></li>
+</ul>
+<p>This problem extends the previous problem, apart from detecting cycles also need to return the finish order in reverse, which is also the topological order of the graph.</p>
+<pre><code class="language-Python">def findOrder(self, n: int, prerequisites: List[List[int]]) -&gt; List[int]:
+    adjList = defaultdict(list)
+
+    for e in prerequisites:
+        # Making edge as e[1] -&gt; e[0], e[0] depends on course e[1], can reach e[0] only from e[1]
+        # reversing the direction of the edge from e[0] -&gt; e[1] in adjList, doesn't really matter cycle will still be detected.
+        # Only the topological order will be reversed, so if done that no reverse needs to be done at the end.
+        adjList[e[1]].append(e[0])
+
+    # dfs to return True if graph at node has cycles else return false.
+    def dfs(node: int) -&gt; bool:
+        visited[node] = True
+        for v in adjList[node]:
+            if v not in visited:
+                if dfs(v):
+                    # cycle in a graph at vertex v return True.
+                    return True
+            else:
+                # Back edge check, if visited but not finished.
+                if v not in finish:
+                    # Found back edge, cycle detected return True
+                    return True
+
+        # Node finished the recursive call, mark it as finished True.
+        finish[node] = True
+        finishOrder.append(node)
+        return False
+
+    # Keep track of the finish order, in topological from descendent to ancestor
+    finishOrder = []
+    # Keep track of finished nodes in the recursive tree.
+    finish = defaultdict(bool)
+    visited = defaultdict(bool)
+    for node in range(n):
+        if node not in visited:
+            if dfs(node):
+                return []
+    # reverse to the get the finish order from ancester to descendent
+    finishOrder.reverse()
+    return finishOrder
+</code></pre>
+<h2 id="bfs">BFS<a class="anchor" href="#bfs">#</a></h2>
 
 
               
