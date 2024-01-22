@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2022</copyright>
-    <lastBuildDate>Wed, 03 Jan 2024 23:52:34 -0800</lastBuildDate>
+    <lastBuildDate>Sat, 20 Jan 2024 15:32:01 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Code snippets</title>
+      <link>http://adityabhatia.com/python/snippets/</link>
+      <pubDate>Sat, 20 Jan 2024 15:32:01 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/python/snippets/</guid>
+      <description>This post list some of the python code snippets which are useful in coding interviews and problem solving. Such snippets, although are easy to remember and are often used in many problems.
+Added here for reference and some common gotchas.
+Initialize an array with initial values # Initialize an array of size n with 0 # Creates an array as [0, 0, 0] if n = 3 a = [0] * n # another way to write this: # 0, 0, 0 a = [ 0 for _ in range(3)] # Initialize an 2D array of size rows `n` and `m` columns with value 0 # Creates an array as [[0,0], [0,0], [0,0]] if n = 3, m = 2 a = [[0] * m for _ in range(n)] # Do not use, * operator to create multi-dimension list as it `*` copies references.</description>
+    </item>
     
     <item>
       <title>Directed Graphs</title>

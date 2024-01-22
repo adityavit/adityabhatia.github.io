@@ -217,6 +217,9 @@ More about the two approaches work with the Fibonnaci numbers?</p>
 </code></pre>
 <p>The above solution brings down the time complexity to O(n) from the exponential time for traversing the overall fibonnaci graph with repeating work.
 The space complexity is O(n) this can be brought down further, by observing that ith solution only needs last two sub problem solutions. So need to just remember those when iterating over the loop, and the space can be brought down to O(1). Given below a solution to do that.</p>
+<h2 id="pseudo-polynomial">pseudo polynomial<a class="anchor" href="#pseudo-polynomial">#</a></h2>
+<p>Here I want to discuss about the complexity in terms of <code>N</code>. So when the term <code>O(N)</code> is being used for these problems, <code>N</code> represents the <code>magnitude or value of input, rather that size of input</code>. This different from problems where <code>N</code> is represented as size of input for example <code>N</code> is the size of input array in sorting algorithm. So to be technically correct the algorithm is polynomial in the magnitude of the input <code>N</code>, but if we use size of the input in terms of bit, it would be <code>log N</code> bits i.e. <code>b</code>. In such case <code>N = 2**b</code> so the algorithm is actually exponential in the size of the input. i.e. <code>O(N) == O(2**b)</code>. Such algorithms are referred to as <code>pseudo polynomial</code> algorithm. They are polynomial in terms of value of input but an apple to apple comparison using the size of the input these algorithms are actually exponential.</p>
+<p>What it means: It means that if the input is increased such for example <code>N &gt; 2**15</code> such algorithms will time out, as an exponential algorithm where the size of input <code>len(array or string) &gt; 15</code>.</p>
 <p>This further optimization in the space is a natural extension for many DP problems, built on the idea that for any ith sub problem solution, need to only store the solutions for the sub problem on which ith problem is dependent upon!</p>
 <pre><code class="language-Python">def climbStairs(self, n: int) -&gt; int:
     # recurrence
@@ -283,6 +286,43 @@ The space complexity is O(n) this can be brought down further, by observing that
                     dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
 
         return dp[n-1][m-1]
+</code></pre>
+<ol start="8">
+<li><a href="https://leetcode.com/problems/knight-dialer">Knight Dialer</a></li>
+</ol>
+<pre><code class="language-python">mod = 10**9 + 7
+class Solution:
+    def knightDialer(self, n: int) -&gt; int:
+        # Using symmetry, we can see that state 4 &amp; 6 are same as well as 2, 8 are same as well as 1, 7 and 3 &amp; 9 are same.
+        # So we can calculate only one of them and multiple by 2 as an optimization.
+        # kD(0, n) =&gt; 2 * kD(4, n - 1)
+        # kD(1, n) =&gt; kD(4, n -1) + kD(2, n - 1)
+        # kD(2, n) =&gt; kD(1, n - 1) + kD(3, n - 1)
+        # kD(3, n) =&gt; kD(4, n - 1) + kD(2, n - 1)
+        # kD(4, n) =&gt; kD(0, n - 1) + 2 * kD(3, n - 1)
+
+        # TS(n) = 2 * sum(kD(i, n) for i in range(5))
+        if n == 1:
+            return 10
+        # 5 * n matrix, optimized to 5 * 2 also (constant space), rather than using n columns.
+        dp = [[1, 0] for _ in range(5)]
+        for i in range(2, n + 1):
+            # If i odd use 0 column, if i even use 1 column
+            prev = i % 2
+            col = (i + 1) % 2
+            dp[0][col] = 2 * dp[4][prev]
+            dp[1][col] = dp[4][prev] + dp[2][prev]
+            dp[2][col] = dp[1][prev] + dp[3][prev]
+            dp[3][col] = dp[4][prev] + dp[2][prev]
+            dp[4][col] = dp[0][prev] + 2 * dp[3][prev]
+
+        sol = 0
+        # If n odd use 0 column, if n even use 1 column
+        res = (n + 1) % 2
+        for i in range(1, 5):
+            sol = (sol + 2 * dp[i][res]) % mod
+        sol = (sol + dp[0][res]) % mod
+        return sol
 </code></pre>
 
 

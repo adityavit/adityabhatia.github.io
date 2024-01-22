@@ -179,7 +179,7 @@ Let&rsquo;s see how. I have taken the same graph as the CLRS book.</p>
 <li>Cross Edge (Yellow Color), all other edges and no relationship can be established here. They can either go from vertices in the same depth first tree if there is no ancestor relationship between two vertices or it can be edge between two depth first tree.</li>
 </ol>
 <p>The dfs tree exploration gives few interesting properties with the timer.</p>
-<h1 id="parentheses-property">Parentheses property</h1>
+<h3 id="parentheses-property">Parentheses property<a class="anchor" href="#parentheses-property">#</a></h3>
 <p>Let&rsquo;s say for each vertex discovery time is denoted by open parentheses <code>{</code> and finish Time is denoted by closing parentheses <code>}</code>. Then we can use the <code>dTime</code> and <code>fTime</code> of vertices to get the properties below.</p>
 <ol>
 <li>Node connected with back edge, for example <code>x -&gt; v</code>, the discovery time and finish time of x will contained entirely within discovery time of v i.e. <code>dTime[v] &lt; dTime[x] &lt; fTime[x] &lt; fTime[v]</code>. And v will be an ancestor or x.</li>
@@ -217,10 +217,10 @@ def dfs(u: int)-&gt;bool:
       if v not in fTime:
         # back edge found
         return True
-   return False
   # record the time/order in which the vertex pops out of the recursive call stack
   timer += 1
   fTime[u] = timer
+  return False
 
 # Outer loop to run dfs on each non visited vertex, if cycle return True
 for v in graph:
@@ -259,23 +259,23 @@ def dfs(u: int)-&gt;bool:
       # v node already visited, now checking if it is a ancestor in dfs tree, by checking if it is finished
       if v not in fTime:
         return True
-   return False
   # record the time/order in which the vertex pops out of the recursive call stack
   timer += 1
   fTime[u] = timer
   # append the finished vertex to the stack to get the topological order, as descendants will always finish before the ancestors.
   # So this will be in the increasing order of finish time.
   topOrder.append(u)
+  return False
 
 # Outer loop to run dfs on each non visited vertex, If cycles no top order can be found, return early
 for v in graph:
   if v not in visited:
     if dfs(v):
-      return True
+      return []
 
 # print topological order by reversing the vertices in the stack. i.e. decreasing order of finish time.
-print(topOrder.reverse())
-return False
+topOrder.reverse()
+return topOrder
 </code></pre>
 <ul>
 <li><a href="https://leetcode.com/problems/course-schedule">Course Schedule</a></li>

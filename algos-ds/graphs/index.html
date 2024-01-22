@@ -155,8 +155,9 @@ Space Complexity: O(V), Max space of the recursive call stack is number of verti
 <pre><code class="language-Python"># BFS
 def bfs(node: int):
   q = deque()
-  q.append(node)
+  # Always mark the node as visited before adding to the queue.
   visited[node] = True
+  q.append(node)
   while len(q) &gt; 0:
     v = q.popleft()
     for e in adjList[v]:
