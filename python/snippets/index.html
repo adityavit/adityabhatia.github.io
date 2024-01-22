@@ -102,6 +102,11 @@ if (!doNotTrack) {
         <a  href="/investments">My Investment analysis</a>
       </li>
     
+      <li>
+        <a  class="active"
+         href="/python">Py World</a>
+      </li>
+    
   </ul>
 </nav>
 
@@ -179,8 +184,29 @@ for k,v in a.items():
       print(k, v)
 </code></pre>
 <h1 id="iterate-over-different-data-structures">Iterate over different data structures</h1>
-<pre><code class="language-Python"># Iterate over numbers
+<pre><code class="language-Python"># Iterate over numbers from 0...n - 1
+n = 10
+for i in range(n):
+  print(i)
 
+# Iterate over all the elements in array
+a = [1, 2, 3, 4, 5]
+for x in a:
+  print(x)
+
+# Iterate with index and element in array
+a = [1, 2, 3, 4, 5]
+for i, x in enumerate(a):
+  print(f'i=&gt;x, {i}=&gt; {x}')
+
+
+# Iterate over all the k, v pairs in dictionary, no order of keys.
+# k:v, 1:a
+# k:v, 2:b
+# k:v, 3:c
+d = {1: 'a', 2: 'b', 3: 'c'}
+for k, v in d.items():
+  print(f'k:v, {k}:{v}')
 </code></pre>
 
 
