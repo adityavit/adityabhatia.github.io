@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Trie | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Trie" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/algos-ds\/trie\/",
+      "name": "Trie",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+      <li>
+        <a  href="/investments">My Investment analysis</a>
+      </li>
+    
+      <li>
+        <a  href="/python">Py World</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Trie</h1>
+            <time datetime="2024-01-30 19:21:18 -0800 PST" class="post__date">Jan 30 2024</time> 
+          </header>
+          <article class="post__content">
+              
+<p>In this post will document about prefix trees also called as <a href="https://en.wikipedia.org/wiki/Trie">Trie</a>. A Trie according to wikipedia is defined as <code>A prefix trie is an ordered tree data structure used in the representation of a set of strings over a finite alphabet set, which allows efficient storage of words with common prefixes</code>. In this definition important aspects of a <code>Trie</code> are:</p>
+<ol>
+<li>Ordered Tree data structure.</li>
+</ol>
+<p>Let&rsquo;s look at the first property <code>Ordered Tree data structure</code>. A trie is tree data structure, but rather than tree node having two children as in a binary tree, trie node has children equal to the size of the alphabets in the string. For example for lower case english string this would be <code>[a-z]</code> so 26 children maximum, for binary string this will be <code>0,1</code> so 2 children and for integer string this will be <code>0-9</code> so 10 children. Also as mentioned there is ordering in the tree data structure, this is similar to binary search trees, trie can be traversed as <code>in-order</code> traversal to order the strings in <code>lexicographic order</code>. For english lower case strings <code>aa</code> will be lower than <code>a</code> which is lower than <code>ab</code>.</p>
+<ol start="2">
+<li>Represents strings with finite alphabet set.</li>
+</ol>
+<p>As defined previously each tree node will have children which will be maximum to the size of the alphabet. It is important that the alphabets in the string are finite and well defined. For example lower case english letters, or binary strings. As the width of the tree is defined by the size of the alphabet a tree with high cardinality will be very expensive in terms of memory. As every level alphabet size gets exponential wide. For example for 26 characters if the height of the tree is <code>d</code>, then the number of children will be <code>26^d</code>, so every level adds node which are exponential to the size of the alphabet. The height of the tree is defined as length of the longest string in the trie.</p>
+<ol start="3">
+<li>Used for finding strings with common prefixes.</li>
+</ol>
+<p>When a string is inserted in the trie, each character in the string is defined by a trie node at a separate level as we go down from the root to the leaf of the tree. Once the end of the string is reached, the node is marked with a marker, to identify a string ending at the node. This node although is the end node of the string but is prefix for many other strings which are in the sub tree of that node. This property can be used to find strings for applications like <code>auto-complete</code> where a prefixed is typed and a list of strings starting with the prefix are returned. Such list can be generated by visiting all the nodes in the prefix sub-tree of the trie. So trie supports <code>search(key: str) -&gt; bool</code> operation on the string, but also supports <code>startsWithSearch(prefix: str) -&gt; List[str]</code> operation.</p>
+<p>Now lets see, how to define a <code>TrieNode</code></p>
+<pre><code class="language-Python">class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.isWord = False
+</code></pre>
+<p>I have defined the <code>children</code> in the node as a dictionary rather than fixed size array. This can help saving memory, in sparse tries, where only few characters are available at each level. Also a boolean is added <code>isWord</code>, which represents a node is the end character of the word inserted in the <code>trie</code>. If the <code>isWord</code> is true then the word is present in trie, else the node is just part of the prefix of another word.</p>
+<p>Now let&rsquo;s look at the basic template for traversing over the trie, with an example of insertion. Template can be modified a little for other functions on the trie.</p>
+<pre><code class="language-python"># Time Complexity: O(len(word)) or O(d) =&gt; Where d is the length of the string.
+# Space Complexity: O(26^d), In worst case if the trie is filled with all the strings in english dictionary, where `d` is average string length.
+
+def trie_insert(root: TrieNode, word: str):
+  node = root
+  for ch in word:
+    # Handle the case if the current character of the word doesn't have a node in the trie
+    if ch not in node.children:
+      # Actions can be: Create node for character, or return false in case searching.
+      node.children[ch] = TrieNode()
+
+    # Select the node for current character as the next node, basically moving down the tree.
+    node = node.children[ch]
+
+  # After the node representing the word is reached.
+  # Take action: Example mark it is as a valid word, check if isWord is true for searching, or delete the word by marking isWord as False.
+  node.isWord = True
+
+root = TrieNoode()
+trie_insert(root, &quot;hello&quot;)
+</code></pre>
+<p>Now will discuss some of the problems of Trie and use the above template.</p>
+<ul>
+<li><a href="https://leetcode.com/problems/implement-trie-prefix-tree/">Implement Prefix Tree (Trie)</a></li>
+</ul>
+<p>Based on the template given above, I have implemented the function of <code>insert</code>, <code>search</code> and <code>startsWith</code> as a part of this problem. The template has been modified a little based on requirements.</p>
+<pre><code class="language-Python">class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.isWord = False
+
+class Trie:
+
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str) -&gt; None:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.isWord = True
+
+    def search(self, word: str) -&gt; bool:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return node.isWord
+
+
+    def startsWith(self, prefix: str) -&gt; bool:
+        node = self.root
+        for ch in prefix:
+            if ch not in node.children:
+                return False
+            node = node.children[ch]
+        return True
+</code></pre>
+<ul>
+<li><a href="https://leetcode.com/problems/search-suggestions-system">Search Suggestion</a></li>
+</ul>
+<p>This problem, to find the suggestions for every prefix of the given in the dictionary of word and give results in lexicographic order.</p>
+<p>As discussed earlier in the property of tries, an <code>in-order</code> traversal i.e. traversal in the increasing order of the alphabets will give the words in lexicographic order. Based on that prefix search method has been updated to <code>in-order</code> traversal by running <code>dfs</code> on every prefix of the given word.</p>
+<pre><code class="language-Python">ALPHA = &quot;abcdefghijklmnopqrstuvwxyz&quot;
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.isWord = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word):
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.isWord = True
+
+    def inOrderWords(self, node, maxCount, preWord, sol):
+        # If node isWord, One of the word is found which is stored in preWord as char array, join it and add to solution
+        if node.isWord:
+            sol.append(&quot;&quot;.join(preWord))
+            if len(sol) == maxCount:
+                return
+        # Iterate over all the characters in alphabet, check which one is present as children of node and traverse it's sub tree.s
+        for ch in ALPHA:
+            if ch in node.children:
+                # append the character which is child of the node.
+                preWord.append(ch)
+                # Run recursively on the sub tree of the current character
+                self.inOrderWords(node.children[ch], maxCount, preWord, sol)
+                # Pop the character out, after recursive call.
+                preWord.pop()
+                # If the solution already contains maxCount, preempt the search and return
+                if len(sol) == maxCount:
+                    return
+
+    def searchPrefix(self, prefix, maxCount) -&gt; List[List[str]]:
+        res = []
+        node = self.root
+        preWord = []
+        n = len(prefix)
+        for i, ch in enumerate(prefix):
+            if ch not in node.children:
+                # Can't find the prefix any further, so there won't be any further words
+                res.extend([[] for _ in range(n - i)])
+                return res
+            # Add ch character to the prefix found till now
+            preWord.append(ch)
+            sol = []
+            # Run in order search on ch sub tree to get the maxCount words in lexicographic order.
+            self.inOrderWords(node.children[ch], maxCount, preWord, sol)
+            res.append(sol)
+            # Make ch as the current node
+            node = node.children[ch]
+        return res
+
+class Solution:
+    def suggestedProducts(self, products: List[str], searchWord: str) -&gt; List[List[str]]:
+        trie = Trie()
+        for product in products:
+            trie.insert(product)
+        maxCountWords = 3
+        return trie.searchPrefix(searchWord, maxCountWords)
+
+</code></pre>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/algos-ds/pq/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Priority Queues</span>
+    </a>
+  
+
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2022</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>

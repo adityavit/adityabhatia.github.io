@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2022</copyright>
-    <lastBuildDate>Sun, 21 Jan 2024 11:31:15 -0800</lastBuildDate>
+    <lastBuildDate>Tue, 30 Jan 2024 19:21:18 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Trie</title>
+      <link>http://adityabhatia.com/algos-ds/trie/</link>
+      <pubDate>Tue, 30 Jan 2024 19:21:18 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/algos-ds/trie/</guid>
+      <description>In this post will document about prefix trees also called as Trie. A Trie according to wikipedia is defined as A prefix trie is an ordered tree data structure used in the representation of a set of strings over a finite alphabet set, which allows efficient storage of words with common prefixes. In this definition important aspects of a Trie are:
+ Ordered Tree data structure.  Let&amp;rsquo;s look at the first property Ordered Tree data structure.</description>
+    </item>
     
     <item>
       <title>Priority Queues</title>
