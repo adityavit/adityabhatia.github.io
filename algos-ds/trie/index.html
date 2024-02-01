@@ -207,6 +207,70 @@ class Trie:
         return True
 </code></pre>
 <ul>
+<li><a href="https://leetcode.com/problems/implement-trie-ii-prefix-tree/">Implement Prefix Tree Trie II with counts</a></li>
+</ul>
+<p>This problem is an extension of the above problem, where rather than just telling if the word exists or not, the problem asks for count of the words and prefixes in trie. This can be done by updating the <code>trieNode</code> to add <code>wordCount</code> representing the count at the node where the end of the word exists and adding <code>prefixCount</code> with the count of all the words which under the sub tree of a particular node.
+These both counts can be updated during the <code>append</code> method, where <code>wordCount</code> is incremented when the end node is reached. And the <code>prefixCount</code> at every node in the path for every character of the word. So essentially the root node will have total count of all the words in the whole trie.</p>
+<p>The problem also talks about <code>erase</code> method, which is just opposite of the append, where the values are decremented. Also, removing the keys from children in the path where there is only word which is to be deleted, is an optimization for removing the space after the word has removed.</p>
+<pre><code class="language-Python">class TrieNode:
+
+    def __init__(self):
+        self.children = {}
+        self.wordCount = 0
+        self.prefixCount = 0
+
+class Trie:
+
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert(self, word: str) -&gt; None:
+        node = self.root
+        for ch in word:
+            node.prefixCount += 1
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.wordCount += 1
+        node.prefixCount += 1
+
+
+    def countWordsEqualTo(self, word: str) -&gt; int:
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                return 0
+            node = node.children[ch]
+        return node.wordCount
+
+
+    def countWordsStartingWith(self, prefix: str) -&gt; int:
+        node = self.root
+        for ch in prefix:
+            if ch not in node.children:
+                return 0
+            node = node.children[ch]
+        return node.prefixCount
+
+    # In problem, Erase assumes that word is always present in trie, otherwise we would need to search the word, before erasing.
+    # Which could have been done by checking countWordsEqualTo(word) == 0
+    def erase(self, word: str) -&gt; None:
+        #if self.countWordsEqualTo(word) == 0:
+        #    return
+        node = self.root
+        for ch in word:
+            node.prefixCount -= 1
+            # Word will always be present, so no checking of ch children is needed.
+            # If prefixCount of ch children is 1, then that is part of the prefix of which the word is getting erased.
+            # In that case the ch itself can be just deleted from the children to remove sub tree and return, the memory will then be GC.
+            if node.children[ch].prefixCount == 1:
+                del node.children[ch]
+                return
+            node = node.children[ch]
+        node.wordCount -= 1
+        node.prefixCount -= 1
+</code></pre>
+<ul>
 <li><a href="https://leetcode.com/problems/search-suggestions-system">Search Suggestion</a></li>
 </ul>
 <p>This problem, to find the suggestions for every prefix of the given in the dictionary of word and give results in lexicographic order.</p>
