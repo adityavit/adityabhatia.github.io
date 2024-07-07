@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Concurrency Patterns | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Concurrency Patterns" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/scalable-world\/concurrency-patterns\/",
+      "name": "Concurrency Patterns",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+      <li>
+        <a  href="/investments">My Investment analysis</a>
+      </li>
+    
+      <li>
+        <a  href="/python">Py World</a>
+      </li>
+    
+      <li>
+        <a  href="/scalable-world">Scalable World</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Concurrency Patterns</h1>
+            <time datetime="2024-02-28 12:57:04 -0800 PST" class="post__date">Feb 28 2024</time> 
+          </header>
+          <article class="post__content">
+              
+<p>This article explains some of the patterns related to concurrent problems. These patterns can be reused across multiple problems. Some of these patterns have been borrowed from the book <code>Concurrency in Go</code> and has been kept here for a quick reference.</p>
+<p>So in this post I will add the templates related to concurrency problems and patterns related to that!</p>
+<p>So, let&rsquo;s start with what is Concurrency?</p>
+<p>Concurrency is way to execute sections of code in an interleave manner. Concurrency is different from parallelism. To think about concurrency is to think that there is only one processor and code is running concurrently, where the cpu is available to more than one process concurrently, whereas in case of parallelism the section of code might be running in parallel in two different CPU&rsquo;s. In that sense there can be parallelism with concurrency in multi-core processors.</p>
+<p>In case of concurrency, basically we have a piece of code A for example which runs in CPU, and then it waits for some condition so it gets swapped out with another piece of code B for example to run in the CPU. So in a sense code A and code B are running concurrently interleaving over each other in the CPU. This is quite common to get more performance out of the CPU, where we don&rsquo;t want the CPU not doing anything.</p>
+<p>Now, even though concurrency is seen all throughout the OS processes. Developer needs to pay special attention, if the interleaving code is accessing the same memory which is mutable or changeable by the interleaving code. As the order in which the common memory can be changed or read by the two sections is undefined. If the sections code are just reading and not writing or the memory is completely different then it should not be much of an issue with the interleaving.</p>
+<p>So to protect this common access of the memory is where all the extra effort is needed, so that the data is consistent as the code is running sequentially. And the common theme to do so is by doing:</p>
+<ol>
+<li>Use immutable state between the piece of code, so no one can change.</li>
+<li>If a change is needed guard the state, such that only one thread can change the state at a time.</li>
+</ol>
+<p>Now to do this guarding of the memory, there are some primitives which are available to the programmers.</p>
+<h3 id="mutex-or-locks">Mutex or Locks<a class="anchor" href="#mutex-or-locks">#</a></h3>
+<p>A mutex (mutual exclusion) or also commonly known as locks are there to protect the section of the code which needs to be sequentially accessed. What that means is only one thread will be able to get entry written between the locking and unlocking at a time, i.e. there won&rsquo;t be any interleaving of the code written between lock and unlock for two threads.</p>
+<p>Now there are different types of locks, like a simple lock which is same for read and write thread, or a RW specific lock which allows threads which are reading from the data structure when no thread is writing to the data structure is accessing the lock. The threads which need access will have to wait for the lock to be unlocked, before they can get access. So those threads waiting for the lock get unlock will go in blocked state, and one of the them will get rescheduled as soon as look will get unlocked.</p>
+<p>In some language API&rsquo;s these locks are also referred to as Mutex(), but it is the same concept. You lock or hold the mutex before accessing the critical section, once the access is done unlock or release the mutex.</p>
+<p>Basic construct of such lock is:</p>
+<pre><code class="language-Python">mp = {}
+m = Lock()
+# uses m.acquire() to acquire the lock
+with m:
+  # access critical section or protected data structure access.
+  val = mp[key]
+# does m.release() to release the lock
+</code></pre>
+<p>In process mutex:</p>
+<p>In process mutex are in lifecycle of the same process. Such mutex are faster when the lock is not taken or the lock is un-contended i.e. the lock is free for the thread to take. That is because there is no kernel transition in such cases, i.e. the language runtime can use it&rsquo;s one reference count to know if the lock is taken or not, and if the lock is not taken then there is no rescheduling of the thread is needed which requires to notify to the os kernel. So this gives performance optimization, as most of the times the lock will be uncontended in good designed concurrent systems.</p>
+<p>Cross process mutex:</p>
+<p>Some languages also provide cross process mutex, which basically provides a for two process to share a lock across the process memory space. Although this is more of language feature, other ways to do that is to use files such as a lock file or use network API for such communications. For example <code>golang</code> doesn&rsquo;t provide such features as a part of core sdk. Also language which provides it usually have these as part of kernel transition.</p>
+<h3 id="conditional-variables">Conditional variables<a class="anchor" href="#conditional-variables">#</a></h3>
+<p>Another common construct which is used in conjunction with the mutex is conditional variables. A conditional variables is initialized with a mutex and is used communicate an event between two threads one waiting for a condition to occur and other notifying that condition has occurred. It is important to remember whenever the condition is waiting, it releases the mutex so that other thread can grab the mutex to change the data structure and notify, which in that case will grab the mutex back again.</p>
+<p>A common example would be a thread waiting for the queue/stack to fill with at least one element and other thread notifying that the queue/stack has been filled after placing an element in the queue/stack. So two common methods for condition variables are <code>wait</code> which waits for the notification, and <code>notify</code> which notifies one of the waiting thread, there is also <code>notify_all</code> which notifies all the threads which are waiting, kind of like a broadcast.</p>
+<p>A common way write such conditions are using <code>with</code> block and condition in python, when the code enters the with block mutex is taken and get released when waiting for the condition to get notified.</p>
+<p>An example of such usage can be seen in the multi-producer, multi-consumer <code>Queue</code> implementation in python. <a href="https://github.com/python/cpython/blob/3.8/Lib/queue.py">Code</a>. Below code is a concise bounded queue, where consumer using get is fetching the <code>elem</code> from queue and producer using put is adding <code>elem</code> to queue.</p>
+<pre><code class="language-Python">MAX_SIZE = 10
+# Using deque as data structure for FIFO structure.
+q = deque()
+# mutex used to access the data structure of the queue.
+mutex = Lock()
+# Not full condition, should be taken before appending an element to the queue.
+not_full = Condition(mutex)
+# Not empty condition should be taken before popping an element from the queue.
+not_empty = Condition(mutex)
+
+# Note: It is important to use while rather than if in the condition check, due to spurious wait where cv can come out of wait even without and notify. In such cases, it better to go back and check for condition again so that thread doesn't come out of it spuriously.
+
+# Consumer fetching from the queue using get
+
+def get():
+  with not_empty: # Using the condition mutex that the queue is not empty to consume from the queue.
+    while(len(q) == 0): # Use while loop for spurious wake up
+      not_empty.wait() # If the queue is actually empty wait for the not_empty to get notified.
+    elem = q.popLeft() #
+    not_full.notify() # Once the element has been removed from the queue, is not full anymore, so notify the producer waiting to add element.
+    return elem
+
+# Producer adding to the queue using put
+
+def put(elem):
+  with not_full: # Using the condition mutex, that the queue is not full to add an element
+    while(len(q) == MAX_SIZE): # Use the while loop for spurious wake ups
+      not_full.wait()  # If the queue is actually full, wait before a new element can be added
+    q.append(elem) # Add a new element to the queue.
+    not_empty.notify() # Notify one of the waiting consumer thread as the queue was empty that an element has been placed in the queue and the queue is not_empty anymore.
+</code></pre>
+<h3 id="semaphores">Semaphores<a class="anchor" href="#semaphores">#</a></h3>
+<p>Semaphore is one of the oldest way to synchronize between two concurrent running threads. Semaphores are atomic counters, which can be used to limit the number of access to a limited quantity of items.</p>
+<p>For example let&rsquo;s say an online library has <code>10</code> copies of a book of a famous author which can be borrowed. Suppose on a sudden day someone famous tweets about the book and now everyone wants to borrow the book. A semaphore can be used to limit the amount of users which can borrow copies of the book. Every time a user borrows or <code>acquire</code> an associated semaphore, the counter decreases by <code>1</code> and once the counter reaches to <code>0</code>, all the other users wait for the book to available again. The book copy becomes available again when some user returns the book i.e. <code>release</code> the associated semaphore, and that unblocks one of the blocked user who can then acquire the semaphore.</p>
+<p>So basically semaphore is there to guard limited usage of a resource. A typical example is DB connection from the limited set of connections. In that regards a mutex can be thought of a semaphore with count of 1, as it protecting only a single use of resource at a time. So semaphore is used, when we need multiple access of the resource but still limited in quantity.</p>
+<h3 id="atomic-operations">Atomic operations<a class="anchor" href="#atomic-operations">#</a></h3>
+<p>Some Patterns using the constructs above:</p>
+<h2 id="bounded-fifo-queue">Bounded FIFO Queue<a class="anchor" href="#bounded-fifo-queue">#</a></h2>
+<h2 id="multi-producer--multi-consumer">Multi Producer &amp; Multi Consumer<a class="anchor" href="#multi-producer--multi-consumer">#</a></h2>
+<h2 id="thread-pool">Thread Pool<a class="anchor" href="#thread-pool">#</a></h2>
+<h2 id="object-pool">Object Pool<a class="anchor" href="#object-pool">#</a></h2>
+<h2 id="concurrent-bounded-hashset">Concurrent Bounded HashSet<a class="anchor" href="#concurrent-bounded-hashset">#</a></h2>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="http://adityabhatia.com/scalable-world/design-patterns/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Object Oriented Design (OOD)</span>
+    </a>
+  
+
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2022</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>

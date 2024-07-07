@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Object Oriented Design (OOD) | Aditya Bhatia Blog!</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Object Oriented Design (OOD)" />
+  <meta name="twitter:description" content=""/>
+  <meta name="twitter:site" content="https://twitter.com/tuubow" />
+  <meta name="twitter:creator" content="https://twitter.com/tuubow" />
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.2cb93c91050d1853bf971cc31e00122edd6e0f405aa1de3b7f8ef67ea3b5a79a.css" integrity="sha256-LLk8kQUNGFO/lxzDHgASLt1uD0Baod47f472fqO1p5o="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css" integrity="sha256-47DEQpj8HBSa&#43;/TImW&#43;5JCeuQeRkm5NMpJWZG3hSuFU="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    { 
+      "@context": "http://schema.org", 
+      "@type": "WebSite", 
+      "url": "http:\/\/adityabhatia.com\/scalable-world\/design-patterns\/",
+      "name": "Object Oriented Design (OOD)",
+      "author": {
+        "@type": "Person",
+        "name": ""
+      },
+      "description": ""
+    }
+  
+  </script>
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-179391611-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  href="/algos-ds">Algos &amp; DS World!</a>
+      </li>
+    
+      <li>
+        <a  href="/go-world">Go World!</a>
+      </li>
+    
+      <li>
+        <a  href="/investments">My Investment analysis</a>
+      </li>
+    
+      <li>
+        <a  href="/python">Py World</a>
+      </li>
+    
+      <li>
+        <a  href="/scalable-world">Scalable World</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Object Oriented Design (OOD)</h1>
+            <time datetime="2024-02-05 12:31:40 -0800 PST" class="post__date">Feb 5 2024</time> 
+          </header>
+          <article class="post__content">
+              
+<ul>
+<li><a href="https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design">SOLID design principles</a></li>
+</ul>
+<p>Let&rsquo;s start this article with going over the <code>SOLID</code> design principles for Object Oriented design and then seeing how the listed design pattern captures the some of the principles defined in it.</p>
+<ol>
+<li>
+<p>S: Single Responsibility
+Based on this principle, a class definition should focus on single responsibility. A class should not try to encapsulate the business logic for doing multiple things, rather it should focus on doing just one thing and delegate other logic to objects of classes responsible for doing just that.</p>
+</li>
+<li>
+<p>O: Open &amp; Closed
+Based on this principle, an entity or class should be defined in such a way that future enhancements are based on the idea of extensibility of the class rather than modification to the class. This kind of pulls down from the first point, if the class tries to do multiple things, then future enhancements will lead to modifications in the class. Rather it means that business logic should be separated out using composition and inheritance to enhance the functionality of the class.</p>
+</li>
+<li>
+<p>L: Liskov Substitution
+This principle talks about ability to substitute a parent class or base type, with their child and sub type. Basically it talks about the usage of <code>polymorphism</code> when defining the variables in functions or arguments or return types. It says to use <code>base types</code> during encapsulation, rather than using concrete types. And to say code around interfaces and types rather than concrete classes. This helps to provide extensibility of the code, when new implementations are available, moreover it lets to change the implementation at runtime using <code>polymorphism</code>. Following this principle provides lot of control, in creating feature flags around choosing a particular implementation and easier roll back and testing for different implementations.</p>
+</li>
+<li>
+<p>I: Interface Segregation
+This principle talks about creating smaller interfaces, and segregating their behavior as much as possible. This helps in development of concrete implementations, where they have to implement minimal needed behavior for their implementation. Rather than implementing a bigger interface, it is better to implement two separate interfaces. For example in <code>golang</code> it is done by providing separate interfaces for <code>Reader</code> and <code>Writer</code>. A <code>Writer</code> just cares about writing the bytes, and there could be class which just implements the <code>Writer</code> for example when implementing custom <a href="https://pkg.go.dev/text/template#Template.ExecuteTemplate">template</a> on an object.</p>
+</li>
+<li>
+<p>D: Dependency Inversion
+This principle follows the <code>Liskov Substitution</code> principle. Basically saying that object entities should encapsulate or depend upon abstractions i.e. interface types rather than concrete class implementations.</p>
+</li>
+</ol>
+<p>Overall I think all these five principles can be summarized while designing code as such:</p>
+<p><code>Define simple segregated interfaces, which leads to creating concrete classes which have single responsibility and have the ability to be enhanced and extended in the future. Such extensions or enhancements are decoupled from the implementations by substituting the usage of concrete implementations with the interfaces in the code, such that dependencies in system are only defined in terms of abstractions and not level implementations</code></p>
+<p>Another principle, I would like to add here is:</p>
+<p><code>Favor composition, over inheritance</code></p>
+<h2 id="unix-philosophy">UNIX philosophy<a class="anchor" href="#unix-philosophy">#</a></h2>
+<ul>
+<li>
+<p>Each subcommand should do one thing and do it well : Commands should be of singular responsibility.</p>
+</li>
+<li>
+<p>Write components that work together like with piping in unix or redirection of input and output</p>
+</li>
+<li>
+<p>Make it easy to read, write, and, run components : reduce complexity in the components.</p>
+</li>
+<li>
+<p>Design patterns</p>
+</li>
+</ul>
+<h2 id="structural-design-patterns">Structural Design patterns<a class="anchor" href="#structural-design-patterns">#</a></h2>
+<h3 id="decorator-or-wrapper-pattern">Decorator or Wrapper Pattern<a class="anchor" href="#decorator-or-wrapper-pattern">#</a></h3>
+<p>A Decorator pattern adds a layer of decoration or enhancement to original functionality. A typical example would be to enhance a <code>Shape</code> type with <code>Color</code> or <code>Shade</code>. So that the behavior from the <code>Shape</code> type like <code>draw</code> can updated with enhancements like <code>color</code> type or <code>shade</code> type.</p>
+<p>The decorator class/function is created with both <code>has</code> and <code>is</code> relationship, meaning that class/func <code>has</code> or contains the entity it is decorating, and also that it is of the same type as the entity it is decorating. This decoration can be with functional injection as well as with Object based injection.</p>
+<p>Let&rsquo;s look at examples:</p>
+<ol>
+<li>Object based decoration</li>
+</ol>
+<p>Let&rsquo;s say there is a shape type, with a behavior draw, which draws the shape to a Screen Context.</p>
+<pre><code class="language-go">type Shape interface {
+  draw(sc ScreenContext)
+}
+</code></pre>
+<p>This <code>Shape</code> can have multiple concrete implementations like <code>Circle</code> or <code>Rectangle</code>.</p>
+<pre><code class="language-go">type Circle struct {
+  radius int
+}
+
+func (c *Circle) draw(sc ScreenContext) {
+  sc.Print(c.addCircle())
+}
+</code></pre>
+<p>Now if we want to add color to the every Shape possible.
+One of the ways could be to update the draw for every implementation of <code>Shape</code>, to add a given color to the <code>ScreenContext</code>.
+But this means changing concrete implementation and also, updating their tests based on the color. Also a color is an optional enhancement to the <code>Shape</code> so if we add in the draw this will probably be with <code>If clause</code>. Also there can be future enhancements like <code>Shade</code> or <code>Shadow</code> or <code>Hue</code> etc. Every time adding this in the concrete <code>Shape</code> type will be too much work.</p>
+<p>So here is where a <code>Decorator</code> or <code>Wrapper</code> pattern shines. To do this, we add a new <code>Shape</code> called as <code>ColorShape</code>, which has a <code>Shape</code> and <code>Color</code> and it&rsquo;s own <code>draw</code> behavior, which adds the color first and then delegates the drawing of the <code>Shape</code> it encapsulates.</p>
+<pre><code class="language-go">type ColorShape struct {
+  Shape s,
+  Color c,
+}
+
+func (cs *ColorShape) draw(sc ScreenContext) {
+  sc.setColor(c)
+  s.draw(sc)
+}
+</code></pre>
+<p>Now to use to decorate any shape with color is pretty straight forward.</p>
+<pre><code class="language-go">type Color string
+
+const (
+  RED Color = &quot;RED&quot;
+)
+
+func main() {
+    sc := &amp;ScreenContext{}
+    circle := &amp;Circle{
+      radius: 5,
+    }
+    colorCircle := &amp;ColorShape{
+      s: circle,
+      c: RED,
+    }
+    // Draws the colored shape (circle)
+    colorCircle.draw(sc)
+}
+</code></pre>
+<h3 id="proxy-design-pattern">Proxy Design Pattern:<a class="anchor" href="#proxy-design-pattern">#</a></h3>
+<h3 id="facade-design-pattern">Facade Design Pattern<a class="anchor" href="#facade-design-pattern">#</a></h3>
+<h3 id="composite-design-pattern">Composite Design Pattern<a class="anchor" href="#composite-design-pattern">#</a></h3>
+<h2 id="behavior-design-patterns">Behavior Design Patterns:<a class="anchor" href="#behavior-design-patterns">#</a></h2>
+<h3 id="strategy-design-pattern">Strategy Design Pattern<a class="anchor" href="#strategy-design-pattern">#</a></h3>
+<p>A strategy pattern is used to define implementation of different strategies. As common examples of this could be implementation of different payment gateways or could be different implementation of operations in a calculator or way to write bytes to an entity like buffer, file or network connection.</p>
+<p>To implement the strategy design patterns, create an interface which can define which defines the behavior of the strategy. For example in case of Payment Gateways this could be <code>payment</code> or in case of calculator this could be <code>execute</code>. The concrete implementations of these strategies, implement the interface and implement the behavior of the strategies.</p>
+<p>This pattern can be useful in adding iterations over the course of time, for example Initially on <code>Credit Card</code> payment gateway is present. If we add that directly in the <code>PaymentManager</code> class, then when a new gateway is added, that will require update to the payment class logic to add another gateway. Similarly if more gateways are added, then the logic becomes more complicated and moreover it breaks the <code>Open Close</code> principle of <code>SOLID</code>. So a better way would be to implement a <code>GatewayStrategy</code> interface with <code>payment</code> behavior and then selecting the <code>Strategy</code> based on the user selection in the <code>PaymentManager</code> class.</p>
+<p>We also see this in <code>golang</code> with the <a href="https://pkg.go.dev/io#Writer">Writer interface</a> and then classes implementing the strategy, like <a href="https://pkg.go.dev/bytes#Buffer.Write">Buffer</a> or <a href="https://pkg.go.dev/os#File.Write">File</a>. Now if you want to write bytes to a <code>Buffer</code> or <code>File</code>, should not make a difference at the client end, which is expecting just a <code>Writer</code>.</p>
+<p>For example, lets take example of a calculator:</p>
+<pre><code class="language-go">// strategy interface, defining the strategy behavior
+type Operation interface {
+  execute(float32, float32) float32
+}
+
+// Two strategies implement the strategy interface Operation
+type AddOperation struct {}
+
+func (o *AddOperation) execute(x, y float32) float32 {
+  return x + y
+}
+
+type MulOperation struct {}
+
+func (o *MulOperation) execute(x, y float32) float32 {
+  return x * y
+}
+
+</code></pre>
+<h1 id="state-design-pattern">State design pattern</h1>
+<p>Now let&rsquo;s look at state design pattern and how to use it. state design pattern is really useful designing state automation. Usually in workflow automation system has this <code>DAG</code> which is a state flow automation along the DAG. Describing the DAG with <code>if</code> <code>else</code> clause in one file becomes really complicated as the number of state increases and also becomes really hard to debug. Also when new states get added, the complexity increases multifold.</p>
+<p>A good way to break down this would be to use state design pattern. Where each state class describes the work and the transitions to next states based on the conditions described in their concrete state classes.</p>
+<p>Let&rsquo;s take an example of a <code>Upgrade Workflow</code> transition for example:</p>
+<p>A upgrade workflow transition system contains many states, for example:</p>
+<ol>
+<li>Muting of Alerts (MuteState)</li>
+<li>Upgrade Software (UpgradeState)</li>
+<li>Unmute Alerts (UnmuteState)</li>
+</ol>
+<p>Idea here is each state implements a common <code>State interface</code>, is defined as a separate entity, responsible for defining the steps for that state and also defining the next transition from that state.</p>
+<p>The <code>StateManager</code> or <code>WorkflowContext</code> is responsible for executing the states and calling the state dependencies.</p>
+<pre><code class="language-go">import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+)
+
+type State interface {
+	Execute() (State, error)
+}
+
+type MuteState struct{}
+
+func (s *MuteState) Execute() (State, error) {
+	fmt.Println(&quot;Doing muting of alerts&quot;)
+	// Do transition to next state, one way is to return the next state
+	nextState := &amp;UpgradeState{}
+	return nextState, nil
+}
+
+type UpgradeState struct {}
+
+func (s *UpgradeState) Execute() (State, error) {
+	fmt.Println(&quot;Starting upgrade of the system&quot;)
+	fmt.Println(&quot;Wait for some time...&quot;)
+	time.Sleep(1 * time.Second)
+	// Do transition to next state, one way is to return the next state
+	nextState := &amp;UnmuteState{}
+	return nextState, nil
+}
+
+type UnmuteState struct{}
+
+func (s *UnmuteState) Execute() (State, error) {
+	fmt.Println(&quot;Unmuting the alerts after upgrade done&quot;)
+	// No next state to transition
+	return nil, nil
+}
+
+type UpgradeWorkflowContext struct {
+	currentState State
+}
+
+func (s *UpgradeWorkflowContext) ExecuteWorkflow() error {
+  // This logic depends upon how we want to do transition.
+	for s.currentState != nil {
+		nextState, err := s.currentState.Execute()
+		if err != nil {
+			return err
+		}
+		s.currentState = nextState
+	}
+	return nil
+}
+
+func (s *UpgradeWorkflowContext) SetState(state State) {
+	s.currentState = state
+}
+
+func main() {
+	// Upgrade Worflow
+	upgradeworflow := state.UpgradeWorkflowContext{}
+	startState := &amp;state.MuteState{}
+	upgradeworflow.SetState(startState)
+	err := upgradeworflow.ExecuteWorkflow()
+	if err != nil {
+		log.Fatalln(err)
+	}
+}
+</code></pre>
+<p>This design pattern amplifies the principles of:</p>
+<ol>
+<li><code>Single Responsibility</code>: Each state is responsible for its own execution and dependencies.</li>
+<li><code>Open &amp; Closed</code>: Adding new state, doesn&rsquo;t change other states in the whole execution, also states can be reused and extended further in different workflows.</li>
+<li><code>Liskov Substitution &amp; dependency Inversion</code>: Rather than defining the complex if condition to define the state management. A Manager uses a common state interface to run different states and move through the workflow.</li>
+</ol>
+<p>Note: Although this pattern is quite powerful, care should be taken to apply it when the states are too many to manage. If there are 2-3 fixed states in the system then it might be overkill.</p>
+<h3 id="command-design-pattern">Command Design Pattern<a class="anchor" href="#command-design-pattern">#</a></h3>
+<h3 id="visitor-design-pattern">Visitor Design Pattern<a class="anchor" href="#visitor-design-pattern">#</a></h3>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+
+  
+    <a class="pagination__item" href="http://adityabhatia.com/scalable-world/concurrency-patterns/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >Concurrency Patterns</a>
+    </a>
+  
+</div>
+
+          <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "adityabhatia-com" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+      <a class="social-icons__link" title="Twitter"
+         href="https://twitter.com/tuubow"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/twitter.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/adityavit"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('http://adityabhatia.com/svg/github.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>Aditya Bhatia © 2022</p>
+          </footer>
+          </div>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+
+
+</body>
+
+</html>

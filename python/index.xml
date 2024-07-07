@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2022</copyright>
-    <lastBuildDate>Sat, 20 Jan 2024 15:32:01 -0800</lastBuildDate>
+    <lastBuildDate>Mon, 12 Feb 2024 17:28:22 -0800</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Object oriented design in python</title>
+      <link>http://adityabhatia.com/python/ood/</link>
+      <pubDate>Mon, 12 Feb 2024 17:28:22 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/python/ood/</guid>
+      <description>In this article will be looking at some of the ways to write object based design code in python.
+Iteratoring over collection of items Iterators are classes which are defined to iterate over the collection of objects. You can use the iterator for example iterating over students enrolled in a course. This can be done let&amp;rsquo;s say when the internal structure of the students is not exposed or we need to lazy load the students from the database or the network only when iterate over a particular object rather than loading the whole collection of objects.</description>
+    </item>
     
     <item>
       <title>Code snippets</title>

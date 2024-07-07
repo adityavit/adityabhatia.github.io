@@ -107,6 +107,10 @@ if (!doNotTrack) {
         <a  href="/python">Py World</a>
       </li>
     
+      <li>
+        <a  href="/scalable-world">Scalable World</a>
+      </li>
+    
   </ul>
 </nav>
 
@@ -154,6 +158,9 @@ elem = heapq.heappop(hp)
 # https://docs.python.org/3/library/heapq.html#heapq.heappushpop
 # Push and Pop in one operation, according to the docs, this operation is more efficient than separate push and pop. Also this doesn't affect the size of the heap. The push happens first, so in a min heap the smaller element will be popped out between the top and new added element.
 heapq.heappushpop(hp, val)
+
+# Heap can also take a list of class objects also. These class objects need to implement &lt; or __lt__ less than object in the class.
+# This can be useful for cases where, a comparator needs to be separately defined for elements in heap.
 </code></pre>
 <ul>
 <li><a href="https://leetcode.com/problems/kth-largest-element-in-an-array">kth Largest element in an array</a></li>
@@ -195,15 +202,14 @@ heapq.heappushpop(hp, val)
 
     def add(self, val: int) -&gt; int:
         # Once there are k elements in the heap, all the elements smaller than kth largest can be ignored.
+        # Not necessarily needed for over time complexity, in real time usage can avoid extra insertion in heap.
         if len(self.hp) == self.k and val &lt; self.hp[0]:
             return self.hp[0]
 
-        # If there are less than k elements in heap, then add till k elements in heap
-        if len(self.hp) &lt; self.k:
-            heapq.heappush(self.hp, val)
-        else:
-        # Once k elements are reached in heap and the value from stream is greater than kth largest element, then push and pop from the heap to get the new kth largest element.
-            heapq.heappushpop(self.hp, val)
+        heapq.heappush(self.hp, val)
+        # If there are more elements in heap than k elements, pop the min item from heap.
+        if len(self.hp) &gt; self.k:
+            heapq.heappop(self.hp)
         return self.hp[0]
 </code></pre>
 <p>Similar problem can be extended to find a median in the stream of data using the heap. <code>Quick select</code> method can be used to find the median in a list of numbers.</p>
@@ -279,52 +285,73 @@ In FindMedian, a prefix count sum array can be created with the elements in freq
 <ul>
 <li><a href="https://leetcode.com/problems/task-scheduler/">Task Scheduler</a></li>
 </ul>
+<p>Note: IMO this is a <code>hard</code> problem, rather than a <code>medium</code> problem, as leet code says.</p>
 <p>This is an optimization problem, to minimize the amount of time taken, we will use a greedy approach, where we will always first run the task which needs to be run the max:</p>
 <p>To the implement the task scheduler, we need to run the item on top of the PQ on the CPU and then wait for the cool down period in another queue before adding it back to the PQ i.e. heap.</p>
-<pre><code class="language-Python">def leastInterval(self, tasks: List[str], n: int) -&gt; int:
-     # Count the frequency of each Task.
-     # Add each type of task in a max heap with (-freq, priority, type)
-     # Run the CPU clock till heap is empty or cooling tasks are empty
-     # For each clock time take the task with highest freq is at the top of the PQ and run them.
-     # Once the task is run, add the task to the coolingTasks queue, if more of same task need to run:
-     # If the -freq is greater &gt; 1, decreament by 1 and insert it into the coolingTasks queue with priority as cpuTime + cooldownTime.
-     # Check if there are any items in the coolingTasks queue which can be added if there CPU time is reached.
-     # Add such tasks back to the PQ
+<pre><code class="language-Python">class Task:
+    def __init__(self, freq, time, name):
+        self.freq = freq
+        self.runTime = time
+        self.name = name
 
-     # Time Complexity: O(logn)(heap operation) * number times the CPU will run to complete all task(coolDown(k) * max(frequency of task =&gt; worst case=&gt;n))
-     # Complexity: O(nklogn)
-    # Create PQ
-    taskCount = Counter(tasks)
-    hp = []
-    for i, (task, freq) in enumerate(taskCount.most_common()):
-        hp.append((-freq, 0, task))
-    heapq.heapify(hp)
-    # Create cooling down queue.
-    coolingTasks = deque()
-    # Record all task list
-    taskList = []
-    cpuTime = 1
-    # Run CPU till PQ is empty
-    while len(hp) &gt; 0 or len(coolingTasks) &gt; 0:
-        # print(cpuTime, hp)
-        # Task at the top of the heap, waitTime has expired.
-        if len(hp) &gt; 0:
-            (freq, lastRunTime, task) = heapq.heappop(hp)
-            taskList.append(task)
-            if -freq &gt; 1:
-                # Once run, add the task to the cooling down queue for cpuTime + n delay
-                coolingTasks.append((freq + 1, cpuTime + n, task))
-        else:
-            taskList.append('idle')
+    def __lt__(self, other):
+        if self.freq == other.freq:
+            return self.runTime &lt; other.runTime
+        return -self.freq &lt; -other.freq
 
-        # Push the cooling down tasks back to the heap, if there wait period is reached.
-        while coolingTasks and coolingTasks[0][1] == cpuTime:
-            heapq.heappush(hp, coolingTasks.popleft())
-        cpuTime += 1
+class Solution:
+    # Time Complexity: O(CPUTime * log(taskTypes)) =&gt; O(coolTime * len(Totaltasks) * log(taskTypes))
+    # In worst case for every CPUTime, there is heap pop and push, which will be equal to number of items in heap, which will be equal to O(log(taskTypes))
+    # CPUTime will go till all tasks are exhausted, which will be equal to total task count * cool down period.
+    def leastInterval(self, tasks: List[str], n: int) -&gt; int:
+         # Count the frequency of each Task.
+         # Add each type of class Task in a heap.
+         # The Task class orders it's object in reverse of freq, i.e. high freq is on top of the heap.
+         # Run the CPU clock till heap is empty or cooling tasks are empty
+         # For each clock time take the task with highest freq is at the top of the PQ and run them.
+         # Once the task is run, add the task to the coolingTasks queue, if more of same task need to run:
+         # If the task.freq is greater &gt; 1, decreament by 1 and insert it into the coolingTasks queue with priority as cpuTime + cooldownTime.
+         # Check if there are any items in the coolingTasks queue which can be added if there CPU time is reached.
+         # Add such tasks back to the PQ
 
-    # print(taskList)
-    return cpuTime - 1
+        # Create PQ
+        taskCount = Counter(tasks)
+        hp = []
+        cpuTime = 0
+        for i, (task, freq) in enumerate(taskCount.most_common()):
+            hp.append(Task(freq, cpuTime, task))
+        heapq.heapify(hp)
+        # Create cooling down queue.
+        coolingTasks = deque()
+        # Record all task list
+        taskList = []
+        # Run CPU till PQ is empty
+        while len(hp) &gt; 0 or len(coolingTasks) &gt; 0:
+            # print(cpuTime, hp)
+            # Task at the top of the heap, waitTime has expired.
+            if len(hp) &gt; 0:
+                task = heapq.heappop(hp)
+                taskList.append(task.name)
+                if task.freq &gt; 1:
+                    # Once run, add the task to the cooling down queue for cpuTime + n delay
+                    task.freq -= 1
+                    task.runTime = cpuTime + n
+                    coolingTasks.append(task)
+            else:
+                taskList.append('idle')
+
+            # Push the cooling down tasks back to the heap, if there wait period is reached.
+            while coolingTasks and coolingTasks[0].runTime == cpuTime:
+                heapq.heappush(hp, coolingTasks.popleft())
+            cpuTime += 1
+
+        # print(taskList)
+        return cpuTime
 </code></pre>
+<p>A similar <code>hard</code> problem as above:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/rearrange-string-k-distance-apart">Rearrange string k distance apart</a></li>
+</ul>
 
 
               

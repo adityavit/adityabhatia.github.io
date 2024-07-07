@@ -107,6 +107,10 @@ if (!doNotTrack) {
         <a  href="/python">Py World</a>
       </li>
     
+      <li>
+        <a  href="/scalable-world">Scalable World</a>
+      </li>
+    
   </ul>
 </nav>
 
@@ -271,6 +275,58 @@ class Trie:
         node.prefixCount -= 1
 </code></pre>
 <ul>
+<li><a href="https://leetcode.com/problems/longest-word-in-dictionary/">longest word in dictionary with all prefixes</a></li>
+</ul>
+<p>In this problem, the idea is to find all prefixes are preset as separate word in a dictionary and get longest word out of the lot. A problem involving prefixes, can be reduced with time complexity of checking a prefix of a word using a Trie. Moreover once all the words are added to the Trie, it is very easy to check if the path till the word i.e. prefix are also valid words.</p>
+<pre><code class="language-Python">class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.isWord = False
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        self.root.isWord = True
+
+    # O(len(word))
+    def add(self, word: str):
+        node = self.root
+        for ch in word:
+            if ch not in node.children:
+                node.children[ch] = TrieNode()
+            node = node.children[ch]
+        node.isWord = True
+
+    # Check if each prefix is a word in Trie
+    # O(len(word))
+    def eachPrefixIsWord(self, word: str) -&gt; bool:
+        node = self.root
+        for ch in word:
+            if not node.children[ch].isWord:
+                return False
+            node = node.children[ch]
+        return True
+
+# TC: O(Total number of characters in words) as each character oof each word is added to the trie.
+class Solution:
+    def longestWord(self, words: List[str]) -&gt; str:
+        trie = Trie()
+        # Add all the words to the trie.
+        for word in words:
+            trie.add(word)
+
+        # Run a second pass on all the words, to check if each prefix is also a valid word in trie.
+        longestWord = &quot;&quot;
+        for word in words:
+            # Do some pruning, to check only words which higher or equal length than the solution already found.
+            if len(word) &gt;= len(longestWord) and trie.eachPrefixIsWord(word):
+              if len(word) &gt; len(longestWord) or \
+                 (len(word) == len(longestWord) and word &lt; longestWord):
+                  longestWord = word
+
+        return longestWord
+</code></pre>
+<ul>
 <li><a href="https://leetcode.com/problems/search-suggestions-system">Search Suggestion</a></li>
 </ul>
 <p>This problem, to find the suggestions for every prefix of the given in the dictionary of word and give results in lexicographic order.</p>
@@ -342,6 +398,10 @@ class Solution:
         return trie.searchPrefix(searchWord, maxCountWords)
 
 </code></pre>
+<p>Tries for search problems:</p>
+<ul>
+<li><a href="https://leetcode.com/problems/design-add-and-search-words-data-structure/">Add and search Words with <code>.</code></a></li>
+</ul>
 
 
               
