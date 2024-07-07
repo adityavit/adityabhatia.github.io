@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>Usage of reference in &#34;for range loops&#34; leads to a bug | Aditya Bhatia Blog!</title>
+  <title>Mlops - Model Inference | Aditya Bhatia Blog!</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -15,7 +15,7 @@
   
   
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Usage of reference in &#34;for range loops&#34; leads to a bug" />
+  <meta name="twitter:title" content="Mlops - Model Inference" />
   <meta name="twitter:description" content=""/>
   <meta name="twitter:site" content="https://twitter.com/tuubow" />
   <meta name="twitter:creator" content="https://twitter.com/tuubow" />
@@ -49,8 +49,8 @@
     { 
       "@context": "http://schema.org", 
       "@type": "WebSite", 
-      "url": "http:\/\/adityabhatia.com\/go-world\/reference_in_for_range\/",
-      "name": "Usage of reference in \u0022for range loops\u0022 leads to a bug",
+      "url": "http:\/\/adityabhatia.com\/ml-world\/mlops-model-inference\/",
+      "name": "Mlops - Model Inference",
       "author": {
         "@type": "Person",
         "name": ""
@@ -95,8 +95,7 @@ if (!doNotTrack) {
       </li>
     
       <li>
-        <a  class="active"
-         href="/go-world">Go World!</a>
+        <a  href="/go-world">Go World!</a>
       </li>
     
       <li>
@@ -127,75 +126,39 @@ if (!doNotTrack) {
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">Usage of reference in &#34;for range loops&#34; leads to a bug</h1>
-            <time datetime="2020-09-29 10:02:55 -0700 PDT" class="post__date">Sep 29 2020</time> 
+            <h1 id="post__title">Mlops - Model Inference</h1>
+            <time datetime="2024-02-09 23:34:38 -0800 PST" class="post__date">Feb 9 2024</time> 
           </header>
           <article class="post__content">
               
-<p>Got pinched by a bug in the for range loop in my code. Let me describe it, so others can avoid it.</p>
-<p>Principle: Avoid taking a reference of the local variable in the for range, and store it.</p>
-<p>Inside the for range it is to keep in mind that if you are taking the reference of the assigned variable and storing it in another structure. It can give unexpected results.</p>
-<pre><code class="language-go">package main
-
-
-import &quot;fmt&quot;
-
-type Container struct {
-    val *int
-}
-
-func printContainer(cs []Container) {
-  for _, c := range cs {
-     fmt.Printf(&quot;%d\n&quot;, *c.val)
-  }
-}
-
-func incorrectWay(nums []int) {
-  cs := []Container{}
-  for _, num := range nums {
-    c := Container{
-      val: &amp;num,
-    }
-    cs = append(cs, c)
-  }
-  printContainer(cs)
-}
-
-func correctWay(nums []int) {
-  cs := []Container{}
-  for i, _ := range nums {
-    c := Container{
-      val: &amp;nums[i],
-    }
-    cs = append(cs, c)
-  }
-  printContainer(cs)
-}
-
-func main() {
-  nums := []int{1,2,3}
-  fmt.Println(&quot;Undesired Result&quot;)
-  incorrectWay(nums)
-  fmt.Println(&quot;Desired Result&quot;)
-  correctWay(nums)
-}
-</code></pre>
-<p>Output for this one comes as:</p>
-<pre><code class="language-txt">Undesired Result
-3
-3
-3
-Desired Result
-1
-2
-3
-</code></pre>
-<p>Go Play link: <a href="https://play.golang.org/p/hLFP2qyrfIj">https://play.golang.org/p/hLFP2qyrfIj</a></p>
-<p>In the function <code>incorrectWay</code> container stores a reference for the local variable <code>num</code> which contains a copy of the nums[i].
-In the iterations of the loop value of the <code>num</code> keeps on changing but the reference remains the same.
-So at the end in the memory location where <code>num</code> lives only last value of the array remains and that is what gets printed.</p>
-<p>To get to the desired result, do similar to what has been done in function <code>correctWay</code>.
-Create an index <code>i</code> and use that to get the corresponding element in <code>nums</code> and use that as the reference for storing in the container.</p>
+<p>Model inference is a way to run the model on the server and pass in the user data to get the response from the model. There are many steps which go in running the model on production and getting the inference. In this article I will be exploring some of the tools to do server the model.</p>
+<p>Let&rsquo;s take a look first what are some of the challenges and important points for any model serving tool:</p>
+<ol>
+<li>Pre-processing/post-processing</li>
+<li>Prediction</li>
+<li>Scaling</li>
+<li>Monitoring</li>
+<li>Metrics tracking</li>
+<li>Canary model rollout</li>
+<li>experiments</li>
+<li>ensembles</li>
+<li>transformers</li>
+<li>model drift</li>
+</ol>
+<p>Looking at KFServe, which is the model serving capability in kubeflow. In the KFServe, defines a customer model rollout CRD, as well as ability to define input processing tasks in form of docker containers as transformers in the CR. It also provides the ability to define the docker image for the custom prediction step.</p>
+<ul>
+<li>Canary model rollout:</li>
+</ul>
+<p>Using KFServer, can specify canary models (new model) and traffic threshold which the canary model should get. In such way the threshold can be increased or the model layout can be updated using the CR to update the traffic for new pods running the new model in the production.</p>
+<ul>
+<li>
+<p>Model ensembles:</p>
+</li>
+<li>
+<p>Model drift:</p>
+</li>
+</ul>
+<p>Once the model is launched in the production, the model might see data which was not part of the training data for which the performance of the model might not be what was expected. Such a case where model drifts from the data on which the training and evaluation of the model is known as model drift.</p>
 
 
               
@@ -205,11 +168,6 @@ Create an index <code>i</code> and use that to get the corresponding element in 
  <div class="pagination">
   
 
-  
-    <a class="pagination__item" href="http://adityabhatia.com/go-world/ginkgo_params_with_go_test/">
-      <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >Usage of ginkgo arguments using go test</a>
-    </a>
   
 </div>
 

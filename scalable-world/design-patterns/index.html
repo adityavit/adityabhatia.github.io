@@ -99,7 +99,11 @@ if (!doNotTrack) {
       </li>
     
       <li>
-        <a  href="/investments">My Investment analysis</a>
+        <a  href="/investments">Investment World</a>
+      </li>
+    
+      <li>
+        <a  href="/ml-world">ML World</a>
       </li>
     
       <li>
@@ -228,10 +232,6 @@ func main() {
     colorCircle.draw(sc)
 }
 </code></pre>
-<h3 id="proxy-design-pattern">Proxy Design Pattern:<a class="anchor" href="#proxy-design-pattern">#</a></h3>
-<h3 id="facade-design-pattern">Facade Design Pattern<a class="anchor" href="#facade-design-pattern">#</a></h3>
-<h3 id="composite-design-pattern">Composite Design Pattern<a class="anchor" href="#composite-design-pattern">#</a></h3>
-<h2 id="behavior-design-patterns">Behavior Design Patterns:<a class="anchor" href="#behavior-design-patterns">#</a></h2>
 <h3 id="strategy-design-pattern">Strategy Design Pattern<a class="anchor" href="#strategy-design-pattern">#</a></h3>
 <p>A strategy pattern is used to define implementation of different strategies. As common examples of this could be implementation of different payment gateways or could be different implementation of operations in a calculator or way to write bytes to an entity like buffer, file or network connection.</p>
 <p>To implement the strategy design patterns, create an interface which can define which defines the behavior of the strategy. For example in case of Payment Gateways this could be <code>payment</code> or in case of calculator this could be <code>execute</code>. The concrete implementations of these strategies, implement the interface and implement the behavior of the strategies.</p>
@@ -257,7 +257,7 @@ func (o *MulOperation) execute(x, y float32) float32 {
 }
 
 </code></pre>
-<h1 id="state-design-pattern">State design pattern</h1>
+<h3 id="state-design-pattern">State design pattern<a class="anchor" href="#state-design-pattern">#</a></h3>
 <p>Now let&rsquo;s look at state design pattern and how to use it. state design pattern is really useful designing state automation. Usually in workflow automation system has this <code>DAG</code> which is a state flow automation along the DAG. Describing the DAG with <code>if</code> <code>else</code> clause in one file becomes really complicated as the number of state increases and also becomes really hard to debug. Also when new states get added, the complexity increases multifold.</p>
 <p>A good way to break down this would be to use state design pattern. Where each state class describes the work and the transitions to next states based on the conditions described in their concrete state classes.</p>
 <p>Let&rsquo;s take an example of a <code>Upgrade Workflow</code> transition for example:</p>
@@ -344,6 +344,11 @@ func main() {
 <li><code>Liskov Substitution &amp; dependency Inversion</code>: Rather than defining the complex if condition to define the state management. A Manager uses a common state interface to run different states and move through the workflow.</li>
 </ol>
 <p>Note: Although this pattern is quite powerful, care should be taken to apply it when the states are too many to manage. If there are 2-3 fixed states in the system then it might be overkill.</p>
+<p>More patterns to cover later:</p>
+<h3 id="proxy-design-pattern">Proxy Design Pattern:<a class="anchor" href="#proxy-design-pattern">#</a></h3>
+<h3 id="facade-design-pattern">Facade Design Pattern<a class="anchor" href="#facade-design-pattern">#</a></h3>
+<h3 id="composite-design-pattern">Composite Design Pattern<a class="anchor" href="#composite-design-pattern">#</a></h3>
+<h3 id="behavior-design-patterns">Behavior Design Patterns:<a class="anchor" href="#behavior-design-patterns">#</a></h3>
 <h3 id="command-design-pattern">Command Design Pattern<a class="anchor" href="#command-design-pattern">#</a></h3>
 <h3 id="visitor-design-pattern">Visitor Design Pattern<a class="anchor" href="#visitor-design-pattern">#</a></h3>
 

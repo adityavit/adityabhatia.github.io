@@ -35,6 +35,16 @@ Iteratoring over collection of items Iterators are classes which are defined to 
     </item>
     
     <item>
+      <title>Mlops - Model Inference</title>
+      <link>http://adityabhatia.com/ml-world/mlops-model-inference/</link>
+      <pubDate>Fri, 09 Feb 2024 23:34:38 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/ml-world/mlops-model-inference/</guid>
+      <description>Model inference is a way to run the model on the server and pass in the user data to get the response from the model. There are many steps which go in running the model on production and getting the inference. In this article I will be exploring some of the tools to do server the model.
+Let&amp;rsquo;s take a look first what are some of the challenges and important points for any model serving tool:</description>
+    </item>
+    
+    <item>
       <title>Object Oriented Design (OOD)</title>
       <link>http://adityabhatia.com/scalable-world/design-patterns/</link>
       <pubDate>Mon, 05 Feb 2024 12:31:40 -0800</pubDate>
