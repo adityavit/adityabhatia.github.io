@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Aditya Bhatia © 2022</copyright>
-    <lastBuildDate>Wed, 28 Feb 2024 12:57:04 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 11 Aug 2024 22:24:58 -0700</lastBuildDate>
     
 	<atom:link href="http://adityabhatia.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Artificial coding assistant</title>
+      <link>http://adityabhatia.com/thoughts/artificial_code_assistant/</link>
+      <pubDate>Sun, 11 Aug 2024 22:24:58 -0700</pubDate>
+      
+      <guid>http://adityabhatia.com/thoughts/artificial_code_assistant/</guid>
+      <description>The Impact of Large Language Models on Software Engineering: A Developer’s Perspective In recent months, I’ve spent considerable time experimenting with Large Language Models (LLMs) like OpenAI&amp;rsquo;s ChatGPT and Claude&amp;rsquo;s Sonnet 3.5. I’ve been genuinely impressed by their ability to generate responses on virtually any topic. This rapid advancement in AI has sparked a lot of conversations about whether these models might replace software developers or reduce the demand for software engineering jobs over time.</description>
+    </item>
     
     <item>
       <title>Concurrency Patterns</title>
