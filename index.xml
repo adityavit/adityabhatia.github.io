@@ -45,6 +45,16 @@ First let&amp;rsquo;s do mapping between 2^x and 10^y for data estimation.
     </item>
     
     <item>
+      <title>Design Interview Process</title>
+      <link>http://adityabhatia.com/scalable-world/design-process/</link>
+      <pubDate>Thu, 15 Feb 2024 22:22:08 -0800</pubDate>
+      
+      <guid>http://adityabhatia.com/scalable-world/design-process/</guid>
+      <description>In this article I will be laying out the process for system design interview and also covering some of the examples for each one to go over the process framework.
+The whole system design interview is based on aspects of breaking the given problem into smaller explainable components during the interview setting. I think the whole 35-40 min interview (5-10 min gone in formalities, and questions in interview end), is too short time to cover any full fledged system design.</description>
+    </item>
+    
+    <item>
       <title>Object oriented design in python</title>
       <link>http://adityabhatia.com/python/ood/</link>
       <pubDate>Mon, 12 Feb 2024 17:28:22 -0800</pubDate>
